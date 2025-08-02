@@ -10,6 +10,7 @@ import com.vladsch.flexmark.parser.{Parser, ParserEmulationProfile}
 import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension
+import com.vladsch.flexmark.ext.superscript.SuperscriptExtension
 import com.vladsch.flexmark.ext.gitlab.GitLabExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
@@ -35,6 +36,7 @@ class MarkdownEnhancedRenderer extends Renderer {
       FootnoteExtension.create(),
       GitLabExtension.create(),
       StrikethroughSubscriptExtension.create(),
+      SuperscriptExtension.create(),
       TablesExtension.create(),
       TaskListExtension.create(),
       TocExtension.create()

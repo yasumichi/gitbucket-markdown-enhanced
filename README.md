@@ -15,6 +15,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 - [FootnoteExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#footnotes)
 - [GitLabExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gitlab-flavoured-markdown)
 - [StrikethroughSubscriptExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-strikethroughsubscript)
+- [SuperscriptExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#superscript)
 - [TablesExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#tables)
 - [TaskListExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-tasklist)
 - [TocExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#table-of-contents)
@@ -82,6 +83,10 @@ graph TD;
 `~~Strikethrough~~` -> ~~Strikethrough~~
 
 `H~2~O` -> H~2~O
+
+### SuperscriptExtension
+
+`x^2` -> x^2
 
 ### TablesExtension
 
