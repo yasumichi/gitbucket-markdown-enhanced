@@ -42,19 +42,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |</script>
       |<script src="${jsPath}/mermaid.min.js">
       |</script>
-      |<script>
-      |(function () {
-      |  document.addEventListener("DOMContentLoaded", function () {
-      |    var mathElems = document.getElementsByClassName("katex");
-      |    var elems = [];
-      |    for (const i in mathElems) {
-      |      if (mathElems.hasOwnProperty(i)) elems.push(mathElems[i]);
-      |    }
-      |    elems.forEach(elem => {
-      |      katex.render(elem.textContent, elem, { throwOnError: false, displayMode: elem.nodeName !== 'SPAN', });
-      |    });
-      |  });
-      |})();
+      |<script src="${jsPath}/gme.js">>
       |""".stripMargin)
   }
 
