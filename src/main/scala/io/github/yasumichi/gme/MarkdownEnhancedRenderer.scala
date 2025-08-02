@@ -14,7 +14,7 @@ import com.vladsch.flexmark.ext.gitlab.GitLabExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
 import com.vladsch.flexmark.ext.footnotes.FootnoteExtension
-import com.vladsch.flexmark.ext.emoji.EmojiExtension
+import com.vladsch.flexmark.ext.emoji.{EmojiExtension, EmojiImageType}
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import collection.JavaConverters._
 
@@ -40,6 +40,7 @@ class MarkdownEnhancedRenderer extends Renderer {
       TocExtension.create()
     )
     options.setFrom(ParserEmulationProfile.GITHUB)
+    options.set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_FALLBACK_TO_IMAGE)
     options.set(Parser.EXTENSIONS, extension.asJava)
     
     val parser = Parser.builder(options).build()
