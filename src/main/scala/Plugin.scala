@@ -41,6 +41,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |<script src="${jsPath}/katex.min.js">
       |</script>
       |<script src="${jsPath}/mermaid.min.js">
+      |</script>
+      |<script>
       |(function () {
       |  document.addEventListener("DOMContentLoaded", function () {
       |    var mathElems = document.getElementsByClassName("katex");
