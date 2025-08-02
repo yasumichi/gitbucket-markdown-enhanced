@@ -32,12 +32,12 @@ class MarkdownEnhancedRenderer extends Renderer {
     val extension: Seq[Extension] = Seq(
       AnchorLinkExtension.create(),
       EmojiExtension.create(),
+      FootnoteExtension.create(),
       GitLabExtension.create(),
       StrikethroughExtension.create(),
       TablesExtension.create(),
       TaskListExtension.create(),
-      TocExtension.create(),
-      FootnoteExtension.create()
+      TocExtension.create()
     )
     options.setFrom(ParserEmulationProfile.GITHUB)
     options.set(Parser.EXTENSIONS, extension.asJava)
