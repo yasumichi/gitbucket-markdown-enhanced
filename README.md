@@ -86,7 +86,7 @@ graph TD;
 
 ### SuperscriptExtension
 
-`x^2` -> x^2
+`x^2^` -> x^2^
 
 ### TablesExtension
 
