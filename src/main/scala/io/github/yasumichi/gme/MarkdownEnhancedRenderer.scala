@@ -8,6 +8,7 @@ import com.vladsch.flexmark.util.misc.Extension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.{Parser, ParserEmulationProfile}
 import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.ext.abbreviation.AbbreviationExtension
 import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension
 import com.vladsch.flexmark.ext.superscript.SuperscriptExtension
@@ -31,6 +32,7 @@ class MarkdownEnhancedRenderer extends Renderer {
   def toHtml(content: String)(implicit context: Context): String = {
     val options = new MutableDataSet();
     val extension: Seq[Extension] = Seq(
+      AbbreviationExtension.create(),
       AnchorLinkExtension.create(),
       EmojiExtension.create(),
       FootnoteExtension.create(),

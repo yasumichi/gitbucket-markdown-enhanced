@@ -15,7 +15,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
   - [x] [Superscript](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=superscript)(0.1.1)
   - [x] [Subscript](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=subscript)(0.1.1)
   - [x] [Footnotes](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=footnotes)
-  - [ ] [Abbreviation](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=abbreviation)
+  - [x] [Abbreviation](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=abbreviation)
   - [ ] [Mark](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=mark)
   - [ ] [CriticMarkup](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=criticmarkup)
   - [ ] [Admonition](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=admonition)
@@ -35,6 +35,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
 ## Extensions used
 
+- [AbbreviationExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#abbreviation)
 - [AnchorLinkExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#anchorlink)
 - [EmojiExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#emoji) (Under investigation)
 - [FootnoteExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#footnotes)
@@ -44,6 +45,24 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 - [TablesExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#tables)
 - [TaskListExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-tasklist)
 - [TocExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#table-of-contents)
+
+### AbbreviationExtension
+
+Allows to create abbreviations which will be replaced in plain text into <abbr></abbr> tags or optionally into <a></a> with titles for the abbreviation expansion.
+
+```markdown
+*[HTML]: Hyper Text Markup Language
+*[W3C]: World Wide Web Consortium
+The HTML specification
+is maintained by the W3C.
+```
+
+to
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]: World Wide Web Consortium
+The HTML specification
+is maintained by the W3C.
 
 ### AnchorLinkExtension
 
