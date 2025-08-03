@@ -36,6 +36,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 ## Extensions used
 
 - [AbbreviationExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#abbreviation)
+- [AdmonitionExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#admonition)
 - [AnchorLinkExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#anchorlink)
 - [EmojiExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#emoji) (Under investigation)
 - [FootnoteExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#footnotes)
@@ -63,6 +64,20 @@ to
 *[W3C]: World Wide Web Consortium
 The HTML specification
 is maintained by the W3C.
+
+### AdmonitionExtension
+
+To create block-styled side content. 
+
+```markdown
+!!! note This is the admonition title
+    This is the admonition body
+```
+
+to
+
+!!! note This is the admonition title
+    This is the admonition body
 
 ### AnchorLinkExtension
 

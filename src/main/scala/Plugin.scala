@@ -38,7 +38,10 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     val jsPath = settings.baseUrl.getOrElse(context.getContextPath) + "/plugin-assets/gme"
     Seq(".*" -> s"""
       |</script>
+      |<link rel='stylesheet' href='$jsPath/admonition.css'>
       |<link rel='stylesheet' href='$jsPath/katex.min.css'>
+      |<script src="${jsPath}/admonition.js">
+      |</script>
       |<script src="${jsPath}/katex.min.js">
       |</script>
       |<script src="${jsPath}/mermaid.min.js">
