@@ -70,14 +70,14 @@ is maintained by the W3C.
 To create block-styled side content. 
 
 ```markdown
-!!! note This is the admonition title
-    This is the admonition body
+??? qualifier "Optional Title"
+    block content 
 ```
 
 to
 
-!!! note This is the admonition title
-    This is the admonition body
+??? qualifier "Optional Title"
+    block content 
 
 ### AnchorLinkExtension
 
