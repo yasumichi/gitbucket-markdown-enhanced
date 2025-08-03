@@ -70,14 +70,16 @@ is maintained by the W3C.
 To create block-styled side content. 
 
 ```markdown
-??? qualifier "Optional Title"
+!!! qualifier "Optional Title"
     block content 
 ```
 
 to
 
-??? qualifier "Optional Title"
+!!! qualifier "Optional Title"
     block content 
+
+See also [Admonition Extension · vsch/flexmark-java Wiki](https://github.com/vsch/flexmark-java/wiki/Admonition-Extension)
 
 ### AnchorLinkExtension
 
