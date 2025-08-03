@@ -1,6 +1,6 @@
 name := "gitbucket-markdown-enhanced"
 organization := "io.github.gitbucket"
-version := "0.1.1"
+version := "0.2.0"
 scalaVersion := "2.13.16"
 gitbucketVersion := "4.36.2"
 libraryDependencies += "com.vladsch.flexmark" % "flexmark-all" % "0.64.8"
