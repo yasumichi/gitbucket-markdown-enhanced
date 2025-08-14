@@ -172,3 +172,19 @@ to
 `[TOC]` create table of contents.
 
 [TOC]
+
+## PlantUML Support
+
+```
+@startuml
+Bob -> Alice : hello
+@enduml
+```
+
+to
+
+```plantuml
+@startuml
+Bob -> Alice : hello
+@enduml
+```
