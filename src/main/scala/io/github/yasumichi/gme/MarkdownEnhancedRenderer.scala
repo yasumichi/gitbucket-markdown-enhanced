@@ -43,7 +43,8 @@ class MarkdownEnhancedRenderer extends Renderer {
       SuperscriptExtension.create(),
       TablesExtension.create(),
       TaskListExtension.create(),
-      TocExtension.create()
+      TocExtension.create(),
+      MarkdownEnhancedExtention.create()
     )
     options.setFrom(ParserEmulationProfile.GITHUB)
     options.set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_FALLBACK_TO_IMAGE)
