@@ -42,6 +42,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |</script>
       |<link rel='stylesheet' href='$jsPath/admonition.css'>
       |<link rel='stylesheet' href='$jsPath/katex.min.css'>
+      |<link rel='stylesheet' href='$jsPath/gme.css'>
       |<script src="${jsPath}/admonition.js">
       |</script>
       |<script src="${jsPath}/katex.min.js">

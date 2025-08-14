@@ -27,8 +27,7 @@ class MarkdownEnhancedRenderer extends Renderer {
     Html(toHtml(fileContent)(context))
   }
 
-  def shutdown(): Unit = {
-  }
+  def shutdown(): Unit = {}
 
   def toHtml(content: String)(implicit context: Context): String = {
     val options = new MutableDataSet();
@@ -47,9 +46,13 @@ class MarkdownEnhancedRenderer extends Renderer {
       MarkdownEnhancedExtention.create()
     )
     options.setFrom(ParserEmulationProfile.GITHUB)
-    options.set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_FALLBACK_TO_IMAGE)
+    options.set(
+      EmojiExtension.USE_IMAGE_TYPE,
+      EmojiImageType.UNICODE_FALLBACK_TO_IMAGE
+    )
     options.set(Parser.EXTENSIONS, extension.asJava)
-    
+    options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
+
     val parser = Parser.builder(options).build()
     val renderer = HtmlRenderer.builder(options).build()
 

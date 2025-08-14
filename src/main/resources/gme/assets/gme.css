@@ -1,0 +1,8 @@
+.title-anchor {
+    color: black;
+}
+
+.title-anchor:hover {
+    color: black;
+    text-decoration: underline;
+}
