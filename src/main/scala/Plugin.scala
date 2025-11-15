@@ -30,6 +30,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     val test = Try{ new MarkdownEnhancedRenderer() }
     val mer = test.get
     registry.addRenderer("md", mer)
+    registry.addRenderer("markdown", mer)
     renderer = Option(mer)
     super.initialize(registry, context, settings)
   }
