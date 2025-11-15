@@ -20,7 +20,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.1.1"),
     new Version("0.2.0"),
     new Version("0.3.0"),
-    new Version("0.3.1")
+    new Version("0.3.1"),
+    new Version("0.3.2")
   )
 
   private[this] var renderer: Option[MarkdownEnhancedRenderer] = None
