@@ -20,6 +20,7 @@ import com.vladsch.flexmark.ext.footnotes.FootnoteExtension
 import com.vladsch.flexmark.ext.emoji.{EmojiExtension, EmojiImageType}
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import collection.JavaConverters._
+import com.vladsch.flexmark.util.data.DataKey
 
 class MarkdownEnhancedRenderer extends Renderer {
   def render(request: RenderRequest): Html = {
@@ -52,6 +53,8 @@ class MarkdownEnhancedRenderer extends Renderer {
     )
     options.set(Parser.EXTENSIONS, extension.asJava)
     options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
+    options.set(MarkdownEnhancedRenderer.BASE_URL, context.baseUrl)
+    options.set(MarkdownEnhancedRenderer.CURRENT_PATH, context.currentPath)
 
     val parser = Parser.builder(options).build()
     val renderer = HtmlRenderer.builder(options).build()
@@ -59,4 +62,9 @@ class MarkdownEnhancedRenderer extends Renderer {
     val document = parser.parse(content)
     renderer.render(document)
   }
+}
+
+object MarkdownEnhancedRenderer {
+  val BASE_URL = new DataKey[String]("BASE_URL", "")
+  val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
 }

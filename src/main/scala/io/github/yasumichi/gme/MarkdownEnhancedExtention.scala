@@ -14,8 +14,10 @@ class MarkdownEnhancedExtention extends ParserExtension with HtmlRendererExtensi
 
     override def rendererOptions(options: MutableDataHolder): Unit = {}
 
-    override def extend(htmlRendererBuilder: HtmlRenderer.Builder, rendererType: String): Unit =
+    override def extend(htmlRendererBuilder: HtmlRenderer.Builder, rendererType: String): Unit = {
         htmlRendererBuilder.nodeRendererFactory((new MarkdownEnhancedNodeRenderer.Factory()))
+        htmlRendererBuilder.linkResolverFactory((new MarkdownEnhancedLinkResolver.Factory()))
+    }
 }
 
 object MarkdownEnhancedExtention {
