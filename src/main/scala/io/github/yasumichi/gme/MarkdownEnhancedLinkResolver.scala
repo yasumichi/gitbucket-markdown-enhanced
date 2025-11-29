@@ -20,6 +20,8 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
             val pathElems = currentPath.split("/")
             if (pathElems.length > 3 && pathElems(3).equals("blob")) {
                 link.withStatus(LinkStatus.VALID).withUrl(url)
+            } else if(pathElems.length > 3 && pathElems(3).equals("wiki")) {
+                link.withStatus(LinkStatus.VALID).withUrl(url)
             } else if(pathElems.length > 3 && pathElems(3).equals("tree")) {
                 pathElems(3) = "blob"
                 link.withStatus(LinkStatus.VALID).withUrl(baseUrl + pathElems.mkString("/") + "/" + url)
