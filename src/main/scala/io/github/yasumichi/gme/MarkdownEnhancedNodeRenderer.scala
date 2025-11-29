@@ -54,8 +54,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       val os = new ByteArrayOutputStream()
       reader.generateImage(os, new FileFormatOption(FileFormat.SVG))
 
+      var svg = new String(os.toByteArray(), Charset.forName("UTF-8"))
+      var re = "^<\\?xml [^<>]+?\\>".r
+      svg = re.replaceFirstIn(svg, "")
+
       html.tag("div")
-      html.append(new String(os.toByteArray(), Charset.forName("UTF-8")))
+      html.append(svg)
       html.tag("/div")
       os.close()
 
