@@ -21,7 +21,11 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
             if (pathElems.length > 3 && pathElems(3).equals("blob")) {
                 link.withStatus(LinkStatus.VALID).withUrl(url)
             } else if(pathElems.length > 3 && pathElems(3).equals("wiki")) {
-                link.withStatus(LinkStatus.VALID).withUrl(url)
+                if (pathElems.length == 4) {
+                    link.withStatus(LinkStatus.VALID).withUrl(baseUrl + currentPath + "/" + url)
+                } else {
+                    link.withStatus(LinkStatus.VALID).withUrl(url)
+                }
             } else if(pathElems.length > 3 && pathElems(3).equals("tree")) {
                 pathElems(3) = "blob"
                 link.withStatus(LinkStatus.VALID).withUrl(baseUrl + pathElems.mkString("/") + "/" + url)
