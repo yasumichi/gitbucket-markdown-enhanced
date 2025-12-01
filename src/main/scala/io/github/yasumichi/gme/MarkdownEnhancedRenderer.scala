@@ -21,6 +21,7 @@ import com.vladsch.flexmark.ext.emoji.{EmojiExtension, EmojiImageType}
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import collection.JavaConverters._
 import com.vladsch.flexmark.util.data.DataKey
+import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
 
 class MarkdownEnhancedRenderer extends Renderer {
   def render(request: RenderRequest): Html = {
@@ -44,6 +45,7 @@ class MarkdownEnhancedRenderer extends Renderer {
       TablesExtension.create(),
       TaskListExtension.create(),
       TocExtension.create(),
+      WikiLinkExtension.create(),
       MarkdownEnhancedExtention.create()
     )
     options.setFrom(ParserEmulationProfile.GITHUB)

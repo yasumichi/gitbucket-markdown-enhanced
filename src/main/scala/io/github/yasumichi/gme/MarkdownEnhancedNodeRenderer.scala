@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util
 import java.nio.charset.Charset
+import com.vladsch.flexmark.ext.wikilink.WikiLink
 
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
@@ -33,6 +34,10 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
         this.render
       )
     )
+    set.add(new NodeRenderingHandler[WikiLink](
+      classOf[WikiLink],
+      this.renderWikiLink
+    ))
     set
   }
 
@@ -66,6 +71,25 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     } else {
       context.delegateRender()
     }
+  }
+
+  private def renderWikiLink(
+      node: WikiLink,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
+    val link = node.getLink()
+    val resolvedLink = context.resolveLink(
+      com.vladsch.flexmark.html.renderer.LinkType.LINK,
+      link,
+      null
+    )
+    html
+      .withAttr()
+      .attr("href", resolvedLink.getUrl())
+      .tag("a")
+    html.text(node.getLink())
+    html.tag("/a")
   }
 }
 
