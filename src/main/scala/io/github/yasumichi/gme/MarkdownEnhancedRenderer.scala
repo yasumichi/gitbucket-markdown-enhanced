@@ -19,7 +19,7 @@ import com.vladsch.flexmark.ext.toc.TocExtension
 import com.vladsch.flexmark.ext.footnotes.FootnoteExtension
 import com.vladsch.flexmark.ext.emoji.{EmojiExtension, EmojiImageType}
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
-import collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import com.vladsch.flexmark.util.data.DataKey
 import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
 
