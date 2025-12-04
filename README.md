@@ -46,6 +46,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 - [TablesExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#tables)
 - [TaskListExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-tasklist)
 - [TocExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#table-of-contents)
+- [WikiLinkExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#wikilinks)
 
 ### AbbreviationExtension
 
@@ -172,6 +173,10 @@ to
 `[TOC]` create table of contents.
 
 [TOC]
+
+### WikiLinkExtension
+
+Enables wiki links `[[page reference]]`.
 
 ## PlantUML Support
 
