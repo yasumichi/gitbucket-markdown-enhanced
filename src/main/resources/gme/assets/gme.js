@@ -1,8 +1,7 @@
 (function () {
-    console.log("gme.js loaded.")
+    console.log("gme.js loaded.");
 
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOMContentLoaded fire")
+    var renderKatex = function() {
         var mathElems = document.getElementsByClassName("katex");
         var elems = [];
         for (const i in mathElems) {
@@ -12,5 +11,24 @@
         elems.forEach(elem => {
             katex.render(elem.textContent, elem, { throwOnError: false, displayMode: elem.nodeName !== 'SPAN', });
         });
-    });
+    };
+
+    var preview = document.querySelector("#preview");
+    if (preview) {
+        const config = { attributes: false, childList: true, subtree: false };
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.addedNodes.length == 1) {
+                    observer.disconnect();
+                    renderKatex();
+                    observer.observe(preview, config);
+                }
+            });
+        });
+
+        observer.observe(preview, config);
+    }
+
+    document.addEventListener("DOMContentLoaded", renderKatex);
 })();
