@@ -13,22 +13,24 @@
         });
     };
 
-    var preview = document.querySelector("#preview");
-    if (preview) {
-        const config = { attributes: false, childList: true, subtree: false };
 
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length == 1) {
-                    observer.disconnect();
-                    renderKatex();
-                    observer.observe(preview, config);
-                }
+    document.addEventListener("DOMContentLoaded", function(){
+        var preview = document.querySelector("#preview");
+        if (preview) {
+            const config = { attributes: false, childList: true, subtree: false };
+
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.addedNodes.length == 1) {
+                        observer.disconnect();
+                        renderKatex();
+                        observer.observe(preview, config);
+                    }
+                });
             });
-        });
 
-        observer.observe(preview, config);
-    }
-
-    document.addEventListener("DOMContentLoaded", renderKatex);
+            observer.observe(preview, config);
+        }
+        renderKatex();
+    });
 })();
