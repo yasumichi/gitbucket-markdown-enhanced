@@ -38,6 +38,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       classOf[WikiLink],
       this.renderWikiLink
     ))
+    set.add(
+      new NodeRenderingHandler[Mark](
+        classOf[Mark],
+        this.renderMark
+      )
+    )
     set
   }
 
@@ -90,6 +96,16 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       .tag("a")
     html.text(node.getLink())
     html.tag("/a")
+  }
+
+  private def renderMark(
+      node: Mark,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
+    html.tag("mark")
+    html.text(node.text.toString())
+    html.tag("/mark")
   }
 }
 

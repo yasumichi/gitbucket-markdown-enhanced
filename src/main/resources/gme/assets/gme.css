@@ -6,3 +6,8 @@
     color: black;
     text-decoration: underline;
 }
+
+mark {
+    background-color: #fffd54;
+    padding: 0;
+}

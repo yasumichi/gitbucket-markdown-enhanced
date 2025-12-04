@@ -8,7 +8,9 @@ import com.vladsch.flexmark.util.data.MutableDataHolder
 
 class MarkdownEnhancedExtention extends ParserExtension with HtmlRendererExtension {
 
-    override def extend(parserBuilder: Parser.Builder): Unit = {}
+    override def extend(parserBuilder: Parser.Builder): Unit = {
+      parserBuilder.customInlineParserExtensionFactory(new MarkInlineParserExtension.Factory())
+    }
 
     override def parserOptions(options: MutableDataHolder): Unit = {}
 
