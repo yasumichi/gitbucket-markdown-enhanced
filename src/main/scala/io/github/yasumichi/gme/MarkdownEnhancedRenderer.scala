@@ -11,6 +11,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.ext.abbreviation.AbbreviationExtension
 import com.vladsch.flexmark.ext.admonition.AdmonitionExtension
 import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
+import com.vladsch.flexmark.ext.gfm.issues.GfmIssuesExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension
 import com.vladsch.flexmark.ext.superscript.SuperscriptExtension
 import com.vladsch.flexmark.ext.gitlab.GitLabExtension
@@ -39,6 +40,7 @@ class MarkdownEnhancedRenderer extends Renderer {
       AnchorLinkExtension.create(),
       EmojiExtension.create(),
       FootnoteExtension.create(),
+      GfmIssuesExtension.create(),
       GitLabExtension.create(),
       StrikethroughSubscriptExtension.create(),
       SuperscriptExtension.create(),
@@ -53,6 +55,23 @@ class MarkdownEnhancedRenderer extends Renderer {
       EmojiExtension.USE_IMAGE_TYPE,
       EmojiImageType.UNICODE_FALLBACK_TO_IMAGE
     )
+    
+    // Determine current path for GitHub Issues links
+    var currentPath = ""
+    if (context.currentPath.endsWith("_preview")) {
+      currentPath = context.request.getHeader("Referer").substring(context.baseUrl.length)
+    } else {
+      currentPath = context.currentPath
+    } 
+
+    val pathElems = currentPath.split("/")
+    if (pathElems.length > 2 && pathElems(1) != "admin") {
+      var owner = pathElems(1)
+      var repos = pathElems(2)
+
+      options.set(GfmIssuesExtension.GIT_HUB_ISSUES_URL_ROOT, context.baseUrl + "/" + owner + "/" + repos + "/issues") 
+    }
+
     options.set(Parser.EXTENSIONS, extension.asJava)
     options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
     options.set(MarkdownEnhancedRenderer.BASE_URL, context.baseUrl)
