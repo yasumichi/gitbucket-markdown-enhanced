@@ -40,6 +40,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 - [AnchorLinkExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#anchorlink)
 - [EmojiExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#emoji) (Under investigation)
 - [FootnoteExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#footnotes)
+- [GfmIssuesExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-issues)
 - [GitLabExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gitlab-flavoured-markdown)
 - [StrikethroughSubscriptExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#gfm-strikethroughsubscript)
 - [SuperscriptExtension](https://github.com/vsch/flexmark-java/wiki/Extensions#superscript)
@@ -103,6 +104,10 @@ FootnoteExtension[^1] creates footnote references in the document.
 FootnoteExtension[^1] creates footnote references in the document.
 
 [^1]: https://github.com/vsch/flexmark-java/wiki/Extensions#footnotes
+
+### GfmIssuesExtension
+
+Enables issue reference parsing in the form of `#123`.
 
 ### GitLabExtension
 
