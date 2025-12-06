@@ -57,14 +57,7 @@ class MarkdownEnhancedRenderer extends Renderer {
     )
     
     // Determine current path for GitHub Issues links
-    var currentPath = ""
-    if (context.currentPath.endsWith("_preview")) {
-      currentPath = context.request.getHeader("Referer").substring(context.baseUrl.length)
-    } else {
-      currentPath = context.currentPath
-    } 
-
-    val pathElems = currentPath.split("/")
+    val pathElems = context.currentPath.split("/")
     if (pathElems.length > 2 && pathElems(1) != "admin") {
       var owner = pathElems(1)
       var repos = pathElems(2)
