@@ -20,10 +20,11 @@
             const config = { attributes: false, childList: true, subtree: false };
 
             const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
+                mutations.forEach(async (mutation) => {
                     if (mutation.addedNodes.length == 1) {
                         observer.disconnect();
                         renderKatex();
+                        await mermaid.run();
                         observer.observe(preview, config);
                     }
                 });
