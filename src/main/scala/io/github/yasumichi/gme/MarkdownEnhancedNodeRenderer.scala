@@ -21,9 +21,9 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
   * Enhanced Node Renderer for Markdown processing.
   *
   * This renderer adds support for:
-  * - PlantUML code blocks: Renders PlantUML diagrams from fenced code blocks labeled "plantuml".
-  * - WikiLinks: Renders wiki-style links.
-  * - Marked text: Renders text wrapped in <mark> tags.
+  *  - PlantUML code blocks: Renders PlantUML diagrams from fenced code blocks labeled "plantuml".
+  *  - WikiLinks: Renders wiki-style links.
+  *  - Marked text: Renders text wrapped in <mark> tags.
   */
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 

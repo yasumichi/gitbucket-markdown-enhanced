@@ -15,13 +15,13 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
     * Resolves a link based on its format and the current document context.
     *
     * This resolver modifies links based on their format:
-    * - Absolute URLs (containing "://") are considered valid and unchanged.
-    * - Root-relative URLs (starting with "/") are considered valid and unchanged.
-    * - Other URLs are resolved based on the current document's path and a base URL.
-    * - If the current path indicates a "blob", the link is treated as valid.
-    * - If the current path indicates a "wiki", the link is resolved relative to the wiki page.
-    * - If the current path indicates a "tree", it is converted to "blob" for link resolution.
-    * - For other cases, the link is resolved to point to the "main" branch of the repository.
+    *  - Absolute URLs (containing "://") are considered valid and unchanged.
+    *  - Root-relative URLs (starting with "/") are considered valid and unchanged.
+    *  - Other URLs are resolved based on the current document's path and a base URL.
+    *  - If the current path indicates a "blob", the link is treated as valid.
+    *  - If the current path indicates a "wiki", the link is resolved relative to the wiki page.
+    *  - If the current path indicates a "tree", it is converted to "blob" for link resolution.
+    *  - For other cases, the link is resolved to point to the "main" branch of the repository.
     * 
     * @param node The AST node containing the link.
     * @param context The link resolver context.
