@@ -2,7 +2,6 @@ name := "gitbucket-markdown-enhanced"
 organization := "io.github.gitbucket"
 version := "0.4.1"
 scalaVersion := "2.13.16"
-scalacOptions += "-diagrams"
 gitbucketVersion := "4.36.2"
 libraryDependencies += "com.vladsch.flexmark" % "flexmark-all" % "0.64.8"
 // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
