@@ -11,10 +11,17 @@ import io.github.yasumichi.gme.MarkdownEnhancedRenderer
 
 import scala.util.Try
 
+/**
+  * GitBucket Markdown Enhanced Plugin
+  */
 class Plugin extends gitbucket.core.plugin.Plugin {
+  // Plugin metadata
   override val pluginId: String = "gitbucket-markdown-enhanced"
+  // Plugin name
   override val pluginName: String = "GitBucket Markdown Enhanced Plugin"
+  // Plugin description
   override val description: String = "Rendering markdown files."
+  // Plugin versions
   override val versions: List[Version] = List(
     new Version("0.1.0"),
     new Version("0.1.1"),
@@ -28,8 +35,16 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.4.1")
   )
 
+  // Renderer instance
   private[this] var renderer: Option[MarkdownEnhancedRenderer] = None
 
+  /**
+    * Initialize Plugin
+    *
+    * @param registry Plugin Registry
+    * @param context Servlet Context
+    * @param settings System Settings
+    */
   override def initialize(
       registry: PluginRegistry,
       context: ServletContext,
@@ -43,10 +58,25 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     super.initialize(registry, context, settings)
   }
 
+  /**
+    * Shutdown Plugin
+    *
+    * @param registry Plugin Registry
+    * @param context Servlet Context
+    * @param settings System Settings
+    */
   override def shutdown(registry: PluginRegistry, context: ServletContext, settings: SystemSettings): Unit = {
     renderer.foreach(r => r.shutdown())
   }
 
+  /**
+    * Add JavaScript and CSS files to HTML head.
+    *
+    * @param registry Plugin Registry
+    * @param context Servlet Context
+    * @param settings System Settings
+    * @return
+    */
   override def javaScripts(
       registry: PluginRegistry,
       context: ServletContext,
@@ -68,6 +98,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |""".stripMargin)
   }
 
+  // Asset mappings
   override val assetsMappings = Seq("/gme" -> "/gme/assets")
 
 }
