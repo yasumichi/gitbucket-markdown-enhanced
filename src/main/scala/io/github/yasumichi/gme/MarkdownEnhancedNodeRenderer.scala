@@ -17,6 +17,8 @@ import java.util
 import java.nio.charset.Charset
 import com.vladsch.flexmark.ext.wikilink.WikiLink
 
+import  org.slf4j.LoggerFactory
+
 /**
   * Enhanced Node Renderer for Markdown processing.
   *
@@ -26,6 +28,7 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
   *  - Marked text: Renders text wrapped in <mark> tags.
   */
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
+  private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedNodeRenderer])
 
   /**
   * Gets the set of node rendering handlers for custom nodes.
@@ -74,6 +77,8 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
     if (language.equals("plantuml")) {
       renderPlantUML(html, node)
+    } else if (language.equals("wavedrom")) {
+      renderWaveDrom(html, node)
     } else {
       context.delegateRender()
     }
@@ -103,6 +108,20 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.append(svg)
     html.tag("/div")
     os.close()
+  }
+
+  private def renderWaveDrom(html: HtmlWriter, node: FencedCodeBlock): Unit = {
+    var text = ""
+    var seqs = node.getContentLines().toArray()
+    for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString().replaceAll("\\p{Cntrl}", "")
+
+    logger.info(text)
+    html
+      .withAttr()
+      .attr("type", "WaveDrom")
+      .tag("script")
+    html.append(text)
+    html.tag("/script")
   }
 
   /**
@@ -146,7 +165,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       html: HtmlWriter
   ): Unit = {
     html.tag("mark")
-    html.text(node.text.toString())
+    html.append(node.getChars())
     html.tag("/mark")
   }
 }

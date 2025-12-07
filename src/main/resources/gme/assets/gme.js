@@ -25,6 +25,7 @@
                         observer.disconnect();
                         renderKatex();
                         await mermaid.run();
+                        WaveDrom.ProcessAll();
                         observer.observe(preview, config);
                     }
                 });
@@ -33,5 +34,6 @@
             observer.observe(preview, config);
         }
         renderKatex();
+        WaveDrom.ProcessAll();
     });
 })();

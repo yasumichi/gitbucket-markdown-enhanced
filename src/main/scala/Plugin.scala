@@ -88,13 +88,17 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |<link rel='stylesheet' href='$jsPath/admonition.css'>
       |<link rel='stylesheet' href='$jsPath/katex.min.css'>
       |<link rel='stylesheet' href='$jsPath/gme.css'>
-      |<script src="${jsPath}/admonition.js">
+      |<script src="${jsPath}/admonition.js" type="text/javascript">
       |</script>
-      |<script src="${jsPath}/katex.min.js">
+      |<script src="${jsPath}/katex.min.js" type="text/javascript">
       |</script>
-      |<script src="${jsPath}/mermaid.min.js">
+      |<script src="${jsPath}/mermaid.min.js" type="text/javascript">
       |</script>
-      |<script src="${jsPath}/gme.js">
+      |<script src="${jsPath}/wavedrom/default.js" type="text/javascript">
+      |</script>
+      |<script src="${jsPath}/wavedrom/wavedrom.min.js" type="text/javascript">
+      |</script>
+      |<script src="${jsPath}/gme.js" type="text/javascript">
       |""".stripMargin)
   }
 
