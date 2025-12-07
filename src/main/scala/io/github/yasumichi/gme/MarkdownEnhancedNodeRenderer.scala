@@ -110,6 +110,13 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     os.close()
   }
 
+  /**
+    * Renders WaveDrom code blocks. 
+    * If you write a fenced code block with "wavedrom" as the language, it will be wrapped in a <script type="WaveDrom"> tag.
+    *
+    * @param html HtmlWriter to write the output.
+    * @param node FencedCodeBlock containing the WaveDrom code.
+    */
   private def renderWaveDrom(html: HtmlWriter, node: FencedCodeBlock): Unit = {
     var text = ""
     var seqs = node.getContentLines().toArray()
