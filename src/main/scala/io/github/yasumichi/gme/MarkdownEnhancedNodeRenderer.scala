@@ -75,10 +75,14 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     val language: BasedSequence =
       node.getInfoDelimitedByAny(htmlOptions.languageDelimiterSet)
 
+    logger.debug("FencedCodeBlock getInfo: " + node.getInfo().toString())
+
     if (language.equals("plantuml")) {
       renderPlantUML(html, node)
     } else if (language.equals("wavedrom")) {
       renderWaveDrom(html, node)
+    } else if (language.equals("dot") || language.equals("viz")) {
+      renderDot(html, node)
     } else {
       context.delegateRender()
     }
@@ -96,9 +100,35 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     var seqs = node.getContentLines().toArray()
     for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
 
+    renderSVG(html, text)
+  }
+
+  /**
+    * Renders a Graphviz dot diagram from a fenced code block.
+    *
+    * @param html HtmlWriter to write the output.
+    * @param node FencedCodeBlock containing the dot code.
+    */
+  private def renderDot(html: HtmlWriter, node: FencedCodeBlock): Unit = {
+    var text = "@startdot\n"
+    var seqs = node.getContentLines().toArray()
+    for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
+    text = text + "@enddot\n"
+
+    renderSVG(html, text)
+  } 
+
+  /**
+    * Renders SVG from the given PlantUML or dot text.
+    *
+    * @param html HtmlWriter to write the output.
+    * @param text The PlantUML or dot text to render.
+    */
+  private def renderSVG(html: HtmlWriter, text: String): Unit = {
     val reader = new SourceStringReader(text)
     val os = new ByteArrayOutputStream()
     reader.generateImage(os, new FileFormatOption(FileFormat.SVG))
+    os.close()
 
     var svg = new String(os.toByteArray(), Charset.forName("UTF-8"))
     var re = "^<\\?xml [^<>]+?\\>".r
@@ -107,8 +137,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.tag("div")
     html.append(svg)
     html.tag("/div")
-    os.close()
-  }
+  } 
 
   /**
     * Renders WaveDrom code blocks. 
