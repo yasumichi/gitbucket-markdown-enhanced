@@ -9,9 +9,27 @@ import com.vladsch.flexmark.parser.{
 import java.util
 import java.util.regex.Pattern
 
+/**
+  * MarkInlineParserExtension class
+  *
+  * Inline parser extension that parses the `==Marked Text==` syntax and creates Mark nodes.
+  * 
+  * If you write `==Marked Text==`, it will be converted to `&lt;mark&gt;Marked Text&lt;/mark&gt;
+  * 
+  * The conversion to HTML is handled by the MarkdownEnhancedNodeRenderer class.
+  */
 class MarkInlineParserExtension() extends InlineParserExtension {
   override def finalizeDocument(inlineParser: InlineParser): Unit = {}
   override def finalizeBlock(inlineParser: InlineParser): Unit = {}
+
+  /**
+    * parse method
+    * 
+    * Parses the inline content to find the `==Marked Text==` syntax.
+    *
+    * @param inlineParser the inline parser
+    * @return true if the syntax is found and a Mark node is created, false otherwise
+    */
   override def parse(inlineParser: LightInlineParser): Boolean = {
     val patternText = """==(.+?)=="""
     val matches = inlineParser.matchWithGroups(Pattern.compile(patternText))
@@ -24,6 +42,12 @@ class MarkInlineParserExtension() extends InlineParserExtension {
     false
   }
 }
+
+/**
+  * Companion object for MarkInlineParserExtension
+  * 
+  * Factory class to create instances of MarkInlineParserExtension.
+  */
 object MarkInlineParserExtension {
   class Factory() extends InlineParserExtensionFactory {
     override def getCharacters: CharSequence = "="
