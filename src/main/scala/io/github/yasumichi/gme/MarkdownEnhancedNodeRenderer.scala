@@ -17,8 +17,21 @@ import java.util
 import java.nio.charset.Charset
 import com.vladsch.flexmark.ext.wikilink.WikiLink
 
+/**
+  * Enhanced Node Renderer for Markdown processing.
+  *
+  * This renderer adds support for:
+  * - PlantUML code blocks: Renders PlantUML diagrams from fenced code blocks labeled "plantuml".
+  * - WikiLinks: Renders wiki-style links.
+  * - Marked text: Renders text wrapped in <mark> tags.
+  */
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
+/**
+  * Gets the set of node rendering handlers for custom nodes.
+  *
+  * @return A set of NodeRenderingHandler instances for custom nodes.
+  */
   override def getNodeRenderingHandlers(): util.Set[NodeRenderingHandler[_ <: Object]] = {
     val set: util.HashSet[NodeRenderingHandler[_]] =
       new util.HashSet[NodeRenderingHandler[_]]
@@ -43,6 +56,13 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     set
   }
 
+/**
+  * Renders a fenced code block, specifically handling PlantUML code blocks.
+  *
+  * @param node
+  * @param context
+  * @param html
+  */
   private def renderFencedCodeBlock(
       node: FencedCodeBlock,
       context: NodeRendererContext,
@@ -59,6 +79,13 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     }
   }
 
+/**
+  * Renders a PlantUML diagram from a fenced code block.
+  *
+  * @param html HtmlWriter to write the output.
+  * @param node FencedCodeBlock containing the PlantUML code.
+  * @throws IOException if an I/O error occurs during rendering.
+  */
   def renderPlantUML(html: HtmlWriter, node: FencedCodeBlock): Unit = {
     var text = ""
     var seqs = node.getContentLines().toArray()
@@ -78,6 +105,13 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     os.close()
   }
 
+/**
+  * Renders a wiki-style link.
+  *
+  * @param node WikiLink node representing the wiki link.
+  * @param context NodeRendererContext for resolving links.
+  * @param html HtmlWriter to write the output.
+  */
   private def renderWikiLink(
       node: WikiLink,
       context: NodeRendererContext,
@@ -97,6 +131,15 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.tag("/a")
   }
 
+  /**
+    * Renders marked text wrapped in <mark> tags.
+    *
+    * If you write `==Marked Text==`, it will be converted to `&lt;mark&gt;Marked Text&lt;/mark&gt;`.
+    * 
+    * @param node Mark node representing the marked text.
+    * @param context NodeRendererContext for rendering context.
+    * @param html HtmlWriter to write the output.
+    */
   private def renderMark(
       node: Mark,
       context: NodeRendererContext,
@@ -108,6 +151,9 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
   }
 }
 
+/**
+  * Factory for creating instances of MarkdownEnhancedNodeRenderer.
+  */
 object MarkdownEnhancedNodeRenderer {
   class Factory() extends NodeRendererFactory {
     override def apply(options: DataHolder): NodeRenderer =
