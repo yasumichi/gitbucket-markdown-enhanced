@@ -25,7 +25,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     set.add(
       new NodeRenderingHandler[FencedCodeBlock](
         classOf[FencedCodeBlock],
-        this.render
+        this.renderFencedCodeBlock
       )
     )
     set.add(
@@ -43,7 +43,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     set
   }
 
-  private def render(
+  private def renderFencedCodeBlock(
       node: FencedCodeBlock,
       context: NodeRendererContext,
       html: HtmlWriter
