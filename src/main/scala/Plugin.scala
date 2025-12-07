@@ -30,8 +30,12 @@ class Plugin extends gitbucket.core.plugin.Plugin {
 
   private[this] var renderer: Option[MarkdownEnhancedRenderer] = None
 
-  override def initialize(registry: PluginRegistry, context: ServletContext, settings: SystemSettingsService.SystemSettings): Unit = {
-    val test = Try{ new MarkdownEnhancedRenderer() }
+  override def initialize(
+      registry: PluginRegistry,
+      context: ServletContext,
+      settings: SystemSettingsService.SystemSettings
+  ): Unit = {
+    val test = Try { new MarkdownEnhancedRenderer() }
     val mer = test.get
     registry.addRenderer("md", mer)
     registry.addRenderer("markdown", mer)
@@ -43,7 +47,11 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     renderer.foreach(r => r.shutdown())
   }
 
-  override def javaScripts(registry: PluginRegistry, context: ServletContext, settings: SystemSettingsService.SystemSettings): Seq[(String, String)] = {
+  override def javaScripts(
+      registry: PluginRegistry,
+      context: ServletContext,
+      settings: SystemSettingsService.SystemSettings
+  ): Seq[(String, String)] = {
     val jsPath = settings.baseUrl.getOrElse(context.getContextPath) + "/plugin-assets/gme"
     Seq(".*" -> s"""
       |</script>

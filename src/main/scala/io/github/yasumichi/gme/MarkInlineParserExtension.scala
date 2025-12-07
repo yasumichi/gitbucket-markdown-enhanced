@@ -1,6 +1,11 @@
 package io.github.yasumichi.gme
 
-import com.vladsch.flexmark.parser.{InlineParser, InlineParserExtension, InlineParserExtensionFactory, LightInlineParser}
+import com.vladsch.flexmark.parser.{
+  InlineParser,
+  InlineParserExtension,
+  InlineParserExtensionFactory,
+  LightInlineParser
+}
 import java.util
 import java.util.regex.Pattern
 

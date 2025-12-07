@@ -3,12 +3,7 @@ package io.github.yasumichi.gme
 import com.vladsch.flexmark.ast.FencedCodeBlock
 import com.vladsch.flexmark.html.HtmlRendererOptions
 import com.vladsch.flexmark.html.HtmlWriter
-import com.vladsch.flexmark.html.renderer.{
-  NodeRenderer,
-  NodeRendererContext,
-  NodeRendererFactory,
-  NodeRenderingHandler
-}
+import com.vladsch.flexmark.html.renderer.{NodeRenderer, NodeRendererContext, NodeRendererFactory, NodeRenderingHandler}
 import com.vladsch.flexmark.util.data.DataHolder
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
@@ -24,8 +19,7 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
 
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
-  override def getNodeRenderingHandlers()
-      : util.Set[NodeRenderingHandler[_ <: Object]] = {
+  override def getNodeRenderingHandlers(): util.Set[NodeRenderingHandler[_ <: Object]] = {
     val set: util.HashSet[NodeRenderingHandler[_]] =
       new util.HashSet[NodeRenderingHandler[_]]
     set.add(
@@ -34,10 +28,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
         this.render
       )
     )
-    set.add(new NodeRenderingHandler[WikiLink](
-      classOf[WikiLink],
-      this.renderWikiLink
-    ))
+    set.add(
+      new NodeRenderingHandler[WikiLink](
+        classOf[WikiLink],
+        this.renderWikiLink
+      )
+    )
     set.add(
       new NodeRenderingHandler[Mark](
         classOf[Mark],

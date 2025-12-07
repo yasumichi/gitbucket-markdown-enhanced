@@ -55,14 +55,14 @@ class MarkdownEnhancedRenderer extends Renderer {
       EmojiExtension.USE_IMAGE_TYPE,
       EmojiImageType.UNICODE_FALLBACK_TO_IMAGE
     )
-    
+
     // Determine current path for GitHub Issues links
     val pathElems = context.currentPath.split("/")
     if (pathElems.length > 2 && pathElems(1) != "admin") {
       var owner = pathElems(1)
       var repos = pathElems(2)
 
-      options.set(GfmIssuesExtension.GIT_HUB_ISSUES_URL_ROOT, context.baseUrl + "/" + owner + "/" + repos + "/issues") 
+      options.set(GfmIssuesExtension.GIT_HUB_ISSUES_URL_ROOT, context.baseUrl + "/" + owner + "/" + repos + "/issues")
     }
 
     options.set(Parser.EXTENSIONS, extension.asJava)
