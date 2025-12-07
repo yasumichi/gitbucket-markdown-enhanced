@@ -53,26 +53,29 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       node.getInfoDelimitedByAny(htmlOptions.languageDelimiterSet)
 
     if (language.equals("plantuml")) {
-      var text = ""
-      var seqs = node.getContentLines().toArray()
-      for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
-
-      val reader = new SourceStringReader(text)
-      val os = new ByteArrayOutputStream()
-      reader.generateImage(os, new FileFormatOption(FileFormat.SVG))
-
-      var svg = new String(os.toByteArray(), Charset.forName("UTF-8"))
-      var re = "^<\\?xml [^<>]+?\\>".r
-      svg = re.replaceFirstIn(svg, "")
-
-      html.tag("div")
-      html.append(svg)
-      html.tag("/div")
-      os.close()
-
+      renderPlantUML(html, node)
     } else {
       context.delegateRender()
     }
+  }
+
+  def renderPlantUML(html: HtmlWriter, node: FencedCodeBlock): Unit = {
+    var text = ""
+    var seqs = node.getContentLines().toArray()
+    for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
+
+    val reader = new SourceStringReader(text)
+    val os = new ByteArrayOutputStream()
+    reader.generateImage(os, new FileFormatOption(FileFormat.SVG))
+
+    var svg = new String(os.toByteArray(), Charset.forName("UTF-8"))
+    var re = "^<\\?xml [^<>]+?\\>".r
+    svg = re.replaceFirstIn(svg, "")
+
+    html.tag("div")
+    html.append(svg)
+    html.tag("/div")
+    os.close()
   }
 
   private def renderWikiLink(
