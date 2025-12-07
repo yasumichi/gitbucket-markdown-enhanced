@@ -113,7 +113,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
   private def renderWaveDrom(html: HtmlWriter, node: FencedCodeBlock): Unit = {
     var text = ""
     var seqs = node.getContentLines().toArray()
-    for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString().replaceAll("\\p{Cntrl}", "")
+    for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString()
 
     logger.info(text)
     html
