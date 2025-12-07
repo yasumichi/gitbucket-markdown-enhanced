@@ -86,7 +86,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
   * @param node FencedCodeBlock containing the PlantUML code.
   * @throws IOException if an I/O error occurs during rendering.
   */
-  def renderPlantUML(html: HtmlWriter, node: FencedCodeBlock): Unit = {
+  private def renderPlantUML(html: HtmlWriter, node: FencedCodeBlock): Unit = {
     var text = ""
     var seqs = node.getContentLines().toArray()
     for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
