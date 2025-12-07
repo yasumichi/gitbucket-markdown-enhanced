@@ -24,7 +24,17 @@ import scala.jdk.CollectionConverters._
 import com.vladsch.flexmark.util.data.DataKey
 import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
 
+/**
+  * A renderer for Markdown Enhanced syntax using flexmark-java.
+  */
 class MarkdownEnhancedRenderer extends Renderer {
+
+  /**
+    * Renders the given Markdown content to HTML.
+    *
+    * @param request the render request containing file content and context information
+    * @return the rendered HTML
+    */
   def render(request: RenderRequest): Html = {
     import request._
     Html(toHtml(fileContent)(context))
@@ -32,6 +42,13 @@ class MarkdownEnhancedRenderer extends Renderer {
 
   def shutdown(): Unit = {}
 
+  /**
+    * Converts Markdown content to HTML using flexmark-java with various extensions.
+    *
+    * @param content the Markdown content to convert
+    * @param context the rendering context containing base URL and current path information
+    * @return the converted HTML content as a string
+    */
   def toHtml(content: String)(implicit context: Context): String = {
     val options = new MutableDataSet();
     val extension: Seq[Extension] = Seq(
@@ -78,6 +95,9 @@ class MarkdownEnhancedRenderer extends Renderer {
   }
 }
 
+/**
+  * Data keys for passing context information to the Markdown renderer.
+  */
 object MarkdownEnhancedRenderer {
   val BASE_URL = new DataKey[String]("BASE_URL", "")
   val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
