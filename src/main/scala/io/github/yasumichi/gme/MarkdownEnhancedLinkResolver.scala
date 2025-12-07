@@ -6,7 +6,28 @@ import com.vladsch.flexmark.html.renderer.{LinkStatus, LinkResolverBasicContext,
 import com.vladsch.flexmark.util.ast.Node
 import java.{util => ju}
 
+/**
+  * Enhanced link resolver for Markdown links.
+  */
 class MarkdownEnhancedLinkResolver extends LinkResolver {
+
+  /**
+    * Resolves a link based on its format and the current document context.
+    *
+    * This resolver modifies links based on their format:
+    * - Absolute URLs (containing "://") are considered valid and unchanged.
+    * - Root-relative URLs (starting with "/") are considered valid and unchanged.
+    * - Other URLs are resolved based on the current document's path and a base URL.
+    * - If the current path indicates a "blob", the link is treated as valid.
+    * - If the current path indicates a "wiki", the link is resolved relative to the wiki page.
+    * - If the current path indicates a "tree", it is converted to "blob" for link resolution.
+    * - For other cases, the link is resolved to point to the "main" branch of the repository.
+    * 
+    * @param node The AST node containing the link.
+    * @param context The link resolver context.
+    * @param link The resolved link to be processed.
+    * @return A ResolvedLink object with updated URL and status.
+    */
   override def resolveLink(node: Node, context: LinkResolverBasicContext, link: ResolvedLink): ResolvedLink = {
     val url = link.getUrl()
     if (url.contains("://")) {
@@ -35,6 +56,9 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
   }
 }
 
+/**
+  * Factory for creating instances of MarkdownEnhancedLinkResolver.
+  */
 object MarkdownEnhancedLinkResolver {
   class Factory() extends LinkResolverFactory {
 
