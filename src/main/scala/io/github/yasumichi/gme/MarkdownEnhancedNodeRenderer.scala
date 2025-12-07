@@ -115,7 +115,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     var seqs = node.getContentLines().toArray()
     for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString()
 
-    logger.info(text)
+    logger.debug(text)
     html
       .withAttr()
       .attr("type", "WaveDrom")
