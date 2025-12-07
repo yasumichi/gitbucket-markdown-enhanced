@@ -27,7 +27,7 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
   */
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
-/**
+  /**
   * Gets the set of node rendering handlers for custom nodes.
   *
   * @return A set of NodeRenderingHandler instances for custom nodes.
@@ -56,7 +56,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     set
   }
 
-/**
+  /**
   * Renders a fenced code block, specifically handling PlantUML code blocks.
   *
   * @param node
@@ -79,7 +79,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     }
   }
 
-/**
+  /**
   * Renders a PlantUML diagram from a fenced code block.
   *
   * @param html HtmlWriter to write the output.
@@ -105,7 +105,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     os.close()
   }
 
-/**
+  /**
   * Renders a wiki-style link.
   *
   * @param node WikiLink node representing the wiki link.
