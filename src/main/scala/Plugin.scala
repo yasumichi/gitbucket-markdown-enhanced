@@ -94,7 +94,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |</script>
       |<script src="${jsPath}/mermaid.min.js">
       |</script>
-      |<script src="${jsPath}/gme.js">>
+      |<script src="${jsPath}/gme.js">
       |""".stripMargin)
   }
 
