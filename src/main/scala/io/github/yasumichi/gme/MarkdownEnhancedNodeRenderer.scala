@@ -17,7 +17,7 @@ import java.util
 import java.nio.charset.Charset
 import com.vladsch.flexmark.ext.wikilink.WikiLink
 
-import  org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory
 
 /**
   * Enhanced Node Renderer for Markdown processing.
