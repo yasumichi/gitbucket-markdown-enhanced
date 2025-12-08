@@ -74,6 +74,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     val htmlOptions: HtmlRendererOptions = context.getHtmlOptions()
     val language: BasedSequence =
       node.getInfoDelimitedByAny(htmlOptions.languageDelimiterSet)
+    val info: String = node.getInfo().toString()
 
     logger.debug("FencedCodeBlock getInfo: " + node.getInfo().toString())
 
@@ -82,7 +83,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     } else if (language.equals("wavedrom")) {
       renderWaveDrom(html, node)
     } else if (language.equals("dot") || language.equals("viz")) {
-      renderDot(html, node)
+      renderDot(html, node, info)
     } else {
       context.delegateRender()
     }
@@ -109,14 +110,35 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     * @param html HtmlWriter to write the output.
     * @param node FencedCodeBlock containing the dot code.
     */
-  private def renderDot(html: HtmlWriter, node: FencedCodeBlock): Unit = {
+  private def renderDot(html: HtmlWriter, node: FencedCodeBlock, info: String): Unit = {
     var text = "@startdot\n"
     var seqs = node.getContentLines().toArray()
     for (i <- 0 to seqs.length - 1) text = text + seqs(i).toString + "\n"
     text = text + "@enddot\n"
 
+    val patternText = """\{\s*engine=\"(.*)\"\s*\}""".r
+    val matches = patternText.findFirstMatchIn(info)
+    var engine = ""
+    matches match {
+      case Some(m) =>
+        engine = m.group(1)
+      case None =>
+        engine = "dot"
+    }
+
+    logger.debug("Graphviz engine: " + engine)
+
+    if (!engine.equals("dot")) {
+      text = text.replace(
+        "{",
+        s"""{
+       |  graph [layout="${engine}"]; 
+       |""".stripMargin
+      )
+    }
+
     renderSVG(html, text)
-  } 
+  }
 
   /**
     * Renders SVG from the given PlantUML or dot text.
@@ -137,7 +159,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.tag("div")
     html.append(svg)
     html.tag("/div")
-  } 
+  }
 
   /**
     * Renders WaveDrom code blocks. 
