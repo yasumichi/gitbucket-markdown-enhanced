@@ -84,7 +84,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
     logger.debug("FencedCodeBlock getInfo: " + node.getInfo().toString())
 
-    if (language.equals("plantuml")) {
+    if (language.equals("plantuml") || language.equals("puml")) {
       renderPlantUML(html, node)
     } else if (language.equals("wavedrom")) {
       renderWaveDrom(html, node)
