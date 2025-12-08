@@ -18,6 +18,7 @@ class MarkdownEnhancedExtention extends ParserExtension with HtmlRendererExtensi
   */
   override def extend(parserBuilder: Parser.Builder): Unit = {
     parserBuilder.customInlineParserExtensionFactory(new MarkInlineParserExtension.Factory())
+    parserBuilder.customInlineParserExtensionFactory(new InlineUriInlineParserExtension.Factory())
   }
 
   override def parserOptions(options: MutableDataHolder): Unit = {}

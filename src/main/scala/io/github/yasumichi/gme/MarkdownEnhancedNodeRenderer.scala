@@ -56,6 +56,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
         this.renderMark
       )
     )
+    set.add(
+      new NodeRenderingHandler[InlineUri](
+        classOf[InlineUri],
+        this.renderInlineUri
+      )
+    )
     set
   }
 
@@ -225,6 +231,29 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.tag("mark")
     html.append(node.getChars())
     html.tag("/mark")
+  }
+
+  /**
+    * Renders an inline URI as a clickable link.
+    *
+    * If you write `http://example.com`, it will be converted to `<a href="http://example.com">http://example.com</a>`.
+    * 
+    * @param node InlineUri node representing the inline URI.
+    * @param context NodeRendererContext for rendering context.
+    * @param html HtmlWriter to write the output.
+    */
+  private def renderInlineUri(
+      node: InlineUri,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
+    val uri = node.text.toString()
+    html
+      .withAttr()
+      .attr("href", uri)
+      .tag("a")
+    html.text(uri)
+    html.tag("/a")
   }
 }
 
