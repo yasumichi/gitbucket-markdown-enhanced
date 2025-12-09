@@ -19,7 +19,7 @@ import java.util.regex.Pattern
   * The conversion to HTML is handled by the MarkdownEnhancedNodeRenderer class.
   */
 class InlineUriInlineParserExtension() extends InlineParserExtension {
-  override def finalizeDocument(inlineParser: InlineParser): Unit = {} 
+  override def finalizeDocument(inlineParser: InlineParser): Unit = {}
   override def finalizeBlock(inlineParser: InlineParser): Unit = {}
   override def parse(inlineParser: LightInlineParser): Boolean = {
     val input = inlineParser.getInput
