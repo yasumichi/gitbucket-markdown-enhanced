@@ -18,6 +18,7 @@ import java.nio.charset.Charset
 import com.vladsch.flexmark.ext.wikilink.WikiLink
 
 import org.slf4j.LoggerFactory
+import com.vladsch.flexmark.parser.Parser
 
 /**
   * Enhanced Node Renderer for Markdown processing.
@@ -90,8 +91,10 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       renderWaveDrom(html, node)
     } else if (language.equals("dot") || language.equals("viz")) {
       renderDot(html, node, info)
-    } else {
+    } else if (language.equals("mermaid")) {
       context.delegateRender()
+    } else {
+      renderPrittyPrint(html, node, context, language.toString())
     }
   }
 
@@ -186,6 +189,27 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       .tag("script")
     html.append(text)
     html.tag("/script")
+  }
+
+  /**
+    * Renders a fenced code block with prettyprint classes.
+    *
+    * @param html HtmlWriter to write the output.
+    * @param node FencedCodeBlock containing the code.
+    * @param language The programming language of the code block.
+    */
+  private def renderPrittyPrint(
+      html: HtmlWriter,
+      node: FencedCodeBlock,
+      context: NodeRendererContext,
+      language: String
+  ): Unit = {
+    html
+      .withAttr()
+      .attr("class", s"prettyprint lang-${language}")
+      .tag("pre")
+    html.rawIndentedPre(node.getContentChars().toString())
+    html.tag("/pre")
   }
 
   /**
