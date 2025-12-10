@@ -1,6 +1,16 @@
 (function () {
     console.log("gme.js loaded.");
 
+    var updateCellStyle = function() {
+        ['center', 'right'].forEach(function(align) {
+            [ `td[align=${align}]`, `th[align=${align}]` ].forEach(function(selector) {
+                document.querySelectorAll(selector).forEach(function(elem) {
+                    elem.style.textAlign = align;
+                });
+            });
+        });
+    };
+
     var renderKatex = function() {
         var mathElems = document.getElementsByClassName("katex");
         var elems = [];
@@ -26,6 +36,7 @@
                         renderKatex();
                         await mermaid.run();
                         WaveDrom.ProcessAll();
+                        updateCellStyle();
                         observer.observe(preview, config);
                     }
                 });
@@ -35,5 +46,6 @@
         }
         renderKatex();
         WaveDrom.ProcessAll();
+        updateCellStyle();
     });
 })();
