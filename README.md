@@ -183,7 +183,14 @@ to
 
 Enables wiki links `[[page reference]]`.
 
-## PlantUML Support
+## PlantUML Support (MIT License version)
+
+exclude follow diagrams.
+
+- Ditaa
+- Jcckit
+- Sudoku
+- ELK
 
 ```
 @startuml
