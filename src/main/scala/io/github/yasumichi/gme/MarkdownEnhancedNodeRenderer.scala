@@ -91,7 +91,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       renderWaveDrom(html, node)
     } else if (language.equals("dot") || language.equals("viz")) {
       renderDot(html, node, info)
-    } else if (language.equals("mermaid")) {
+    } else if (language.equals("math") || language.equals("mermaid")) {
       context.delegateRender()
     } else {
       renderPrittyPrint(html, node, context, language.toString())
