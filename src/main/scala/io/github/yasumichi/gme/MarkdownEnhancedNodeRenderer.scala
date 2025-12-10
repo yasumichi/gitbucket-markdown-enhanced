@@ -158,7 +158,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
   private def renderSVG(html: HtmlWriter, text: String): Unit = {
     val reader = new SourceStringReader(text)
     val os = new ByteArrayOutputStream()
-    reader.generateImage(os, new FileFormatOption(FileFormat.SVG))
+    reader.outputImage(os, new FileFormatOption(FileFormat.SVG))
     os.close()
 
     var svg = new String(os.toByteArray(), Charset.forName("UTF-8"))

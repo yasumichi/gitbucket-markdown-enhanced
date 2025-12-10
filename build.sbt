@@ -4,5 +4,5 @@ version := "0.5.3"
 scalaVersion := "2.13.16"
 gitbucketVersion := "4.36.2"
 libraryDependencies += "com.vladsch.flexmark" % "flexmark-all" % "0.64.8"
-// https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
-libraryDependencies += "net.sourceforge.plantuml" % "plantuml" % "8059"
+// https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml-mit
+libraryDependencies += "net.sourceforge.plantuml" % "plantuml-mit" % "1.2025.10"
