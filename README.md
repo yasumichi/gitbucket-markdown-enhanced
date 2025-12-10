@@ -185,6 +185,8 @@ Enables wiki links `[[page reference]]`.
 
 ## PlantUML Support (MIT License version)
 
+[PlantUML Licensing Options](https://plantuml.com/en/download#mit)
+
 exclude follow diagrams.
 
 - Ditaa
