@@ -253,7 +253,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       html: HtmlWriter
   ): Unit = {
     html.tag("mark")
-    html.append(node.getChars())
+    html.text(node.text.toString())
     html.tag("/mark")
   }
 
