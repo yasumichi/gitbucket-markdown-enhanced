@@ -56,7 +56,11 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
     } else if (link.getLinkType() == LinkType.IMAGE || link.getLinkType() == LinkType.IMAGE_REF) {
       val user = pathElems(1)
       val repo = pathElems(2)
-      val func = pathElems(3)
+      var func = ""
+      if (pathElems.length > 3)
+      {
+        func = pathElems(3)
+      }
       var branch = "main"
       if (pathElems.length > 4) {
         branch = pathElems(4)
