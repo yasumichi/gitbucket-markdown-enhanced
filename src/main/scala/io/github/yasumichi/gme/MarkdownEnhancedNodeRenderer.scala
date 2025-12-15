@@ -63,6 +63,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
         this.renderInlineUri
       )
     )
+    set.add(
+      new NodeRenderingHandler[InlineKatex](
+        classOf[InlineKatex],
+        this.renderInlineKatex
+      )
+    )
     set
   }
 
@@ -278,6 +284,30 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       .tag("a")
     html.text(uri)
     html.tag("/a")
+  }
+
+  private def renderInlineKatex(
+      node: InlineKatex,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
+    if (node.source.startsWith("$$") || node.source.startsWith("\\[")) {
+      // Display math
+      html
+        .withAttr()
+        .attr("class", "katex")
+        .tag("div")
+      html.text(node.text.toString())
+      html.tag("/div")
+    } else {
+      // Inline math
+      html
+        .withAttr()
+        .attr("class", "katex")
+        .tag("span")
+      html.text(node.text.toString())
+      html.tag("/span")
+    }
   }
 }
 
