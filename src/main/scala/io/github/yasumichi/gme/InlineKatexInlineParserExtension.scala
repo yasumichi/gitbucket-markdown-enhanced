@@ -30,7 +30,7 @@ class InlineKatexInlineParserExtension extends InlineParserExtension {
   override def finalizeBlock(inlineParser: InlineParser): Unit = {}
 
   override def parse(inlineParser: LightInlineParser): Boolean = {
-   val patterns = List("""\\\[(.+?)\\\]""", """\$\$(.+?)\$\$""", """\$(.+?)\$""", """\\\((.+?)\\\)""")
+    val patterns = List("""\\\[(.+?)\\\]""", """\$\$(.+?)\$\$""", """\$(.+?)\$""", """\\\((.+?)\\\)""")
     logger.debug("Input: " + inlineParser.getInput().toString())
 
     for (patternText <- patterns) {
