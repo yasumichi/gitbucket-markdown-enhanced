@@ -86,6 +86,7 @@ class MarkdownEnhancedRenderer extends Renderer {
     options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
     options.set(MarkdownEnhancedRenderer.BASE_URL, context.baseUrl)
     options.set(MarkdownEnhancedRenderer.CURRENT_PATH, context.currentPath)
+    options.set(MarkdownEnhancedRenderer.REFERER, context.request.getHeader("Referer"))
 
     val parser = Parser.builder(options).build()
     val renderer = HtmlRenderer.builder(options).build()
@@ -101,4 +102,5 @@ class MarkdownEnhancedRenderer extends Renderer {
 object MarkdownEnhancedRenderer {
   val BASE_URL = new DataKey[String]("BASE_URL", "")
   val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
+  val REFERER = new DataKey[String]("REFERER", "")
 }
