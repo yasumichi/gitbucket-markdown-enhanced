@@ -8,6 +8,7 @@ import com.vladsch.flexmark.parser.{
   InlineParserExtensionFactory,
   LightInlineParser
 }
+import java.util.regex.Pattern
 
 import org.slf4j.LoggerFactory
 
@@ -30,19 +31,38 @@ class InlineKatexInlineParserExtension extends InlineParserExtension {
   override def finalizeBlock(inlineParser: InlineParser): Unit = {}
 
   override def parse(inlineParser: LightInlineParser): Boolean = {
-    val patterns = List("""\\\[(.+?)\\\]""", """\$\$(.+?)\$\$""", """\$(.+?)\$""", """\\\((.+?)\\\)""")
-    logger.debug("Input: " + inlineParser.getInput().toString())
+    val patterns = List("""\\\[([^\\]+?)\\\]""", """\$\$([^$]+?)\$\$""", """\\\(([^\\]+?)\\\)""")
+    val input = inlineParser.getInput()
+    logger.debug("Input: " + input.toString())
 
     for (patternText <- patterns) {
       logger.debug(s"Trying pattern: $patternText")
-      val matches = inlineParser.matchWithGroups(java.util.regex.Pattern.compile(patternText))
-      if (matches != null) {
-        logger.debug(s"Matched pattern: $patternText with content: ${matches(1)}")
+      val matcher = inlineParser.matcher(Pattern.compile(patternText))
+      if (matcher != null) {
         inlineParser.flushTextNode()
-        val katexText = matches(1)
-        inlineParser.getBlock.appendChild(new InlineKatex(katexText, matches(0)))
+
+        logger.debug("matcher.group():" + matcher.group())
+        val mathOpen = input.subSequence(matcher.start(), matcher.start(1))
+        val mathClosed = input.subSequence(matcher.end(1), matcher.end())
+        val inlineMath = new InlineKatex(
+          mathOpen,
+          mathOpen.baseSubSequence(mathOpen.getEndOffset(), mathClosed.getStartOffset()),
+          mathClosed
+        )
+        inlineParser.getBlock().appendChild(inlineMath);
         return true
       }
+    }
+    val matcher = inlineParser.matcher(Pattern.compile("""\$([^\\]+?)\$"""))
+    if (matcher != null) {
+      inlineParser.flushTextNode()
+
+      logger.debug("matcher.group():" + matcher.group())
+      val mathOpen = input.subSequence(matcher.start())
+      val mathClosed = input.subSequence(matcher.end())
+      val inlineMath = new InlineKatex(mathOpen, input.subSequence(matcher.start(1), matcher.end(1)), mathClosed)
+      inlineParser.getBlock().appendChild(inlineMath);
+      return true
     }
     false
   }

@@ -291,7 +291,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       context: NodeRendererContext,
       html: HtmlWriter
   ): Unit = {
-    if (node.source.startsWith("$$") || node.source.startsWith("\\[")) {
+    if (node.getOpeningMarker() == "$$" || node.getOpeningMarker() == "\\[") {
       // Display math
       html
         .withAttr()
