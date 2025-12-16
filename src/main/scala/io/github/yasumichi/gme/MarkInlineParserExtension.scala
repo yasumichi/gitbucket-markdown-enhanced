@@ -31,12 +31,16 @@ class MarkInlineParserExtension() extends InlineParserExtension {
     * @return true if the syntax is found and a Mark node is created, false otherwise
     */
   override def parse(inlineParser: LightInlineParser): Boolean = {
+    val input = inlineParser.getInput()
     val patternText = """==(.+?)=="""
-    val matches = inlineParser.matchWithGroups(Pattern.compile(patternText))
-    if (matches != null) {
+    val matcher = inlineParser.matcher(Pattern.compile(patternText))
+    if (matcher != null) {
       inlineParser.flushTextNode()
-      val markText = matches(1)
-      inlineParser.getBlock.appendChild(new Mark(markText, matches(0)))
+
+      val markOpen = input.subSequence(matcher.start(), matcher.start(1))
+      val markClosed = input.subSequence(matcher.end(1), matcher.end())
+      val inlineMath = new Mark(markOpen, markOpen.baseSubSequence(markOpen.getEndOffset(), markClosed.getStartOffset()), markClosed)
+      inlineParser.getBlock().appendChild(inlineMath);
       return true
     }
     false
