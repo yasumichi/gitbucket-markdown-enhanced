@@ -39,7 +39,8 @@ class MarkInlineParserExtension() extends InlineParserExtension {
 
       val markOpen = input.subSequence(matcher.start(), matcher.start(1))
       val markClosed = input.subSequence(matcher.end(1), matcher.end())
-      val inlineMath = new Mark(markOpen, markOpen.baseSubSequence(markOpen.getEndOffset(), markClosed.getStartOffset()), markClosed)
+      val inlineMath =
+        new Mark(markOpen, markOpen.baseSubSequence(markOpen.getEndOffset(), markClosed.getStartOffset()), markClosed)
       inlineParser.getBlock().appendChild(inlineMath);
       return true
     }
