@@ -2,6 +2,7 @@ package io.github.yasumichi.gme
 
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.sequence.BasedSequence
+import com.vladsch.flexmark.util.ast.DoNotDecorate
 
 /**
   * InlineUri class
@@ -17,6 +18,8 @@ import com.vladsch.flexmark.util.sequence.BasedSequence
   * @param text
   * @param source
   */
-class InlineUri(val text: BasedSequence, val source: BasedSequence) extends Node {
-  override def getSegments: Array[BasedSequence] = Array(source)
+class InlineUri(val openingMarker: BasedSequence, val text: BasedSequence)
+    extends Node(Node.spanningChars(openingMarker, text))
+    with DoNotDecorate {
+  override def getSegments: Array[BasedSequence] = Array(openingMarker, text)
 }

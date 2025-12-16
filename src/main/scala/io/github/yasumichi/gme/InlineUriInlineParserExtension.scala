@@ -26,12 +26,13 @@ class InlineUriInlineParserExtension() extends InlineParserExtension {
     val index = inlineParser.getIndex
 
     // Define a regex pattern to match inline URIs
-    val pattern = """(^|[^\("]+)(https?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)"""
+    val pattern = """(^|[^\("]+)(http)(s?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)"""
     val matches = inlineParser.matchWithGroups(Pattern.compile(pattern))
     if (matches != null) {
       inlineParser.flushTextNode()
-      val uriText = matches(2)
-      inlineParser.getBlock.appendChild(new InlineUri(uriText, uriText))
+      val openingMarker = matches(2)
+      val text = matches(3)
+      inlineParser.getBlock.appendChild(new InlineUri(openingMarker, text))
       return true
     }
     false
