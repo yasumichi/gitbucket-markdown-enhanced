@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory
   */
 class MarkdownEnhancedLinkResolver extends LinkResolver {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedLinkResolver])
+
   /**
     * Resolves a link based on its format and the current document context.
     *
@@ -57,8 +58,7 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
       val user = pathElems(1)
       val repo = pathElems(2)
       var func = ""
-      if (pathElems.length > 3)
-      {
+      if (pathElems.length > 3) {
         func = pathElems(3)
       }
       var branch = "main"
@@ -86,13 +86,15 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
         link.withStatus(LinkStatus.VALID).withUrl(baseUrl + pathElems.mkString("/") + "/" + url)
       } else if (pathElems.length > 3 && pathElems(3).equals("_preview")) {
         val referer = MarkdownEnhancedRenderer.REFERER.get(context.getOptions())
-        currentPath = referer.substring(baseUrl.length()) 
+        currentPath = referer.substring(baseUrl.length())
         var branch = "main"
         logger.info(s"CurrentPath: ${currentPath}")
         if (pathElems.length > 4) {
           branch = pathElems(4)
         }
-        link.withStatus(LinkStatus.VALID).withUrl(baseUrl + currentPath.replace("/_preview", s"/blob/${branch}") + "/" + url)
+        link
+          .withStatus(LinkStatus.VALID)
+          .withUrl(baseUrl + currentPath.replace("/_preview", s"/blob/${branch}") + "/" + url)
       } else {
         link.withStatus(LinkStatus.VALID).withUrl(baseUrl + currentPath + "/blob/main/" + url)
       }
