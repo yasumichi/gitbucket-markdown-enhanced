@@ -277,7 +277,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       context: NodeRendererContext,
       html: HtmlWriter
   ): Unit = {
-    val uri = node.openingMarker + node.text.toString()
+    val uri = node.openingMarker.toString() + node.text.toString()
     html
       .withAttr()
       .attr("href", uri)
