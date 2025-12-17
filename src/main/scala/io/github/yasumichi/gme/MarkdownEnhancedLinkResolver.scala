@@ -37,62 +37,53 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
     var url = link.getUrl()
     val baseUrl = MarkdownEnhancedRenderer.BASE_URL.get(context.getOptions())
     var currentPath = MarkdownEnhancedRenderer.CURRENT_PATH.get(context.getOptions())
-    val pathElems = currentPath.split("/")
-
-    logger.info(link.getLinkType().toString() + ": " + url)
+    var pathElems = currentPath.split("/")
+    if (pathElems.length > 3 && pathElems(3).equals("_preview")) {
+      val referer = MarkdownEnhancedRenderer.REFERER.get(context.getOptions())
+      currentPath = referer.substring(baseUrl.length())
+      pathElems = currentPath.split("/")
+    }
+    var user = ""
+    if (pathElems.length > 1) {
+      user = pathElems(1)
+    }
+    var repo = ""
+    if (pathElems.length > 2) {
+      repo = pathElems(2)
+    }
+    var func = "blob"
+    if (pathElems.length > 3 && pathElems(3) != "edit") {
+      func = pathElems(3)
+    }
+    var branch = "main"
+    if (pathElems.length > 4) {
+      branch = pathElems(4)
+    }
+    var plusPath = "/"
+    if (pathElems.length > 5) {
+      plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
+    }
 
     if (url.contains("://")) {
       link.withStatus(LinkStatus.VALID).withUrl(url)
     } else if (url.startsWith("/")) {
       link.withStatus(LinkStatus.VALID).withUrl(url)
     } else if (link.getLinkType() == LinkType.IMAGE || link.getLinkType() == LinkType.IMAGE_REF) {
-      val user = pathElems(1)
-      val repo = pathElems(2)
-      var func = ""
-      if (pathElems.length > 3) {
-        func = pathElems(3)
-      }
-      var branch = "main"
-      if (pathElems.length > 4) {
-        branch = pathElems(4)
-      }
       if (func == "wiki") {
         val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/wiki/_blob/")).resolve(s"${url}").toString()
         link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
       } else {
-        var plusPath = "/"
-        if (pathElems.length > 6)
-        {
-            plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
-        }
         val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/raw/${branch}${plusPath}")).resolve(s"${url}").toString()
         link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
       }
     } else {
-      if (pathElems.length > 3 && pathElems(3).equals("blob")) {
-        link.withStatus(LinkStatus.VALID).withUrl(url)
-      } else if (pathElems.length > 3 && pathElems(3).equals("wiki")) {
-        if (pathElems.length == 4) {
-          link.withStatus(LinkStatus.VALID).withUrl(baseUrl + currentPath + "/" + url)
-        } else {
-          link.withStatus(LinkStatus.VALID).withUrl(url)
-        }
-      } else if (pathElems.length > 3 && pathElems(3).equals("tree")) {
-        pathElems(3) = "blob"
-        link.withStatus(LinkStatus.VALID).withUrl(baseUrl + pathElems.mkString("/") + "/" + url)
-      } else if (pathElems.length > 3 && pathElems(3).equals("_preview")) {
-        val referer = MarkdownEnhancedRenderer.REFERER.get(context.getOptions())
-        currentPath = referer.substring(baseUrl.length())
-        var branch = "main"
-        logger.info(s"CurrentPath: ${currentPath}")
-        if (pathElems.length > 4) {
-          branch = pathElems(4)
-        }
-        link
-          .withStatus(LinkStatus.VALID)
-          .withUrl(baseUrl + currentPath.replace("/_preview", s"/blob/${branch}") + "/" + url)
+      if (pathElems.length > 3 && func == "wiki") {
+        val wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
+        link.withStatus(LinkStatus.VALID).withUrl(wikiUrl)
       } else {
-        link.withStatus(LinkStatus.VALID).withUrl(baseUrl + currentPath + "/blob/main/" + url)
+        val blobUrl =
+          (new URI(s"${baseUrl}/${user}/${repo}/${func}/${branch}${plusPath}")).resolve(s"${url}").toString()
+        link.withStatus(LinkStatus.VALID).withUrl(blobUrl)
       }
     }
   }
