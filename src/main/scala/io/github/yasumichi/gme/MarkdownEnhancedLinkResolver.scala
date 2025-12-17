@@ -6,6 +6,7 @@ import com.vladsch.flexmark.html.LinkResolverFactory
 import com.vladsch.flexmark.html.renderer.{LinkStatus, LinkResolverBasicContext, ResolvedLink}
 import com.vladsch.flexmark.util.ast.Node
 import java.{util => ju}
+import java.net.URI;
 
 import org.slf4j.LoggerFactory
 
@@ -34,16 +35,6 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
     */
   override def resolveLink(node: Node, context: LinkResolverBasicContext, link: ResolvedLink): ResolvedLink = {
     var url = link.getUrl()
-    if (url.startsWith("./")) {
-      url = url.substring(2)
-    }
-    if (url.startsWith("../")) {
-      var up = 0
-      while (url.startsWith("../")) {
-        up += 1
-        url = url.substring(3)
-      }
-    }
     val baseUrl = MarkdownEnhancedRenderer.BASE_URL.get(context.getOptions())
     var currentPath = MarkdownEnhancedRenderer.CURRENT_PATH.get(context.getOptions())
     val pathElems = currentPath.split("/")
@@ -66,10 +57,15 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
         branch = pathElems(4)
       }
       if (func == "wiki") {
-        val imageUrl = s"${baseUrl}/${user}/${repo}/wiki/_blob/${url}"
+        val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/wiki/_blob/")).resolve(s"${url}").toString()
         link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
       } else {
-        val imageUrl = s"${baseUrl}/${user}/${repo}/raw/${branch}/${url}"
+        var plusPath = "/"
+        if (pathElems.length > 6)
+        {
+            plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
+        }
+        val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/raw/${branch}${plusPath}")).resolve(s"${url}").toString()
         link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
       }
     } else {
