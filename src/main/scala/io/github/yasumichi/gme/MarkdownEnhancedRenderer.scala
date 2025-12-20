@@ -28,6 +28,17 @@ import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
   * A renderer for Markdown Enhanced syntax using flexmark-java.
   */
 class MarkdownEnhancedRenderer extends Renderer {
+  /**
+    * Utility method to enable checkboxes
+    */
+  def enableCheckbox(html: Html, enable: Boolean): Html = {
+    if (enable) {
+      val re = "(<input\\s+[^<>]*type=\"checkbox\"\\s+[^<>]*)\\s+disabled[^<>]*>".r
+      Html(re.replaceAllIn(html.toString(), "$1>"))
+    } else {
+      html
+    }
+  }
 
   /**
     * Renders the given Markdown content to HTML.
