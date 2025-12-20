@@ -31,10 +31,10 @@ class MarkdownEnhancedRenderer extends Renderer {
   /**
     * Utility method to enable checkboxes
     */
-  def enableCheckbox(html: Html, enable: Boolean): Html = {
+  def enableCheckbox(html: String, enable: Boolean): String = {
     if (enable) {
       val re = "(<input\\s+[^<>]*type=\"checkbox\"\\s+[^<>]*)\\s+disabled[^<>]*>".r
-      Html(re.replaceAllIn(html.toString(), "$1>"))
+      re.replaceAllIn(html, "$1>")
     } else {
       html
     }
