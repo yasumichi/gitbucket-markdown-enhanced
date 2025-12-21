@@ -115,9 +115,11 @@ Parses and renders [GitLab Flavoured Markdown](https://gitlab.com/gitlab-org/git
 
 #### Katex support
 
-```markdown
+<pre>
+```math
 a^2+b^2=c^2
 ```
+</pre>
 
 to
 
