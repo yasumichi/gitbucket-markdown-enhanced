@@ -67,21 +67,29 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
     if (url.contains("://") || url.startsWith("/") || url.startsWith("\\")) {
       link.withStatus(LinkStatus.VALID).withUrl(url)
     } else if (link.getLinkType() == LinkType.IMAGE || link.getLinkType() == LinkType.IMAGE_REF) {
-      if (func == "wiki") {
-        val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/wiki/_blob/")).resolve(s"${url}").toString()
-        link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
-      } else {
-        val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/raw/${branch}${plusPath}")).resolve(s"${url}").toString()
-        link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
+      try {
+        if (func == "wiki") {
+          val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/wiki/_blob/")).resolve(s"${url}").toString()
+          link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
+        } else {
+          val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/raw/${branch}${plusPath}")).resolve(s"${url}").toString()
+          link.withStatus(LinkStatus.VALID).withUrl(imageUrl)
+        }
+      } catch {
+        case e: Throwable => link.withStatus(LinkStatus.VALID).withUrl(url)
       }
     } else {
-      if (pathElems.length > 3 && func == "wiki") {
-        val wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
-        link.withStatus(LinkStatus.VALID).withUrl(wikiUrl)
-      } else {
-        val blobUrl =
-          (new URI(s"${baseUrl}/${user}/${repo}/${func}/${branch}${plusPath}")).resolve(s"${url}").toString()
-        link.withStatus(LinkStatus.VALID).withUrl(blobUrl)
+      try {
+        if (pathElems.length > 3 && func == "wiki") {
+          val wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
+          link.withStatus(LinkStatus.VALID).withUrl(wikiUrl)
+        } else {
+          val blobUrl =
+            (new URI(s"${baseUrl}/${user}/${repo}/${func}/${branch}${plusPath}")).resolve(s"${url}").toString()
+          link.withStatus(LinkStatus.VALID).withUrl(blobUrl)
+        }
+      } catch {
+        case e: Throwable => link.withStatus(LinkStatus.VALID).withUrl(url)
       }
     }
   }
