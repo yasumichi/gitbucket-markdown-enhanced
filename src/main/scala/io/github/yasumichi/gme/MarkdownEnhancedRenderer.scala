@@ -28,6 +28,7 @@ import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
   * A renderer for Markdown Enhanced syntax using flexmark-java.
   */
 class MarkdownEnhancedRenderer extends Renderer {
+
   /**
     * Utility method to enable checkboxes
     */
@@ -48,7 +49,7 @@ class MarkdownEnhancedRenderer extends Renderer {
     */
   def render(request: RenderRequest): Html = {
     import request._
-    Html(toHtml(fileContent)(context))
+    Html(enableCheckbox(toHtml(fileContent)(context), true))
   }
 
   def shutdown(): Unit = {}
