@@ -64,9 +64,7 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
       plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
     }
 
-    if (url.contains("://")) {
-      link.withStatus(LinkStatus.VALID).withUrl(url)
-    } else if (url.startsWith("/")) {
+    if (url.contains("://") || url.startsWith("/") || url.startsWith("\\")) {
       link.withStatus(LinkStatus.VALID).withUrl(url)
     } else if (link.getLinkType() == LinkType.IMAGE || link.getLinkType() == LinkType.IMAGE_REF) {
       if (func == "wiki") {
