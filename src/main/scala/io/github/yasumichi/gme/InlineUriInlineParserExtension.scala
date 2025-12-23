@@ -1,11 +1,15 @@
 package io.github.yasumichi.gme
 
+import com.vladsch.flexmark.ast.Text
 import com.vladsch.flexmark.parser.{
   InlineParser,
   InlineParserExtension,
   InlineParserExtensionFactory,
   LightInlineParser
 }
+import com.vladsch.flexmark.util.ast.ContentNode
+import com.vladsch.flexmark.util.sequence.BasedSequence
+
 import java.util
 import java.util.regex.Pattern
 
@@ -26,9 +30,13 @@ class InlineUriInlineParserExtension() extends InlineParserExtension {
     val index = inlineParser.getIndex
 
     // Define a regex pattern to match inline URIs
-    val pattern = """(^|[^\("]+)(http)(s?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)"""
+    val pattern = """(^|[^\("\{])(http)(s?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)"""
     val matches = inlineParser.matchWithGroups(Pattern.compile(pattern))
     if (matches != null) {
+      if ((index > 0 && input.charAt(index - 1) == '{') || (index > 0 && input.charAt(index - 1) == '(') || (index > 0 && input.charAt(index - 1) == '"')) {
+        inlineParser.appendNode(new Text(matches(0)))
+        return false
+      }
       inlineParser.flushTextNode()
       val openingMarker = matches(2)
       val text = matches(3)
