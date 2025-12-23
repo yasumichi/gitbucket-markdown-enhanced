@@ -43,7 +43,31 @@
             });
 
             observer.observe(preview, config);
+        } else if (document.location.toString().includes("/issues/") ||
+                   document.location.toString().includes("/pull/")  ||
+                   (document.location.toString().includes("/wiki/") && document.location.toString().includes("/_edit"))) {
+            const config = { attributes: false, childList: true, subtree: true };
+
+            const observer = new MutationObserver(async(mutations) => {
+                let found = false
+                mutations.forEach(async (mutation) => {
+                    if (mutation.type == "childList") {
+                        found = true;
+                    }
+                });
+                if (found) {
+                    observer.disconnect();
+                    renderKatex();
+                    await mermaid.run();
+                    WaveDrom.ProcessAll();
+                    updateCellStyle();
+                    observer.observe(document.body, config);
+                }
+            });
+
+            observer.observe(document.body, config);
         }
+
         renderKatex();
         WaveDrom.ProcessAll();
         updateCellStyle();
