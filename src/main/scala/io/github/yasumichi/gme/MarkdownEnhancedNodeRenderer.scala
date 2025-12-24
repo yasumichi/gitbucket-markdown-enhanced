@@ -19,6 +19,7 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
 
 import org.slf4j.LoggerFactory
 import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.sequence.Escaping
 
 /**
   * Enhanced Node Renderer for Markdown processing.
@@ -214,7 +215,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       .withAttr()
       .attr("class", s"prettyprint lang-${language}")
       .tag("pre")
-    html.rawIndentedPre(node.getContentChars().toString())
+    html.rawIndentedPre(Escaping.escapeHtml(node.getContentChars(), false))
     html.tag("/pre")
   }
 
