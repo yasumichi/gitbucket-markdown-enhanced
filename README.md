@@ -198,6 +198,23 @@ to
 
 Enables wiki links `[[page reference]]`.
 
+## KaTeX support(same syntax of Markdown Preview Enhanced)
+
+### inline
+
+- <code>$a^2+b^2=c^2$</code> to $a^2+b^2=c^2$
+- <code>\(a^2+b^2=c^2\)</code> to \(a^2+b^2=c^2\)
+
+### block
+
+```
+\[a^2+b^2=c^2\]
+```
+
+to
+
+\[a^2+b^2=c^2\]
+
 ## Diagrams
 
 mermaid can be rendered using the flexmark-java GitLab extension. explained above. 
