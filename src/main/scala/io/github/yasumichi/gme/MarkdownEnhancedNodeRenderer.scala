@@ -31,6 +31,7 @@ import com.vladsch.flexmark.util.sequence.Escaping
   */
 class MarkdownEnhancedNodeRenderer extends NodeRenderer {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedNodeRenderer])
+  private var vegaId: Int = 1;
 
   /**
   * Gets the set of node rendering handlers for custom nodes.
@@ -287,6 +288,13 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     html.tag("/a")
   }
 
+  /**
+    * Renders an inline KaTeX node
+    *
+    * @param node inline KaTex node
+    * @param context NodeRendererContext for rendering context.
+    * @param html HtmlWriter to write the output.
+    */
   private def renderInlineKatex(
       node: InlineKatex,
       context: NodeRendererContext,
