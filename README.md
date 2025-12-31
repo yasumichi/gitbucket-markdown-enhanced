@@ -38,7 +38,7 @@ However, the included libraries are subject to their own licenses.
   - [x] [PlantUML](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=plantuml)(0.3.0)
   - [x] [WaveDrom](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=wavedrom)(0.5.0)
   - [x] [GraphViz](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=graphviz)(0.5.1)
-  - [x] [Vega and Vega-lite](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=vega-and-vega-lite)(yaml is not supported)
+  - [x] [Vega and Vega-lite](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=vega-and-vega-lite)(0.6.0)(yaml is not supported)
   - [ ] [Kroki](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=kroki)
 - [x] [Table of Contents](https://shd101wyy.github.io/markdown-preview-enhanced/#/toc)(Sidebar not supported)
 - [ ] [File Imports](https://shd101wyy.github.io/markdown-preview-enhanced/#/file-imports)
