@@ -23,6 +23,24 @@
         });
     };
 
+    var renderVega = function() {
+        return new Promise((resolve, reject) => {
+            let vegaList = document.querySelectorAll('.vega');
+            vegaList.forEach((node, index) => {
+                let vegaId = node.getAttribute('data-target');
+                try {
+                    let vegaData = JSON.parse(node.textContent);
+                    vegaEmbed(vegaId, vegaData);
+                } catch (error) {
+                    let node = document.querySelector(vegaId)
+                    if (node) {
+                        node.textContent = error.message;
+                    }
+                }
+            });
+            resolve();
+        });
+    }
 
     document.addEventListener("DOMContentLoaded", function(){
         var preview = document.querySelector("#preview");
@@ -61,6 +79,7 @@
                     await mermaid.run();
                     WaveDrom.ProcessAll();
                     updateCellStyle();
+                    renderVega();
                     observer.observe(document.body, config);
                 }
             });
@@ -70,6 +89,7 @@
 
         renderKatex();
         WaveDrom.ProcessAll();
+        renderVega();
         updateCellStyle();
     });
 })();

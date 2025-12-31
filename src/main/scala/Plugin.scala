@@ -111,6 +111,12 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |</script>
       |<script src="${jsPath}/wavedrom/wavedrom.min.js" type="text/javascript">
       |</script>
+      |<script src="${jsPath}/vega/vega-6.2.0.js" type="text/javascript">
+      |</script>
+      |<script src="${jsPath}/vega/vega-lite-6.4.1.js" type="text/javascript">
+      |</script>
+      |<script src="${jsPath}/vega/vega-embed-7.0.2.js" type="text/javascript">
+      |</script>
       |<script src="${jsPath}/gme.js" type="text/javascript">
       |""".stripMargin)
   }

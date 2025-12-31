@@ -101,6 +101,8 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       renderDot(html, node, info)
     } else if (language.equals("math") || language.equals("mermaid")) {
       context.delegateRender()
+    } else if (language.equals("vega") || language.equals("vega-lite")) {
+      renderVega(html, node, context, language.toString())
     } else {
       renderPrittyPrint(html, node, context, language.toString())
     }
@@ -196,6 +198,28 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       .attr("type", "WaveDrom")
       .tag("script")
     html.append(text)
+    html.tag("/script")
+  }
+
+  /**
+    * Renders vega and vega-lite blocks
+    *
+    * @param html
+    * @param node
+    * @param context
+    * @param language
+    */
+  private def renderVega(
+      html: HtmlWriter,
+      node: FencedCodeBlock,
+      context: NodeRendererContext,
+      language: String
+  ): Unit = {
+    html.withAttr().attr("id", s"vega-${vegaId}").tag("div")
+    html.tag("/div")
+    html.withAttr().attr("type", language).attr("class", "vega").attr("data-target", s"#vega-${vegaId}").tag("script")
+    vegaId = vegaId + 1;
+    html.rawIndentedPre(node.getContentChars())
     html.tag("/script")
   }
 
