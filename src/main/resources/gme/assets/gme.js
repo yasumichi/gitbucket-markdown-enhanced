@@ -54,6 +54,7 @@
                         renderKatex();
                         await mermaid.run();
                         WaveDrom.ProcessAll();
+                        renderVega();
                         updateCellStyle();
                         observer.observe(preview, config);
                     }
@@ -78,8 +79,8 @@
                     renderKatex();
                     await mermaid.run();
                     WaveDrom.ProcessAll();
-                    updateCellStyle();
                     renderVega();
+                    updateCellStyle();
                     observer.observe(document.body, config);
                 }
             });
