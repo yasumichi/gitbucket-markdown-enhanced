@@ -4,6 +4,18 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
 [TOC]
 
+## License
+
+This plugin is licensed under the MIT license.
+
+However, the included libraries are subject to their own licenses.
+
+- [flexmark-java](https://github.com/vsch/flexmark-java) -  [BSD-2-Clause license](https://raw.githubusercontent.com/vsch/flexmark-java/refs/heads/master/LICENSE.txt)
+- [KaTeX](https://github.com/KaTeX/KaTeX) - [MIT license](https://raw.githubusercontent.com/KaTeX/KaTeX/refs/heads/main/LICENSE)
+- [mermaid](https://github.com/mermaid-js/mermaid) - [MIT license](https://raw.githubusercontent.com/mermaid-js/mermaid/refs/heads/develop/LICENSE)
+- [vega](https://github.com/vega/vega), [vega-lite](https://github.com/vega/vega-lite) and [vega-embed](https://github.com/vega/vega-embed) - [BSD-3-Clause license](https://raw.githubusercontent.com/vega/vega/refs/heads/main/LICENSE)
+- [wavedrom](https://github.com/wavedrom/wavedrom) - [MIT license](https://raw.githubusercontent.com/wavedrom/wavedrom/refs/heads/trunk/LICENSE)
+
 ## The goal
 
 [Visual Studio Code](https://code.visualstudio.com/) extension [Markdown Preview Enhanced](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
