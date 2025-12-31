@@ -209,7 +209,7 @@ Enables wiki links `[[page reference]]`.
 
 to
 
-\[a^2+b^2=c^2\]
+![](images/katex-block.png)
 
 ## Diagrams
 
