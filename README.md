@@ -27,7 +27,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
   - [x] [GraphViz](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=graphviz)(0.5.1)
   - [x] [Vega and Vega-lite](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=vega-and-vega-lite)(0.6.0)(yaml is not supported)
   - [ ] [Kroki](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=kroki)
-- [x] [Table of Contents](https://shd101wyy.github.io/markdown-preview-enhanced/#/toc)(Sidebar not supported)
+- [x] [Table of Contents](https://shd101wyy.github.io/markdown-preview-enhanced/#/toc)
 - [ ] [File Imports](https://shd101wyy.github.io/markdown-preview-enhanced/#/file-imports)
 - [ ] [Code Chunk](https://shd101wyy.github.io/markdown-preview-enhanced/#/code-chunk)
 - [ ] [Presentation](https://shd101wyy.github.io/markdown-preview-enhanced/#/presentation)
@@ -176,6 +176,10 @@ to
 `[TOC]` create table of contents.
 
 ![](images/toc.png)
+
+You click `Table of contents` to closel table of contents.
+
+![](images/closed_toc.png)
 
 ### WikiLinkExtension
 
