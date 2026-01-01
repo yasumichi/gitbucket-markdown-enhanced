@@ -84,6 +84,7 @@ class MarkdownEnhancedRenderer extends Renderer {
       EmojiExtension.USE_IMAGE_TYPE,
       EmojiImageType.UNICODE_FALLBACK_TO_IMAGE
     )
+    options.set(TocExtension.LIST_CLASS, "toc")
 
     // Determine current path for GitHub Issues links
     val pathElems = context.currentPath.split("/")
