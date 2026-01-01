@@ -11,6 +11,40 @@
         });
     };
 
+    var updateTocStyle = function() {
+        const toc = document.querySelector('.toc');
+        if (toc) {
+            const parent = toc.parentElement;
+            const details = document.createElement('details');
+            const summary = document.createElement('summary')
+            toc.style.height = `${document.documentElement.clientHeight * 0.7}px`
+            toc.style.overflowY = "scroll";
+            details.classList.add("toc-wrapper");
+            details.open = true;
+            summary.textContent = "Table of contents"
+            summary.classList.add("toc-summary");
+            parent.insertBefore(details, toc);
+            details.appendChild(summary);
+            details.appendChild(toc);
+            var parentY = parent.getClientRects()[0].y;
+            details.style.position = "fixed";
+            details.style.right = "20px";
+            if (parentY > 0) {
+                details.style.top = `${Math.floor(parentY)+2}px`;
+            } else {
+                details.style.top = "0px";
+            }
+            document.addEventListener("scrollend", (event) => {
+                var parentY = parent.getClientRects()[0].y;
+                if (parentY > 0) {
+                    details.style.top = `${Math.floor(parentY)+2}px`;
+                } else {
+                    details.style.top = "0px";
+                }
+            });
+        }
+    }
+
     var renderKatex = function() {
         var mathElems = document.getElementsByClassName("katex");
         var elems = [];
@@ -92,5 +126,6 @@
         WaveDrom.ProcessAll();
         renderVega();
         updateCellStyle();
+        updateTocStyle();
     });
 })();

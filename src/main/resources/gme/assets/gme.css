@@ -7,6 +7,18 @@
     text-decoration: underline;
 }
 
+.toc {
+    background-color: white;
+}
+
+.toc-wrapper {
+    border: black 1px solid;
+}
+
+.toc-summary {
+    text-align: right;
+}
+
 mark {
     background-color: #fffd54;
     padding: 0;
