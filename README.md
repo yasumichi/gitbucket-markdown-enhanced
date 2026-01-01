@@ -4,6 +4,19 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
 [TOC]
 
+## Install
+
+- download  gitbucket-markdown-enhanced-{plugin-version}.jar from [Releases](https://github.com/yasumichi/gitbucket-markdown-enhanced/releases)
+- Place the downloaded file in ~/.gitbucket/plugins.
+
+## Build from source
+
+```
+sbt assembly
+```
+
+This makes the assembly package target/scala-2.13/gitbucket-markdown-enhanced-{plugin-version}.jar for deployment.
+
 ## License
 
 This plugin is licensed under the MIT license.
