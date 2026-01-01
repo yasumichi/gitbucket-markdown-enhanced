@@ -17,8 +17,10 @@
             const parent = toc.parentElement;
             const details = document.createElement('details');
             const summary = document.createElement('summary')
-            toc.style.height = `${document.documentElement.clientHeight * 0.7}px`
-            toc.style.overflowY = "scroll";
+            if (!document.location.toString().includes("/wiki/")) {
+                toc.style.height = `${document.documentElement.clientHeight * 0.7}px`
+                toc.style.overflowY = "scroll";
+            }
             details.classList.add("toc-wrapper");
             details.open = true;
             summary.textContent = "Table of contents"
@@ -28,7 +30,11 @@
             details.appendChild(toc);
             var parentY = parent.getClientRects()[0].y;
             details.style.position = "fixed";
-            details.style.right = "20px";
+            if (document.location.toString().includes("/wiki/")) {
+                details.style.right = "270px";
+            } else {
+                details.style.right = "20px";
+            }
             if (parentY > 0) {
                 details.style.top = `${Math.floor(parentY)+2}px`;
             } else {
@@ -90,6 +96,7 @@
                         WaveDrom.ProcessAll();
                         renderVega();
                         updateCellStyle();
+                        updateTocStyle();
                         observer.observe(preview, config);
                     }
                 });
@@ -126,6 +133,8 @@
         WaveDrom.ProcessAll();
         renderVega();
         updateCellStyle();
-        updateTocStyle();
+        if (!document.location.toString().includes("/issues/") && !document.location.toString().includes("/pull/")) {
+            updateTocStyle();
+        }
     });
 })();
