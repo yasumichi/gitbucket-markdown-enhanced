@@ -4,32 +4,6 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
 [TOC]
 
-## Install
-
-- download  gitbucket-markdown-enhanced-{plugin-version}.jar from [Releases](https://github.com/yasumichi/gitbucket-markdown-enhanced/releases)
-- Place the downloaded file in ~/.gitbucket/plugins.
-
-## Build from source
-
-```
-sbt assembly
-```
-
-This makes the assembly package target/scala-2.13/gitbucket-markdown-enhanced-{plugin-version}.jar for deployment.
-
-## License
-
-This plugin is licensed under the MIT license.
-
-However, the included libraries are subject to their own licenses.
-
-- [flexmark-java](https://github.com/vsch/flexmark-java) -  [BSD-2-Clause license](https://raw.githubusercontent.com/vsch/flexmark-java/refs/heads/master/LICENSE.txt)
-- [KaTeX](https://github.com/KaTeX/KaTeX) - [MIT license](https://raw.githubusercontent.com/KaTeX/KaTeX/refs/heads/main/LICENSE)
-- [mermaid](https://github.com/mermaid-js/mermaid) - [MIT license](https://raw.githubusercontent.com/mermaid-js/mermaid/refs/heads/develop/LICENSE)
-- [plantuml-mit](https://github.com/plantuml/plantuml-mit) - [MIT License](https://raw.githubusercontent.com/plantuml/plantuml-mit/refs/heads/master/LICENSE)
-- [vega](https://github.com/vega/vega), [vega-lite](https://github.com/vega/vega-lite) and [vega-embed](https://github.com/vega/vega-embed) - [BSD-3-Clause license](https://raw.githubusercontent.com/vega/vega/refs/heads/main/LICENSE)
-- [wavedrom](https://github.com/wavedrom/wavedrom) - [MIT license](https://raw.githubusercontent.com/wavedrom/wavedrom/refs/heads/trunk/LICENSE)
-
 ## The goal
 
 [Visual Studio Code](https://code.visualstudio.com/) extension [Markdown Preview Enhanced](https://shd101wyy.github.io/markdown-preview-enhanced/#/)
@@ -437,3 +411,29 @@ to
 to
 
 ![](images/vega-lite.png)
+
+## Install
+
+- download  gitbucket-markdown-enhanced-{plugin-version}.jar from [Releases](https://github.com/yasumichi/gitbucket-markdown-enhanced/releases)
+- Place the downloaded file in ~/.gitbucket/plugins.
+
+## Build from source
+
+```
+sbt assembly
+```
+
+This makes the assembly package target/scala-2.13/gitbucket-markdown-enhanced-{plugin-version}.jar for deployment.
+
+## License
+
+This plugin is licensed under the MIT license.
+
+However, the included libraries are subject to their own licenses.
+
+- [flexmark-java](https://github.com/vsch/flexmark-java) -  [BSD-2-Clause license](https://raw.githubusercontent.com/vsch/flexmark-java/refs/heads/master/LICENSE.txt)
+- [KaTeX](https://github.com/KaTeX/KaTeX) - [MIT license](https://raw.githubusercontent.com/KaTeX/KaTeX/refs/heads/main/LICENSE)
+- [mermaid](https://github.com/mermaid-js/mermaid) - [MIT license](https://raw.githubusercontent.com/mermaid-js/mermaid/refs/heads/develop/LICENSE)
+- [plantuml-mit](https://github.com/plantuml/plantuml-mit) - [MIT License](https://raw.githubusercontent.com/plantuml/plantuml-mit/refs/heads/master/LICENSE)
+- [vega](https://github.com/vega/vega), [vega-lite](https://github.com/vega/vega-lite) and [vega-embed](https://github.com/vega/vega-embed) - [BSD-3-Clause license](https://raw.githubusercontent.com/vega/vega/refs/heads/main/LICENSE)
+- [wavedrom](https://github.com/wavedrom/wavedrom) - [MIT license](https://raw.githubusercontent.com/wavedrom/wavedrom/refs/heads/trunk/LICENSE)
