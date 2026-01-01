@@ -189,8 +189,17 @@ Enables wiki links `[[page reference]]`.
 
 ### inline
 
-- <code>$a^2+b^2=c^2$</code> to $a^2+b^2=c^2$
-- <code>\(a^2+b^2=c^2\)</code> to ![](images/katex.png)
+<pre>syntax: $a^2+b^2=c^2$</pre>
+
+to
+
+syntax: $a^2+b^2=c^2$
+
+<pre>\(a^2+b^2=c^2\)</pre>
+
+to
+
+![](images/katex.png)
 
 ### block
 
