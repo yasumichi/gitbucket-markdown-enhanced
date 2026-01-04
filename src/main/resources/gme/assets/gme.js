@@ -18,7 +18,7 @@
             const details = document.createElement('details');
             const summary = document.createElement('summary')
             if (!document.location.toString().includes("/wiki/")) {
-                toc.style.height = `${document.documentElement.clientHeight * 0.7}px`
+                toc.style.maxHeight = `${document.documentElement.clientHeight * 0.7}px`
                 toc.style.overflowY = "scroll";
             }
             details.classList.add("toc-wrapper");
