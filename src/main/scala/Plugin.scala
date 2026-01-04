@@ -102,11 +102,11 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     Seq(".*" -> s"""
       |</script>
       |<link rel='stylesheet' href='$jsPath/admonition.css'>
-      |<link rel='stylesheet' href='$jsPath/katex.min.css'>
+      |<link rel='stylesheet' href='$jsPath/katex/katex.min.css'>
       |<link rel='stylesheet' href='$jsPath/gme.css'>
       |<script src="${jsPath}/admonition.js" type="text/javascript">
       |</script>
-      |<script src="${jsPath}/katex.min.js" type="text/javascript">
+      |<script src="${jsPath}/katex/katex.min.js" type="text/javascript">
       |</script>
       |<script src="${jsPath}/mermaid.min.js" type="text/javascript">
       |</script>
