@@ -24,3 +24,7 @@ mark {
     background-color: #fffd54;
     padding: 0;
 }
+
+span.critic.comment {
+    color: #0000bb;
+}

@@ -8,6 +8,8 @@ import com.vladsch.flexmark.util.data.MutableDataHolder
 import io.github.yasumichi.gme.katex.InlineKatexInlineParserExtension
 import io.github.yasumichi.gme.mark.MarkInlineParserExtension
 import io.github.yasumichi.gme.uri.InlineUriInlineParserExtension
+import io.github.yasumichi.gme.critic.CriticMarkupRenderer
+import io.github.yasumichi.gme.critic.CriticMarkupParserExtension
 
 /**
   * Markdown Enhanced Extension for flexmark-java
@@ -23,6 +25,7 @@ class MarkdownEnhancedExtention extends ParserExtension with HtmlRendererExtensi
     parserBuilder.customInlineParserExtensionFactory(new MarkInlineParserExtension.Factory())
     parserBuilder.customInlineParserExtensionFactory(new InlineUriInlineParserExtension.Factory())
     parserBuilder.customInlineParserExtensionFactory(new InlineKatexInlineParserExtension.Factory())
+    parserBuilder.customInlineParserExtensionFactory(new CriticMarkupParserExtension.Factory())
   }
 
   override def parserOptions(options: MutableDataHolder): Unit = {}
@@ -37,6 +40,7 @@ class MarkdownEnhancedExtention extends ParserExtension with HtmlRendererExtensi
   */
   override def extend(htmlRendererBuilder: HtmlRenderer.Builder, rendererType: String): Unit = {
     htmlRendererBuilder.nodeRendererFactory((new MarkdownEnhancedNodeRenderer.Factory()))
+    htmlRendererBuilder.nodeRendererFactory((new CriticMarkupRenderer.Factory()))
     htmlRendererBuilder.linkResolverFactory((new MarkdownEnhancedLinkResolver.Factory()))
   }
 }
