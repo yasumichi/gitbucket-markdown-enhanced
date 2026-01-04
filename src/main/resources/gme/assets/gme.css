@@ -32,3 +32,9 @@ span.critic.comment {
 .markdown-body pre.prettyprint {
     border: 1px #000000 solid !important;
 }
+
+.codeblock-wrapper .filename {
+    border: 1px #000000 solid !important;
+    padding-left: 1em;
+    padding-right: 1em;
+}

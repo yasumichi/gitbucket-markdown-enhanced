@@ -23,6 +23,7 @@ import com.vladsch.flexmark.util.sequence.Escaping
 import io.github.yasumichi.gme.katex.InlineKatex
 import io.github.yasumichi.gme.mark.Mark
 import io.github.yasumichi.gme.uri.InlineUri
+import scala.util.matching.Regex
 
 /**
   * Enhanced Node Renderer for Markdown processing.
@@ -107,7 +108,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     } else if (language.equals("vega") || language.equals("vega-lite")) {
       renderVega(html, node, context, language.toString())
     } else {
-      renderPrittyPrint(html, node, context, language.toString())
+      renderPrittyPrint(html, node, context, info)
     }
   }
 
@@ -237,14 +238,56 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       html: HtmlWriter,
       node: FencedCodeBlock,
       context: NodeRendererContext,
-      language: String
+      info: String
   ): Unit = {
+    val langPattern: Regex = """([^:]+)(:[^\{]*){0,1}(\{[^\}]*\}){0,1}""".r
+    var lang: String = "";
+    var src = "";
+    var addClasses = ""
+    var classList = List("prettyprint")
+
+    langPattern.findFirstMatchIn(info) match {
+      case Some(value) => {
+        lang = s"lang-${value.group(1)}"
+        logger.debug(s"lang:'lang-${value.group(1)}'")
+        if (value.group(2) != null) {
+          src = value.group(2).replace(":", "")
+          logger.debug(s"src: '${src}'")
+        }
+        if (value.group(3) != null) {
+          addClasses = value.group(3).replace("{", "").replace("}", "")
+          logger.debug(s"addClasses:'${addClasses}'")
+        }
+      }
+      case None => {
+        lang = s"lang-${info}"
+      }
+    }
+    classList = classList :+ lang
+    addClasses.split(" ").foreach(cl => {
+      logger.debug(s"class:'${cl}'")
+      if (cl == ".line-numbers") {
+        classList = classList :+ "linenums"
+      } else {
+        classList = classList :+ cl.replace(".", "")
+      }
+    })
+
+    html.withAttr().attr("class", "codeblock-wrapper").tag("div")
+    if (src != "") {
+      html.tag("div")
+      html.withAttr().attr("class", "filename").tag("span")
+      html.append(src)
+      html.tag("/span")
+      html.tag("/div")
+    }
     html
       .withAttr()
-      .attr("class", s"prettyprint lang-${language}")
+      .attr("class", classList.mkString(" "))
       .tag("pre")
     html.rawIndentedPre(Escaping.escapeHtml(node.getContentChars(), false))
     html.tag("/pre")
+    html.tag("/div")
   }
 
   /**
