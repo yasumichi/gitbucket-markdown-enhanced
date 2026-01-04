@@ -108,7 +108,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
       |</script>
       |<script src="${jsPath}/katex/katex.min.js" type="text/javascript">
       |</script>
-      |<script src="${jsPath}/mermaid.min.js" type="text/javascript">
+      |<script src="${jsPath}/mermaid/mermaid.min.js" type="text/javascript">
       |</script>
       |<script src="${jsPath}/wavedrom/default.js" type="text/javascript">
       |</script>
