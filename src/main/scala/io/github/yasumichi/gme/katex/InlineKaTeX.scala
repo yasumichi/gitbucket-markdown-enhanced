@@ -1,4 +1,4 @@
-package io.github.yasumichi.gme
+package io.github.yasumichi.gme.katex
 
 import com.vladsch.flexmark.util.ast.DelimitedNode;
 import com.vladsch.flexmark.util.ast.Node

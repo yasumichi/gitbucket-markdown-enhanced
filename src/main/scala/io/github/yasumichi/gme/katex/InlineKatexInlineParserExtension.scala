@@ -1,4 +1,4 @@
-package io.github.yasumichi.gme
+package io.github.yasumichi.gme.katex
 
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.sequence.BasedSequence
@@ -11,6 +11,7 @@ import com.vladsch.flexmark.parser.{
 import java.util.regex.Pattern
 
 import org.slf4j.LoggerFactory
+import io.github.yasumichi.gme.katex.InlineKatex
 
 /**
   * InlineKatexInlineParserExtension class

@@ -20,6 +20,9 @@ import com.vladsch.flexmark.ext.wikilink.WikiLink
 import org.slf4j.LoggerFactory
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.sequence.Escaping
+import io.github.yasumichi.gme.katex.InlineKatex
+import io.github.yasumichi.gme.mark.Mark
+import io.github.yasumichi.gme.uri.InlineUri
 
 /**
   * Enhanced Node Renderer for Markdown processing.

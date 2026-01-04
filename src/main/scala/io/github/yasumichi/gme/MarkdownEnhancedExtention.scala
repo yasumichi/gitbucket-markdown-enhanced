@@ -5,6 +5,9 @@ import com.vladsch.flexmark.html.HtmlRenderer.HtmlRendererExtension
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.parser.Parser.ParserExtension
 import com.vladsch.flexmark.util.data.MutableDataHolder
+import io.github.yasumichi.gme.katex.InlineKatexInlineParserExtension
+import io.github.yasumichi.gme.mark.MarkInlineParserExtension
+import io.github.yasumichi.gme.uri.InlineUriInlineParserExtension
 
 /**
   * Markdown Enhanced Extension for flexmark-java

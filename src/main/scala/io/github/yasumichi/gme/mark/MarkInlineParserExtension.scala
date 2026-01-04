@@ -1,4 +1,4 @@
-package io.github.yasumichi.gme
+package io.github.yasumichi.gme.mark
 
 import com.vladsch.flexmark.parser.{
   InlineParser,
@@ -8,6 +8,7 @@ import com.vladsch.flexmark.parser.{
 }
 import java.util
 import java.util.regex.Pattern
+import io.github.yasumichi.gme.mark.Mark
 
 /**
   * MarkInlineParserExtension class

@@ -1,4 +1,4 @@
-package io.github.yasumichi.gme
+package io.github.yasumichi.gme.mark
 
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.sequence.BasedSequence

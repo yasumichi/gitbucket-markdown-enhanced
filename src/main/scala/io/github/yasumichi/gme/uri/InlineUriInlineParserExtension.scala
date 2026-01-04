@@ -1,4 +1,4 @@
-package io.github.yasumichi.gme
+package io.github.yasumichi.gme.uri
 
 import com.vladsch.flexmark.ast.Text
 import com.vladsch.flexmark.parser.{
@@ -12,6 +12,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequence
 
 import java.util
 import java.util.regex.Pattern
+import io.github.yasumichi.gme.uri.InlineUri
 
 /**
   * InlineUriInlineParserExtension class
