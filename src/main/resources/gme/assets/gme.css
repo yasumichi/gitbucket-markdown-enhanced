@@ -28,3 +28,7 @@ mark {
 span.critic.comment {
     color: #0000bb;
 }
+
+.markdown-body pre.prettyprint {
+    border: 1px #000000 solid !important;
+}
