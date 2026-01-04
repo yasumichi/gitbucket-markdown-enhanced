@@ -10,7 +10,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
 - [x] [Basic Syntax](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=syntax-guide)
 - [Extended syntax](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=extended-syntax)
-  - [x] [Table](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=table)(enableExtendedTableSyntax is not yet supported)
+  - [ ] [Table](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=table)
   - [x] [Emoji & Font-Awesome](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=emoji-amp-font-awesome)(Emoji only)
   - [x] [Superscript](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=superscript)(0.1.1)
   - [x] [Subscript](https://shd101wyy.github.io/markdown-preview-enhanced/#/markdown-basics?id=subscript)(0.1.1)
