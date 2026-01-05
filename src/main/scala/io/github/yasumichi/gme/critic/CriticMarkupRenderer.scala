@@ -19,7 +19,7 @@ class CriticMarkupRenderer extends NodeRenderer {
     set.add(new NodeRenderingHandler[CriticSubstitutions](classOf[CriticSubstitutions], this.renderCriticSubstitutions))
     set
   }
-    
+
   private def renderCriticAdditions(node: CriticAdditions, context: NodeRendererContext, html: HtmlWriter): Unit = {
     html.tag("ins")
     html.append(node.getText())
@@ -38,13 +38,21 @@ class CriticMarkupRenderer extends NodeRenderer {
     html.tag("/del")
   }
 
-  private def renderCriticHighlighting(node: CriticHighlighting, context: NodeRendererContext, html: HtmlWriter): Unit = {
+  private def renderCriticHighlighting(
+      node: CriticHighlighting,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
     html.tag("mark")
     html.append(node.getText())
     html.tag("/mark")
   }
 
-  private def renderCriticSubstitutions(node: CriticSubstitutions, context: NodeRendererContext, html: HtmlWriter): Unit = {
+  private def renderCriticSubstitutions(
+      node: CriticSubstitutions,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
     html.tag("del")
     html.append(node.getText())
     html.tag("/del")
@@ -55,7 +63,7 @@ class CriticMarkupRenderer extends NodeRenderer {
 }
 
 object CriticMarkupRenderer {
-    class Factory() extends NodeRendererFactory {
-      override def apply(options: DataHolder): NodeRenderer = new CriticMarkupRenderer()
-    }
+  class Factory() extends NodeRendererFactory {
+    override def apply(options: DataHolder): NodeRenderer = new CriticMarkupRenderer()
+  }
 }

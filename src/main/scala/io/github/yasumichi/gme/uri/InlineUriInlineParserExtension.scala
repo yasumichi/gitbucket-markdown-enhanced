@@ -34,7 +34,11 @@ class InlineUriInlineParserExtension() extends InlineParserExtension {
     val pattern = """(^|[^\("\{])(http)(s?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)"""
     val matches = inlineParser.matchWithGroups(Pattern.compile(pattern))
     if (matches != null) {
-      if ((index > 0 && input.charAt(index - 1) == '{') || (index > 0 && input.charAt(index - 1) == '(') || (index > 0 && input.charAt(index - 1) == '"')) {
+      if (
+        (index > 0 && input.charAt(index - 1) == '{') || (index > 0 && input.charAt(
+          index - 1
+        ) == '(') || (index > 0 && input.charAt(index - 1) == '"')
+      ) {
         inlineParser.appendNode(new Text(matches(0)))
         return false
       }

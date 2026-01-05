@@ -264,14 +264,16 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
       }
     }
     classList = classList :+ lang
-    addClasses.split(" ").foreach(cl => {
-      logger.debug(s"class:'${cl}'")
-      if (cl == ".line-numbers") {
-        classList = classList :+ "linenums"
-      } else {
-        classList = classList :+ cl.replace(".", "")
-      }
-    })
+    addClasses
+      .split(" ")
+      .foreach(cl => {
+        logger.debug(s"class:'${cl}'")
+        if (cl == ".line-numbers") {
+          classList = classList :+ "linenums"
+        } else {
+          classList = classList :+ cl.replace(".", "")
+        }
+      })
 
     html.withAttr().attr("class", "codeblock-wrapper").tag("div")
     if (src != "") {

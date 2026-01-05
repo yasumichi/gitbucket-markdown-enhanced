@@ -4,9 +4,13 @@ import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.ast.DelimitedNode
 
-class CriticSubstitutions(var openingMarker: BasedSequence, var preText: BasedSequence, var postText: BasedSequence,var closingMarker: BasedSequence)
-extends Node(openingMarker.baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()))
-with DelimitedNode {
+class CriticSubstitutions(
+    var openingMarker: BasedSequence,
+    var preText: BasedSequence,
+    var postText: BasedSequence,
+    var closingMarker: BasedSequence
+) extends Node(openingMarker.baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()))
+    with DelimitedNode {
 
   override def getOpeningMarker(): BasedSequence = openingMarker
 

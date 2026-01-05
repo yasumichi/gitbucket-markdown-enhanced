@@ -5,8 +5,8 @@ import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.ast.DelimitedNode
 
 class CriticHighlighting(var openingMarker: BasedSequence, var text: BasedSequence, var closingMarker: BasedSequence)
-extends Node(openingMarker.baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()))
-with DelimitedNode {
+    extends Node(openingMarker.baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()))
+    with DelimitedNode {
 
   override def getOpeningMarker(): BasedSequence = openingMarker
 
