@@ -11,6 +11,7 @@ import com.vladsch.flexmark.util.data.DataHolder
 import java.util
 import java.util.BitSet
 import java.util.regex.Pattern
+import com.vladsch.flexmark.util.sequence.BasedSequence
 
 class CriticMarkupParserExtension extends InlineParserExtension {
 
@@ -20,41 +21,23 @@ class CriticMarkupParserExtension extends InlineParserExtension {
 
   override def parse(inlineParser: LightInlineParser): Boolean = {
     val input = inlineParser.getInput()
-    val additionMatcher = inlineParser.matcher(Pattern.compile("""\{\+\+([^\+\}]*)\+\+}"""))
-    if (additionMatcher != null) {
+    val patternList = List("""\{\+\+([^\+\}]*)\+\+}""", """\{>>([^>\}]*)<<\}""", """\{--([^-\}]*)--\}""", """\{==([^=}]*)==\}""")
+    val factoryList = List(
+      (openingMarker: BasedSequence, text: BasedSequence, closingMarker: BasedSequence) => new CriticAdditions(openingMarker, text, closingMarker),
+      (openingMarker: BasedSequence, text: BasedSequence, closingMarker: BasedSequence) => new CriticComments(openingMarker, text, closingMarker),
+      (openingMarker: BasedSequence, text: BasedSequence, closingMarker: BasedSequence) => new CriticDeletions(openingMarker, text, closingMarker),
+      (openingMarker: BasedSequence, text: BasedSequence, closingMarker: BasedSequence) => new CriticHighlighting(openingMarker, text, closingMarker)
+    )
+    for ((pattern, index) <- patternList.zipWithIndex) {
+      val matcher = inlineParser.matcher(Pattern.compile(pattern))
+      if (matcher != null) {
         inlineParser.flushTextNode()
-        val criticOpen = input.subSequence(additionMatcher.start(), additionMatcher.start(1))
-        val criticClosed = input.subSequence(additionMatcher.end(1), additionMatcher.end())
-        val criticMarkup = new CriticAdditions(criticOpen, criticOpen.baseSubSequence(criticOpen.getEndOffset(), criticClosed.getStartOffset()), criticClosed)
+        val criticOpen = input.subSequence(matcher.start(), matcher.start(1))
+        val criticClosed = input.subSequence(matcher.end(1), matcher.end())
+        val criticMarkup = factoryList(index)(criticOpen, criticOpen.baseSubSequence(criticOpen.getEndOffset(), criticClosed.getStartOffset()), criticClosed)
         inlineParser.getBlock().appendChild(criticMarkup)
         return true
-    }
-    val commentsMatcher = inlineParser.matcher(Pattern.compile("""\{>>([^>\}]*)<<\}"""))
-    if (commentsMatcher != null) {
-        inlineParser.flushTextNode()
-        val criticOpen = input.subSequence(commentsMatcher.start(), commentsMatcher.start(1))
-        val criticClosed = input.subSequence(commentsMatcher.end(1), commentsMatcher.end())
-        val criticMarkup = new CriticComments(criticOpen, criticOpen.baseSubSequence(criticOpen.getEndOffset(), criticClosed.getStartOffset()), criticClosed)
-        inlineParser.getBlock().appendChild(criticMarkup)
-        return true
-    }
-    val deletionsMatcher = inlineParser.matcher(Pattern.compile("""\{--([^-\}]*)--\}"""))
-    if (deletionsMatcher != null) {
-        inlineParser.flushTextNode()
-        val criticOpen = input.subSequence(deletionsMatcher.start(), deletionsMatcher.start(1))
-        val criticClosed = input.subSequence(deletionsMatcher.end(1), deletionsMatcher.end())
-        val criticMarkup = new CriticDeletions(criticOpen, criticOpen.baseSubSequence(criticOpen.getEndOffset(), criticClosed.getStartOffset()), criticClosed)
-        inlineParser.getBlock().appendChild(criticMarkup)
-        return true
-    }
-    val highlightingMatcher = inlineParser.matcher(Pattern.compile("""\{==([^=}]*)==\}"""))
-    if (highlightingMatcher != null) {
-        inlineParser.flushTextNode()
-        val criticOpen = input.subSequence(highlightingMatcher.start(), highlightingMatcher.start(1))
-        val criticClosed = input.subSequence(highlightingMatcher.end(1), highlightingMatcher.end())
-        val criticMarkup = new CriticHighlighting(criticOpen, criticOpen.baseSubSequence(criticOpen.getEndOffset(), criticClosed.getStartOffset()), criticClosed)
-        inlineParser.getBlock().appendChild(criticMarkup)
-        return true
+      }
     }
     val substitutionsMatcher = inlineParser.matchWithGroups(Pattern.compile("""(\{~~)([^~>}]*)~>([^~>\}]*)(~~\})"""))
     if (substitutionsMatcher != null) {
