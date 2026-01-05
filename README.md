@@ -2,7 +2,30 @@
 
 Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 
-[TOC]
+- [The goal](#the-goal)
+- [Extensions used](#extensions-used)
+  - [AbbreviationExtension](#abbreviationextension)
+  - [AnchorLinkExtension](#anchorlinkextension)
+  - [EmojiExtension](#emojiextension)
+  - [FootnoteExtension](#footnoteextension)
+  - [GfmIssuesExtension](#gfmissuesextension)
+  - [GitLabExtension](#gitlabextension)
+  - [StrikethroughSubscriptExtension](#strikethroughsubscriptextension)
+  - [SuperscriptExtension](#superscriptextension)
+  - [TablesExtension](#tablesextension)
+  - [TaskListExtension](#tasklistextension)
+  - [TocExtension](#tocextension)
+  - [WikiLinkExtension](#wikilinkextension)
+- [KaTeX support(same syntax of Markdown Preview Enhanced)](#katex-supportsame-syntax-of-markdown-preview-enhanced)
+  - [inline](#inline)
+  - [block](#block)
+- [Diagrams](#diagrams)
+  - [PlantUML support (MIT License version)](#plantuml-support-mit-license-version)
+  - [wavedrom support](#wavedrom-support)
+  - [vega and vega-lite support](#vega-and-vega-lite-support)
+- [Install](#install)
+- [Build from source](#build-from-source)
+- [License](#license)
 
 ## The goal
 
