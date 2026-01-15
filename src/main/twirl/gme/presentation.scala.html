@@ -1,0 +1,63 @@
+@(
+	repository: gitbucket.core.service.RepositoryService.RepositoryInfo,
+	id: String,
+	filePath: String
+)(implicit context: gitbucket.core.controller.Context)
+@import context._
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>@filePath</title>
+		<base href="@context.baseUrl/@repository.owner/@repository.name/raw/@id/">
+
+		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/reset.css">
+		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/reveal.css">
+		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div data-test="@id @filePath"></div>
+		<div class="reveal">
+			<div class="slides">
+				<section
+					data-markdown="@context.baseUrl/@repository.owner/@repository.name/raw/@id/@filePath"
+				>
+				<!--
+						Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
+						For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
+					-->
+				</section>
+			</div>
+		</div>
+
+		<script src="@context.baseUrl/plugin-assets/gme/mermaid/mermaid.min.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/marked/marked.min.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/reveal.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/notes/notes.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/markdown/markdown.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/highlight.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/math/math.js"></script>
+		<script>
+			var renderer = new marked.Renderer();
+
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ],
+				markdown: {
+					gfm: true,
+					renderer: renderer
+				}
+			});
+		</script>
+	</body>
+</html>

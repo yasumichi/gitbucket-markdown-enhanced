@@ -10,6 +10,8 @@ import io.github.gitbucket.solidbase.model.Version
 import io.github.yasumichi.gme.MarkdownEnhancedRenderer
 
 import scala.util.Try
+import gitbucket.core.controller.ControllerBase
+import io.github.yasumichi.gme.controller.PresentationController
 
 /**
   * GitBucket Markdown Enhanced Plugin
@@ -130,4 +132,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
   // Asset mappings
   override val assetsMappings = Seq("/gme" -> "/gme/assets")
 
+  override val controllers: Seq[(String, ControllerBase)] = Seq(
+    "/*" -> new PresentationController()
+  )
 }
