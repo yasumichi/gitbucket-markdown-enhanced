@@ -84,6 +84,11 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
           val wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
           link.withStatus(LinkStatus.VALID).withUrl(wikiUrl)
         } else {
+          if (url.endsWith("/")) {
+            func = "tree"
+          } else {
+            func = "blob"
+          }
           val blobUrl =
             (new URI(s"${baseUrl}/${user}/${repo}/${func}/${branch}${plusPath}")).resolve(s"${url}").toString()
           link.withStatus(LinkStatus.VALID).withUrl(blobUrl)
