@@ -129,6 +129,22 @@
             observer.observe(document.body, config);
         }
 
+        var btnGroup = document.querySelector('.box-header .btn-group');
+        if (btnGroup) {
+            var anchor = document.createElement("a");
+            anchor.className = "btn btn-sm";
+            anchor.target = "_blank";
+            if (document.location.toString().includes("/blob/")) {
+                anchor.href = document.location.toString().replace("/blob/", "/presentation/");
+            } else if (!document.location.toString().includes("/tree/")) {
+                anchor.href = document.location.toString() + "presentation/main/README.md";
+            }
+            var icon = document.createElement("i");
+            icon.className = "oction octicon-zap";
+            anchor.appendChild(icon);
+            btnGroup.appendChild(anchor);
+        }
+
         renderKatex();
         WaveDrom.ProcessAll();
         renderVega();
