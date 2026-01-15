@@ -11,7 +11,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<title>@filePath</title>
-		<base href="@context.baseUrl/@repository.owner/@repository.name/raw/@id/">
 
 		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/reset.css">
 		<link rel="stylesheet" href="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/reveal.css">
@@ -43,7 +42,29 @@
 		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/highlight.js"></script>
 		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/math/math.js"></script>
 		<script>
+			mermaid.initialize({ startOnLoad: false });
 			var renderer = new marked.Renderer();
+
+			renderer.code = (code, language) => {
+				var html = "";
+
+				switch (language) {
+					case "mermaid":
+						html = '<pre class="mermaid">' + code + '</pre>';
+						break;
+					default:
+						var outlang = language;
+						if (language.includes(":") ) {
+							outlang = language.split(":")[0];
+						}
+						
+						html = `<div class="my-custom-code-block ${outlang ? `lang-${outlang}` : ''}">
+							<pre><code class="my-code-snippet">${code}</code></pre>
+							</div>`;
+				}
+
+				return html;
+			};
 
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
