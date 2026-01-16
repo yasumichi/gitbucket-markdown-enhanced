@@ -1,14 +1,13 @@
 (function () {
     mermaid.initialize({ startOnLoad: false });
     var renderer = new marked.Renderer();
-    var mid = 1;
 
     renderer.code = (code, language) => {
         var html = "";
 
         switch (language) {
             case "mermaid":
-                html = `<div class="mermaid" id="mermaid-${mid}">` + code + '</div>';
+                html = '<div class="mermaid">' + code + '</div>';
                 break;
             default:
                 var outlang = language;
@@ -27,16 +26,20 @@
     const processMermaid = function (currentSlide) {
         let nodes = currentSlide.querySelectorAll('.mermaid');
         if (nodes.length > 0) {
-            mermaid.run({nodes: nodes});
+            mermaid.run({nodes: nodes}).then(() => Reveal.layout());
         }
     };
 
+    const processCurrentSlide = (currentSlide) => {
+        processMermaid(currentSlide);
+    };
+
     const slidechanged = function (e) {
-        processMermaid(e.currentSlide);
+        processCurrentSlide(e.currentSlide);
     };
 
     const revealReady = function (e) {
-        processMermaid(e.currentSlide);
+        processCurrentSlide(e.currentSlide);
         Reveal.on('slidechanged', slidechanged)
     };
 
