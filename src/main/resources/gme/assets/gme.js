@@ -130,7 +130,8 @@
         }
 
         var btnGroup = document.querySelector('.box-header .btn-group');
-        if (btnGroup) {
+        var readme = document.getElementById('readme'); 
+        if (btnGroup && (readme != null || document.location.toString().endsWith('.md'))) {
             var anchor = document.createElement("a");
             anchor.className = "btn btn-sm";
             anchor.target = "_blank";
