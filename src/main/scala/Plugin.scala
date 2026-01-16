@@ -53,7 +53,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.6.2"),
     new Version("0.7.0"),
     new Version("0.8.0"),
-    new Version("0.8.1")
+    new Version("0.8.1"),
+    new Version("0.9.0")
   )
 
   // Renderer instance
