@@ -23,6 +23,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
   - [PlantUML support (MIT License version)](#plantuml-support-mit-license-version)
   - [wavedrom support](#wavedrom-support)
   - [vega and vega-lite support](#vega-and-vega-lite-support)
+- [Presentation](#presentation)
 - [Install](#install)
 - [Build from source](#build-from-source)
 - [License](#license)
@@ -53,7 +54,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
 - [x] [Table of Contents](https://shd101wyy.github.io/markdown-preview-enhanced/#/toc)
 - [ ] [File Imports](https://shd101wyy.github.io/markdown-preview-enhanced/#/file-imports)
 - [ ] [Code Chunk](https://shd101wyy.github.io/markdown-preview-enhanced/#/code-chunk)
-- [ ] [Presentation](https://shd101wyy.github.io/markdown-preview-enhanced/#/presentation)
+- [x] [Presentation](https://shd101wyy.github.io/markdown-preview-enhanced/#/presentation)(It is experimental and has limited functionality.)
 - [ ] [Pandoc](https://shd101wyy.github.io/markdown-preview-enhanced/#/pandoc)
 
 ## Extensions used
@@ -447,6 +448,71 @@ to
 to
 
 ![](images/vega-lite.png)
+
+## Presentation
+
+It is experimental and has limited functionality.
+
+This feature is provided by [reveal.js](https://revealjs.com/).
+
+You can view the presentation by clicking the icon ![](images/octicon-zap.png) in the top right corner of the file viewer.
+
+Currently, the following notations can be converted:
+
+- mermaid
+- wavedrom
+
+Let's say the file contents are the following markdown:
+
+<pre>
+### GitBucket Markdown Enhanced Plugin
+
+### Presentation function
+
+---
+
+## mermaid
+
+```mermaid
+graph TD;
+  A-->B;
+  A-->C;
+  B-->D;
+  C-->D;
+```
+
+---
+
+## WaveDrom
+
+```wavedrom
+{ signal : [
+  { name: "clk",  wave: "p......" },
+  { name: "bus",  wave: "x.34.5x",   data: "head body tail" },
+  { name: "wire", wave: "0.1..0." },
+]}
+```
+
+---
+
+## code block
+
+```js
+function add(x, y) {
+  return x + y;
+}
+```
+</pre>
+
+In the above case, the following slide will be displayed:
+
+![](images/slide1.png)
+
+![](images/slide2.png)
+
+![](images/slide3.png)
+
+![](images/slide4.png)
 
 ## Install
 
