@@ -9,6 +9,9 @@
             case "mermaid":
                 html = '<div class="mermaid">' + code + '</div>';
                 break;
+            case "wavedrom":
+                html = '<script type="wavedrom">' + code + '</script>';
+                break;
             default:
                 var outlang = language;
                 if (language.includes(":") ) {
@@ -39,6 +42,7 @@
     };
 
     const revealReady = function (e) {
+        WaveDrom.ProcessAll();
         processCurrentSlide(e.currentSlide);
         Reveal.on('slidechanged', slidechanged)
     };
