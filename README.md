@@ -457,6 +457,8 @@ This feature is provided by [reveal.js](https://revealjs.com/).
 
 You can view the presentation by clicking the icon ![](images/octicon-zap.png) in the top right corner of the file viewer.
 
+Slide separators must be clearly indicated with `---`.
+
 Currently, the following notations can be converted:
 
 - mermaid
