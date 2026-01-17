@@ -56,6 +56,25 @@
         return html;
     };
 
+    renderer.text = (token) => {
+        console.log(token);
+
+        token = token.replaceAll(/~~([^~]+)~~/g, "<del>$1</del>");
+        token = token.replaceAll(/~([^~]+)~/g, "<sub>$1</sub>");
+        token = token.replaceAll(/==([^=]+)==/g, "<mark>$1</mark>");
+        if (!token.includes('$')) {
+            token = token.replaceAll(/\^([^\^]+)\^/g, "<sup>$1</sup>");
+        }
+
+        return token;
+    };
+
+    const tokenizer = new marked.Tokenizer();
+
+    tokenizer.del = (src) => {
+        return false;
+    };
+
     const processRelativePath = function () {
         return new Promise((resolve, reject) => {
             const imgs = document.querySelectorAll('img'); 
@@ -149,7 +168,8 @@
         plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ],
         markdown: {
             gfm: true,
-            renderer: renderer
+            renderer: renderer,
+            tokenizer: tokenizer
         }
     }).then(revealReady);
 })();
