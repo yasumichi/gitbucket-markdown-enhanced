@@ -547,7 +547,9 @@ However, the included libraries are subject to their own licenses.
 
 - [flexmark-java](https://github.com/vsch/flexmark-java) -  [BSD-2-Clause license](https://raw.githubusercontent.com/vsch/flexmark-java/refs/heads/master/LICENSE.txt)
 - [KaTeX](https://github.com/KaTeX/KaTeX) - [MIT license](https://raw.githubusercontent.com/KaTeX/KaTeX/refs/heads/main/LICENSE)
+- [Marked](https://marked.js.org/) - [MIT license](https://raw.githubusercontent.com/markedjs/marked/refs/heads/master/LICENSE.md)
 - [mermaid](https://github.com/mermaid-js/mermaid) - [MIT license](https://raw.githubusercontent.com/mermaid-js/mermaid/refs/heads/develop/LICENSE)
 - [plantuml-mit](https://github.com/plantuml/plantuml-mit) - [MIT License](https://raw.githubusercontent.com/plantuml/plantuml-mit/refs/heads/master/LICENSE)
+- [reveal.js](https://revealjs.com/) - [MIT License](https://raw.githubusercontent.com/hakimel/reveal.js/refs/heads/master/LICENSE)
 - [vega](https://github.com/vega/vega), [vega-lite](https://github.com/vega/vega-lite) and [vega-embed](https://github.com/vega/vega-embed) - [BSD-3-Clause license](https://raw.githubusercontent.com/vega/vega/refs/heads/main/LICENSE)
 - [wavedrom](https://github.com/wavedrom/wavedrom) - [MIT license](https://raw.githubusercontent.com/wavedrom/wavedrom/refs/heads/trunk/LICENSE)
