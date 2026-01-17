@@ -2,16 +2,35 @@
     mermaid.initialize({ startOnLoad: false });
     var renderer = new marked.Renderer();
     var vegaNumber = 1;
+    var pumlNumber = 1;
 
     renderer.code = (code, language) => {
         var html = "";
 
         switch (language) {
+            case "dot":
+                html = `<div id="puml-${pumlNumber}"></div>
+                <script type="plantuml" class="plantuml" data-target="#puml-${pumlNumber}">
+                @startdot
+                ${code}
+                @enddot
+                </script>
+                `;
+                pumlNumber++;
+                break;
+                break;
             case "math":
                 html = '<div>$$' + code + '$$</div>';
                 break;
             case "mermaid":
                 html = '<div class="mermaid">' + code + '</div>';
+                break;
+            case "plantuml":
+            case "puml":
+                html = `<div id="puml-${pumlNumber}"></div>
+                <script type="plantuml" class="plantuml" data-target="#puml-${pumlNumber}">${code}</script>
+                `;
+                pumlNumber++;
                 break;
             case "wavedrom":
                 html = '<script type="wavedrom">' + code + '</script>';
@@ -59,6 +78,31 @@
         }
     };
 
+    const processPlantUML = (content) => {
+        return new Promise((resolve, reject) =>{
+            let pumlList = document.querySelectorAll('.plantuml');
+            pumlList.forEach((node, index) => {
+                let pumlId = node.getAttribute('data-target');
+                let target = document.querySelector(pumlId);
+                const params = new URLSearchParams();
+                params.append("content", node.textContent);
+                const options = {
+                    method: 'POST',
+                    body: params
+                };
+                const res = fetch(pumlUrl, options)
+                    .then(res => {
+                        if (res.ok) {
+                            return res.text();
+                        }
+                    })
+                    .then(data => {
+                        target.innerHTML = data;
+                    });
+            });
+        });
+    };
+
     var renderVega = function() {
         return new Promise((resolve, reject) => {
             let vegaList = document.querySelectorAll('.vega');
@@ -88,6 +132,7 @@
 
     const revealReady = function (e) {
         processRelativePath();
+        processPlantUML();
         WaveDrom.ProcessAll();
         renderVega();
         processCurrentSlide(e.currentSlide);
