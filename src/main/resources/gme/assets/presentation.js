@@ -26,6 +26,21 @@
         return html;
     };
 
+    const processRelativePath = function () {
+        return new Promise((resolve, reject) => {
+            const imgs = document.querySelectorAll('img'); 
+            imgs.forEach((n, i) =>{
+                let src = n.getAttribute('src');
+                if (!src.startsWith('http://') && !src.startsWith("https://") && !src.startsWith("/") && !src.startsWith("#")) {
+                    console.log(relativePathBase);
+                    let url = new URL(encodeURIComponent(src), relativePathBase).href;
+                    n.src = url;
+                }
+            });
+            resolve();
+        });
+    };
+
     const processMermaid = function (currentSlide) {
         let nodes = currentSlide.querySelectorAll('.mermaid');
         if (nodes.length > 0) {
@@ -42,6 +57,7 @@
     };
 
     const revealReady = function (e) {
+        processRelativePath();
         WaveDrom.ProcessAll();
         processCurrentSlide(e.currentSlide);
         Reveal.on('slidechanged', slidechanged)
