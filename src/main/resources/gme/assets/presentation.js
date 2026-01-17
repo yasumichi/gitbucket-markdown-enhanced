@@ -6,6 +6,9 @@
         var html = "";
 
         switch (language) {
+            case "math":
+                html = '<div>$$' + code + '$$</div>';
+                break;
             case "mermaid":
                 html = '<div class="mermaid">' + code + '</div>';
                 break;
