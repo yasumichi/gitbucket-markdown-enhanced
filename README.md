@@ -466,6 +466,7 @@ Currently, the following notations can be converted:
   - Strikethrough
   - Subscript
   - Superscript (Except when KaTeX notation is present in the same paragraph)
+- Math (KaTeX syntax)
 - Diagrams
   - GraphViz
   - PlantUML
