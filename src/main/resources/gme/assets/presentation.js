@@ -1,6 +1,7 @@
 (function () {
     mermaid.initialize({ startOnLoad: false });
     var renderer = new marked.Renderer();
+    var vegaNumber = 1;
 
     renderer.code = (code, language) => {
         var html = "";
@@ -14,6 +15,13 @@
                 break;
             case "wavedrom":
                 html = '<script type="wavedrom">' + code + '</script>';
+                break;
+            case "vega":
+            case "vega-lite":
+                html = `<div id="vega-${vegaNumber}"></div>
+                <script type="${language}" class="vega" data-target="#vega-${vegaNumber}">${code}</script>
+                `;
+                vegaNumber++;
                 break;
             default:
                 var outlang = language;
@@ -51,6 +59,25 @@
         }
     };
 
+    var renderVega = function() {
+        return new Promise((resolve, reject) => {
+            let vegaList = document.querySelectorAll('.vega');
+            vegaList.forEach((node, index) => {
+                let vegaId = node.getAttribute('data-target');
+                try {
+                    let vegaData = JSON.parse(node.textContent);
+                    vegaEmbed(vegaId, vegaData);
+                } catch (error) {
+                    let node = document.querySelector(vegaId)
+                    if (node) {
+                        node.textContent = error.message;
+                    }
+                }
+            });
+            resolve();
+        });
+    }
+
     const processCurrentSlide = (currentSlide) => {
         processMermaid(currentSlide);
     };
@@ -62,6 +89,7 @@
     const revealReady = function (e) {
         processRelativePath();
         WaveDrom.ProcessAll();
+        renderVega();
         processCurrentSlide(e.currentSlide);
         Reveal.on('slidechanged', slidechanged)
     };
