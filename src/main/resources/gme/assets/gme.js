@@ -40,7 +40,7 @@
             } else {
                 details.style.top = "0px";
             }
-            document.addEventListener("scrollend", (event) => {
+            document.addEventListener("scroll", (event) => {
                 var parentY = parent.getClientRects()[0].y;
                 if (parentY > 0) {
                     details.style.top = `${Math.floor(parentY)+2}px`;
