@@ -461,8 +461,17 @@ Slide separators must be clearly indicated with `---`.
 
 Currently, the following notations can be converted:
 
-- mermaid
-- wavedrom
+- Inline syntax
+  - Mark
+  - Strikethrough
+  - Subscript
+  - Superscript (Except when KaTeX notation is present in the same paragraph)
+- Diagrams
+  - GraphViz
+  - PlantUML
+  - mermaid
+  - wavedrom
+  - vega and vega-lite
 
 Let's say the file contents are the following markdown:
 
