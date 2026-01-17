@@ -138,7 +138,7 @@
             if (document.location.toString().includes("/blob/")) {
                 anchor.href = document.location.toString().replace("/blob/", "/presentation/");
             } else if (!document.location.toString().includes("/tree/")) {
-                anchor.href = document.location.toString() + "presentation/main/README.md";
+                anchor.href = document.location.toString() + "/presentation/main/README.md";
             }
             var icon = document.createElement("i");
             icon.className = "oction octicon-zap";
