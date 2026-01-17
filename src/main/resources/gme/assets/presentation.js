@@ -154,7 +154,11 @@
         processPlantUML();
         WaveDrom.ProcessAll();
         renderVega();
-        processCurrentSlide(e.currentSlide);
+        if (location.search.includes("print-pdf")) {
+            mermaid.run();
+        } else {
+            processCurrentSlide(e.currentSlide);
+        }
         Reveal.on('slidechanged', slidechanged)
     };
 
