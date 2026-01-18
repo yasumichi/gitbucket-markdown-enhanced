@@ -23,6 +23,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
   - [PlantUML support (MIT License version)](#plantuml-support-mit-license-version)
   - [wavedrom support](#wavedrom-support)
   - [vega and vega-lite support](#vega-and-vega-lite-support)
+  - [Kroki support](#kroki-support)
 - [Presentation](#presentation)
 - [Install](#install)
 - [Build from source](#build-from-source)
@@ -448,6 +449,47 @@ to
 to
 
 ![](images/vega-lite.png)
+
+### Kroki support
+
+<pre>
+```blockdiag {kroki=true}
+blockdiag {
+  Kroki -> generates -> "Block diagrams";
+  Kroki -> is -> "very easy!";
+
+  Kroki [color = "greenyellow"];
+  "Block diagrams" [color = "pink"];
+  "very easy!" [color = "orange"];
+}
+```
+</pre>
+
+to
+
+![](images/kroki-blockdiag.png)
+
+<pre>
+```javascript {kroki="wavedrom"}
+{
+  signal: [
+    { name: "clk", wave: "p.....|..." },
+    {
+      name: "Data",
+      wave: "x.345x|=.x",
+      data: ["head", "body", "tail", "data"],
+    },
+    { name: "Request", wave: "0.1..0|1.0" },
+    {},
+    { name: "Acknowledge", wave: "1.....|01." },
+  ]
+}
+```
+</pre>
+
+to
+
+![](images/kroki-wavedrom.png)
 
 ## Presentation
 
