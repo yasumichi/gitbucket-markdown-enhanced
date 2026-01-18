@@ -129,9 +129,16 @@
             observer.observe(document.body, config);
         }
 
-        var btnGroup = document.querySelector('.box-header .btn-group');
+        // for presentation
         var readme = document.getElementById('readme'); 
-        if (btnGroup && (readme != null || document.location.toString().endsWith('.md'))) {
+        if (readme != null || document.location.toString().endsWith('.md')) {
+            var btnGroup = document.querySelector('.box-header .btn-group');
+            if (btnGroup == null) {
+                const strong = document.querySelector(".box-header .strong");
+                btnGroup = document.createElement("div");
+                btnGroup.className = "btn-group pull-right";
+                strong.appendChild(btnGroup);
+            }
             var anchor = document.createElement("a");
             anchor.className = "btn btn-sm";
             anchor.target = "_blank";
@@ -146,6 +153,7 @@
             btnGroup.appendChild(anchor);
         }
 
+        // for common processing
         renderKatex();
         WaveDrom.ProcessAll();
         renderVega();
