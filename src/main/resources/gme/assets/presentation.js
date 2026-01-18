@@ -3,9 +3,31 @@
     var renderer = new marked.Renderer();
     var vegaNumber = 1;
     var pumlNumber = 1;
+    var krokiNumber = 0;
 
     renderer.code = (code, language) => {
         var html = "";
+        var krokitrue = /(.*)\s*\{.*kroki\s*=\s*true.*\}/;
+        var krokidia = /.*\{.*kroki\s*=\s*"(.*)".*\}/;
+
+        var match = krokitrue.exec(language);
+        if (match) {
+            krokiNumber++;
+            return `<div id="kroki-${krokiNumber}"></div>
+                <script type="kroki" class="kroki" data-type="${match[1].trim()}" data-target="#kroki-${krokiNumber}">
+                ${code}
+                </script>
+            `;
+        }
+        match = krokidia.exec(language);
+        if (match) {
+            krokiNumber++;
+            return `<div id="kroki-${krokiNumber}"></div>
+                <script type="kroki" class="kroki" data-type="${match[1].trim()}" data-target="#kroki-${krokiNumber}">
+                ${code}
+                </script>
+            `;
+        }
 
         switch (language) {
             case "dot":
@@ -17,7 +39,6 @@
                 </script>
                 `;
                 pumlNumber++;
-                break;
                 break;
             case "math":
                 html = '<div>$$' + code + '$$</div>';
@@ -117,8 +138,39 @@
                     })
                     .then(data => {
                         target.innerHTML = data;
+                        Reveal.layout();
                     });
             });
+            resolve();
+        });
+    };
+
+    const processKroki = () => {
+        return new Promise((resolve, reject) =>{
+            let krokiList = document.querySelectorAll('.kroki');
+            krokiList.forEach((node, index) => {
+                let krokiId = node.getAttribute('data-target');
+                let target = document.querySelector(krokiId);
+                const params = new URLSearchParams();
+                params.append("diagram_source", node.textContent);
+                params.append("diagram_type", node.getAttribute('data-type'));
+                params.append("output_format", "svg")
+                const options = {
+                    method: 'POST',
+                    body: params
+                };
+                fetch(krokiUrl, options)
+                    .then(res => {
+                        if (res.ok) {
+                            return res.text();
+                        }
+                    })
+                    .then(data => {
+                        target.innerHTML = data;
+                        Reveal.layout();
+                    });
+            });
+            resolve();
         });
     };
 
@@ -152,6 +204,7 @@
     const revealReady = function (e) {
         processRelativePath();
         processPlantUML();
+        processKroki();
         WaveDrom.ProcessAll();
         renderVega();
         if (location.search.includes("print-pdf")) {

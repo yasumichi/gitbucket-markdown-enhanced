@@ -25,6 +25,16 @@ import io.github.yasumichi.gme.mark.Mark
 import io.github.yasumichi.gme.uri.InlineUri
 import scala.util.matching.Regex
 
+// for kroki support
+import io.github.yasumichi.gme.service.PluginSettingsService
+import io.github.yasumichi.gme.service.PluginSettingsService.KrokiParams
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClients
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.entity.EntityBuilder
+import org.apache.http.entity.ContentType
+import org.apache.http.util.EntityUtils
+
 /**
   * Enhanced Node Renderer for Markdown processing.
   *
@@ -33,9 +43,10 @@ import scala.util.matching.Regex
   *  - WikiLinks: Renders wiki-style links.
   *  - Marked text: Renders text wrapped in <mark> tags.
   */
-class MarkdownEnhancedNodeRenderer extends NodeRenderer {
+class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsService {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedNodeRenderer])
   private var vegaId: Int = 1;
+  private val krokiUrl = loadSettings().krokiUrl;
 
   /**
   * Gets the set of node rendering handlers for custom nodes.
@@ -97,6 +108,18 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
 
     logger.debug("FencedCodeBlock getInfo: " + node.getInfo().toString())
 
+    // kroki code block
+    val krokitrue = """.*\{.*kroki\s*=\s*true.*\}""".r
+    val krokidia = """\{.*kroki\s*=\s*"(.*)".*\}""".r
+    if (krokitrue.matches(info)) {
+      return renderKroki(html, node, language.toString(), "svg")
+    }
+    krokidia.findFirstMatchIn(info) match {
+      case Some(value) => return renderKroki(html, node, value.group(1), "svg")
+      case None => None
+    }
+
+    // other code block
     if (language.equals("plantuml") || language.equals("puml")) {
       renderPlantUML(html, node)
     } else if (language.equals("wavedrom")) {
@@ -225,6 +248,45 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer {
     vegaId = vegaId + 1;
     html.rawIndentedPre(node.getContentChars())
     html.tag("/script")
+  }
+ 
+  /**
+    * Renders kroki diagrams
+    *
+    * @param html HtmlWriter to write output
+    * @param diagram_source diagram source
+    * @param diagram_type diagram type
+    * @param output_format diagram format
+    */
+  private def renderKroki(html: HtmlWriter, node: FencedCodeBlock,  diagram_type: String, output_format: String): Unit = {
+    implicit val formats = org.json4s.DefaultFormats
+    var diagram_source: String = ""
+    var seqs = node.getContentLines().toArray()
+    for (i <- 0 to seqs.length - 1) diagram_source = diagram_source + seqs(i).toString()
+
+    logger.debug(krokiUrl)
+
+    try {
+      val httpclient: CloseableHttpClient= HttpClients.createDefault();
+      val httpPost = new HttpPost(krokiUrl)
+      httpPost.addHeader("Content-Type", "application/json")
+      val json = org.json4s.jackson.Serialization.write(KrokiParams(diagram_source, diagram_type, output_format))
+
+      logger.debug(json)
+
+      httpPost.setEntity(EntityBuilder.create().setContentType(ContentType.APPLICATION_JSON).setText(json).build())
+      val res = httpclient.execute(httpPost)
+
+      html.tag("div") 
+      html.append(EntityUtils.toString(res.getEntity(), "UTF-8"))
+      html.tag("/div")
+    } catch {
+      case e: Exception => {
+        html.tag("div") 
+        html.append(e.getMessage())
+        html.tag("/div")
+      }
+    }
   }
 
   /**

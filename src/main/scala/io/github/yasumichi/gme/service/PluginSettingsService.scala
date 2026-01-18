@@ -32,7 +32,7 @@ trait PluginSettingsService {
       */
     def loadSettings(): GmeSettings = {
         val props = new java.util.Properties()
-        if (gmeConfig.exists) {
+        if (gmeConfig != null && gmeConfig.exists) {
             Using.resource(new java.io.FileInputStream(gmeConfig)) { in =>
                 props.load(in)
             }
@@ -47,6 +47,7 @@ object PluginSettingsService {
     import scala.reflect.ClassTag
 
     case class GmeSettings(krokiUrl: String)
+    case class KrokiParams(diagram_source: String, diagram_type: String, output_format: String)
 
     private val krokiUrl = "krokiUrl"
 
