@@ -5,6 +5,24 @@
     var pumlNumber = 1;
     var krokiNumber = 0;
 
+    // match an optional line number offset and highlight line numbers
+    // [<line numbers>] or [<offset>: <line numbers>]
+    // from https://github.com/hakimel/reveal.js/blob/33bfe3b233f1a840cd70e834b609ec6f04494a40/plugin/markdown/plugin.js#L17
+    const CODE_LINE_NUMBER_REGEX = /\[\s*((\d*):)?\s*([\s\d,|-]*)\]/;
+
+    const HTML_ESCAPE_MAP = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    };
+
+    // from https://github.com/hakimel/reveal.js/blob/33bfe3b233f1a840cd70e834b609ec6f04494a40/plugin/markdown/plugin.js#L412
+    const escapeForHTML = ( input ) => {
+	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
+	}
+
     renderer.code = (code, language) => {
         var html = "";
 
@@ -65,12 +83,40 @@
                 vegaNumber++;
                 break;
             default:
+                // from https://github.com/hakimel/reveal.js/blob/33bfe3b233f1a840cd70e834b609ec6f04494a40/plugin/markdown/plugin.js#L436
+                // Off by default
+                let lineNumberOffset = '';
+                let lineNumbers = '';
+
+                // Users can opt in to show line numbers and highlight
+                // specific lines.
+                // ```javascript []        show line numbers
+                // ```javascript [1,4-8]   highlights lines 1 and 4-8
+                // optional line number offset:
+                // ```javascript [25: 1,4-8]   start line numbering at 25,
+                //                             highlights lines 1 (numbered as 25) and 4-8 (numbered as 28-32)
+                if( CODE_LINE_NUMBER_REGEX.test( language ) ) {
+                    let lineNumberOffsetMatch =  language.match( CODE_LINE_NUMBER_REGEX )[2];
+                    if (lineNumberOffsetMatch){
+                        lineNumberOffset =  `data-ln-start-from="${lineNumberOffsetMatch.trim()}"`;
+                    }
+
+                    lineNumbers = language.match( CODE_LINE_NUMBER_REGEX )[3].trim();
+                    lineNumbers = `data-line-numbers="${lineNumbers}"`;
+                    language = language.replace( CODE_LINE_NUMBER_REGEX, '' ).trim();
+                }
+
+                // Escape before this gets injected into the DOM to
+                // avoid having the HTML parser alter our code before
+                // highlight.js is able to read it
+                code = escapeForHTML( code );
+
                 var outlang = language;
                 if (language.includes(":") ) {
                     outlang = language.split(":")[0];
                 }
-                
-                html = `<pre><code class="${outlang ? `lang-${outlang}` : ''}">${code}</code></pre>`;
+
+                html = `<pre><code ${lineNumbers} ${lineNumberOffset} class="${outlang}">${code}</code></pre>`
         }
 
         return html;
