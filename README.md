@@ -515,6 +515,7 @@ Currently, the following notations can be converted:
   - mermaid
   - wavedrom
   - vega and vega-lite
+  - Kroki
 
 Let's say the file contents are the following markdown:
 
