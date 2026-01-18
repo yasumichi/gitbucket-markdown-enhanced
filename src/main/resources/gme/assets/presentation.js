@@ -7,28 +7,29 @@
 
     renderer.code = (code, language) => {
         var html = "";
-        var krokitrue = /(.*)\s*\{.*kroki\s*=\s*true.*\}/;
-        var krokidia = /.*\{.*kroki\s*=\s*"(.*)".*\}/;
 
-        var match = krokitrue.exec(language);
-        if (match) {
-            krokiNumber++;
-            return `<div id="kroki-${krokiNumber}"></div>
-                <script type="kroki" class="kroki" data-type="${match[1].trim()}" data-target="#kroki-${krokiNumber}">
-                ${code}
-                </script>
-            `;
-        }
-        match = krokidia.exec(language);
-        if (match) {
-            krokiNumber++;
-            return `<div id="kroki-${krokiNumber}"></div>
-                <script type="kroki" class="kroki" data-type="${match[1].trim()}" data-target="#kroki-${krokiNumber}">
-                ${code}
-                </script>
-            `;
+        // check kroki
+        var krokiPatterns = [/(.*)\s*\{.*kroki\s*=\s*true.*\}/, /.*\{.*kroki\s*=\s*"(.*)".*\}/];
+        var isKroki = false;
+
+        krokiPatterns.forEach((pattern) =>{
+            var match = pattern.exec(language);
+            if (match) {
+                krokiNumber++;
+                isKroki = true;
+                html = `<div id="kroki-${krokiNumber}"></div>
+                    <script type="kroki" class="kroki" data-type="${match[1].trim()}" data-target="#kroki-${krokiNumber}">
+                    ${code}
+                    </script>
+                `;
+            }
+        })
+
+        if (isKroki) {
+            return html;
         }
 
+        // other code block
         switch (language) {
             case "dot":
                 html = `<div id="puml-${pumlNumber}"></div>
