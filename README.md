@@ -452,6 +452,14 @@ to
 
 ### Kroki support
 
+[Kroki](https://kroki.io/) support
+
+You can also change your settings to use [self-hosted Kroki](https://docs.kroki.io/kroki/setup/install/).
+
+`System administration` -> `Markdown Enhanced` -> Change `Kroki url` -> `Apply Changes`
+
+![](images/system-settings.png)
+
 <pre>
 ```blockdiag {kroki=true}
 blockdiag {
