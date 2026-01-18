@@ -70,9 +70,7 @@
                     outlang = language.split(":")[0];
                 }
                 
-                html = `<div class="my-custom-code-block ${outlang ? `lang-${outlang}` : ''}">
-                    <pre><code class="my-code-snippet">${code}</code></pre>
-                    </div>`;
+                html = `<pre><code class="${outlang ? `lang-${outlang}` : ''}">${code}</code></pre>`;
         }
 
         return html;
