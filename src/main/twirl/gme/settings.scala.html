@@ -1,0 +1,27 @@
+@(krokiUrl: String, info: Option[Any])(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.helper.html.information
+@import gitbucket.core.view.helpers._
+@import gitbucket.core.util.Directory._
+@main("GitBucket Markdown Enhanced Plugin Settings") {
+    @menu("Markdown-Enhanced"){
+        @information(info)
+        <form action="@path/admin/markdown-enhanced" method="POST" validate="true">
+            <div class="panel panel-default">
+                <div class="panel-heading strong">GitBucket Markdown Enhanced Plugin Settings</div>
+                <div class="panel-body">
+                    <fieldset>
+                        <label><span class="strong">Kroki url</span></label>
+                        <input type="text" style="width: 635px;" name="krokiUrl" value="@krokiUrl"/>
+                        <p class="muted">e.g. https://kroki.io</p>
+                    </fieldset>
+                </div>
+            </div>
+            <fieldset>
+                <input type="submit" class="btn btn-success" value="Apply changes"/>
+            </fieldset>
+        </form>
+    }
+}

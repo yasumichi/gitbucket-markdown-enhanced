@@ -12,6 +12,7 @@ import io.github.yasumichi.gme.MarkdownEnhancedRenderer
 import scala.util.Try
 import gitbucket.core.controller.ControllerBase
 import io.github.yasumichi.gme.controller.PresentationController
+import io.github.yasumichi.gme.controller.PluginSettingsController
 
 /**
   * GitBucket Markdown Enhanced Plugin
@@ -135,6 +136,9 @@ class Plugin extends gitbucket.core.plugin.Plugin {
   override val assetsMappings = Seq("/gme" -> "/gme/assets")
 
   override val controllers: Seq[(String, ControllerBase)] = Seq(
-    "/*" -> new PresentationController()
+    "/*" -> new PresentationController(),
+    "/admin" -> new PluginSettingsController()
   )
+
+  override val systemSettingMenus: Seq[Context => Option[Link]] = Seq((ctx: Context) => Some(Link("Markdown-Enhanced", "Markdown Enhanced", "admin/markdown-enhanced")))
 }
