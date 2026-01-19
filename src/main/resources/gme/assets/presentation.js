@@ -269,6 +269,9 @@
 
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ],
+        katex: {
+            local: katexUrl
+        },
         markdown: {
             gfm: true,
             renderer: renderer,
