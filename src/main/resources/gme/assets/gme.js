@@ -1,7 +1,7 @@
 (function () {
     console.log("gme.js loaded.");
 
-    var updateCellStyle = function() {
+    const updateCellStyle = function() {
         ['center', 'right'].forEach(function(align) {
             [ `td[align=${align}]`, `th[align=${align}]` ].forEach(function(selector) {
                 document.querySelectorAll(selector).forEach(function(elem) {
@@ -11,7 +11,7 @@
         });
     };
 
-    var updateTocStyle = function() {
+    const updateTocStyle = function() {
         const toc = document.querySelector('.toc');
         if (toc) {
             const parent = toc.parentElement;
@@ -51,7 +51,7 @@
         }
     }
 
-    var renderKatex = function() {
+    const renderKatex = function() {
         var mathElems = document.getElementsByClassName("katex");
         var elems = [];
         for (const i in mathElems) {
@@ -63,7 +63,7 @@
         });
     };
 
-    var renderVega = function() {
+    const renderVega = function() {
         return new Promise((resolve, reject) => {
             let vegaList = document.querySelectorAll('.vega');
             vegaList.forEach((node, index) => {
