@@ -82,6 +82,35 @@
         });
     }
 
+    const addPresentationButton = function () {
+        var readme = document.getElementById('readme'); 
+        if (readme != null || document.location.toString().endsWith('.md')) {
+            var btnGroup = document.querySelector('.box-header .btn-group');
+            if (btnGroup == null) {
+                const strong = document.querySelector(".box-header .strong");
+                btnGroup = document.createElement("div");
+                btnGroup.className = "btn-group pull-right";
+                strong.appendChild(btnGroup);
+            }
+            var anchor = document.createElement("a");
+            anchor.className = "btn btn-sm";
+            anchor.target = "_blank";
+            if (document.location.toString().includes("/blob/")) {
+                anchor.href = document.location.toString().replace("/blob/", "/presentation/");
+            } else if (!document.location.toString().includes("/tree/")) {
+                var branchSelector = document.querySelector('.head .pull-left .strong');
+                if (branchSelector != null) {
+                    var branchId = branchSelector.textContent.trim();
+                    anchor.href = document.location.toString() + `/presentation/${branchId}/README.md`;
+                }
+            }
+            var icon = document.createElement("i");
+            icon.className = "oction octicon-zap";
+            anchor.appendChild(icon);
+            btnGroup.appendChild(anchor);
+        }
+    };
+
     document.addEventListener("DOMContentLoaded", function(){
         var preview = document.querySelector("#preview");
         if (preview) {
@@ -136,32 +165,7 @@
         }
 
         // for presentation
-        var readme = document.getElementById('readme'); 
-        if (readme != null || document.location.toString().endsWith('.md')) {
-            var btnGroup = document.querySelector('.box-header .btn-group');
-            if (btnGroup == null) {
-                const strong = document.querySelector(".box-header .strong");
-                btnGroup = document.createElement("div");
-                btnGroup.className = "btn-group pull-right";
-                strong.appendChild(btnGroup);
-            }
-            var anchor = document.createElement("a");
-            anchor.className = "btn btn-sm";
-            anchor.target = "_blank";
-            if (document.location.toString().includes("/blob/")) {
-                anchor.href = document.location.toString().replace("/blob/", "/presentation/");
-            } else if (!document.location.toString().includes("/tree/")) {
-                var branchSelector = document.querySelector('.head .pull-left .strong');
-                if (branchSelector != null) {
-                    var branchId = branchSelector.textContent.trim();
-                    anchor.href = document.location.toString() + `/presentation/${branchId}/README.md`;
-                }
-            }
-            var icon = document.createElement("i");
-            icon.className = "oction octicon-zap";
-            anchor.appendChild(icon);
-            btnGroup.appendChild(anchor);
-        }
+        addPresentationButton();
 
         // for common processing
         renderKatex();
