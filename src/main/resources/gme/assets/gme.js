@@ -129,6 +129,12 @@
             observer.observe(document.body, config);
         }
 
+        // No further processing is required in edit mode
+        if (document.getElementById('editor') != null) {
+            console.info("An editor has been detected, so processing will terminate.");
+            return;
+        }
+
         // for presentation
         var readme = document.getElementById('readme'); 
         if (readme != null || document.location.toString().endsWith('.md')) {
