@@ -145,7 +145,11 @@
             if (document.location.toString().includes("/blob/")) {
                 anchor.href = document.location.toString().replace("/blob/", "/presentation/");
             } else if (!document.location.toString().includes("/tree/")) {
-                anchor.href = document.location.toString() + "/presentation/main/README.md";
+                var branchSelector = document.querySelector('.head .pull-left .strong');
+                if (branchSelector != null) {
+                    var branchId = branchSelector.textContent.trim();
+                    anchor.href = document.location.toString() + `/presentation/${branchId}/README.md`;
+                }
             }
             var icon = document.createElement("i");
             icon.className = "oction octicon-zap";

@@ -39,7 +39,7 @@ trait PresentationControllerBase extends ControllerBase {
   get("/:owner/:repository/presentation/*")(referrersOnly { repository =>
     val (id, path) = repository.splitPath(multiParams("splat").head)
     if (path.isEmpty()) {
-      html.presentation(repository, id, "README.md")
+      html.presentation(repository, repository.repository.defaultBranch, "README.md")
     } else {
       html.presentation(repository, id, path)
     }
