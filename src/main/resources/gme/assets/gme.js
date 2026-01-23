@@ -30,7 +30,7 @@
             details.appendChild(toc);
             var parentY = parent.getClientRects()[0].y;
             details.style.position = "fixed";
-            if (document.location.toString().includes("/wiki/")) {
+            if (document.location.toString().includes("/wiki")) {
                 details.style.right = "270px";
             } else {
                 details.style.right = "20px";
