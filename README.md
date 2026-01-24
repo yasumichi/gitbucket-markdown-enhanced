@@ -584,10 +584,10 @@ In the above case, the following slide will be displayed:
 
 ### Compatibility with GitBucket versions
 
-| Plugin version | GitBucket version |
-| -------------- | ----------------- |
-| - 0.10.1       | 4.36.2            |
-| 0.10.2-        | 4.40.0            |
+| Plugin version | GitBucket minimum version |
+| -------------- | ------------------------- |
+| - 0.10.1       | 4.36.2                    |
+| 0.10.2-        | 4.40.0                    |
 
 ## Build from source
 
