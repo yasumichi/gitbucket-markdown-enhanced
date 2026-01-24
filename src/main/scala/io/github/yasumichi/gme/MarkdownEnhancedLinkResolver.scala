@@ -9,11 +9,15 @@ import java.{util => ju}
 import java.net.URI;
 
 import org.slf4j.LoggerFactory
+import gitbucket.core.service.WikiService
+import scala.util.Using
+import org.eclipse.jgit.api.Git
+import gitbucket.core.util.Directory
 
 /**
   * Enhanced link resolver for Markdown links.
   */
-class MarkdownEnhancedLinkResolver extends LinkResolver {
+class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedLinkResolver])
 
   /**
@@ -79,11 +83,22 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
         case e: Throwable => link.withStatus(LinkStatus.VALID).withUrl(url)
       }
     } else {
+      logger.debug(s"${url} is relative path.")
       try {
         if (pathElems.length > 3 && func == "wiki") {
-          val wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
+          logger.debug(s"${url} is wiki path.")
+          var wikiUrl = ""
+          val branch = getWikiBranch(user, repo)
+          val info = getWikiPage(user, repo, url, branch);
+          logger.debug(info.getOrElse("None").toString())
+          if (info == None) {
+            wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}/_blob/")).resolve(s"${url}").toString()
+          } else {
+            wikiUrl = (new URI(s"${baseUrl}/${user}/${repo}/${func}${plusPath}")).resolve(s"${url}").toString()
+          }
           link.withStatus(LinkStatus.VALID).withUrl(wikiUrl)
         } else {
+          logger.debug(s"${url} is repository path.")
           if (url.endsWith("/")) {
             func = "tree"
           } else {
@@ -94,8 +109,26 @@ class MarkdownEnhancedLinkResolver extends LinkResolver {
           link.withStatus(LinkStatus.VALID).withUrl(blobUrl)
         }
       } catch {
-        case e: Throwable => link.withStatus(LinkStatus.VALID).withUrl(url)
+        case e: Throwable => {
+          logger.error(s"Exception: ${e.getMessage()}")
+          link.withStatus(LinkStatus.VALID).withUrl(url)
+        }
       }
+    }
+  }
+
+  /**
+    * Get the branch name from the HEAD of the Wiki repository.
+    * 
+    * from gitbucket.core.controller.WikiController
+    *
+    * @param owner Wiki owner
+    * @param repository Wiki repository
+    * @return Branch name
+    */
+  private def getWikiBranch(owner: String, repository: String): String = {
+    Using.resource(Git.open(Directory.getWikiRepositoryDir(owner, repository))) { git =>
+      git.getRepository.getBranch
     }
   }
 }
