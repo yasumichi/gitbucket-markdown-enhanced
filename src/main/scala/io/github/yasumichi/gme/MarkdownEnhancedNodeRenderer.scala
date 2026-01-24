@@ -116,7 +116,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
     }
     krokidia.findFirstMatchIn(info) match {
       case Some(value) => return renderKroki(html, node, value.group(1), "svg")
-      case None => None
+      case None        => None
     }
 
     // other code block
@@ -249,7 +249,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
     html.rawIndentedPre(node.getContentChars())
     html.tag("/script")
   }
- 
+
   /**
     * Renders kroki diagrams
     *
@@ -258,7 +258,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
     * @param diagram_type diagram type
     * @param output_format diagram format
     */
-  private def renderKroki(html: HtmlWriter, node: FencedCodeBlock,  diagram_type: String, output_format: String): Unit = {
+  private def renderKroki(
+      html: HtmlWriter,
+      node: FencedCodeBlock,
+      diagram_type: String,
+      output_format: String
+  ): Unit = {
     implicit val formats = org.json4s.DefaultFormats
     var diagram_source: String = ""
     var seqs = node.getContentLines().toArray()
@@ -267,7 +272,7 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
     logger.debug(krokiUrl)
 
     try {
-      val httpclient: CloseableHttpClient= HttpClients.createDefault();
+      val httpclient: CloseableHttpClient = HttpClients.createDefault();
       val httpPost = new HttpPost(krokiUrl)
       httpPost.addHeader("Content-Type", "application/json")
       val json = org.json4s.jackson.Serialization.write(KrokiParams(diagram_source, diagram_type, output_format))
@@ -277,12 +282,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
       httpPost.setEntity(EntityBuilder.create().setContentType(ContentType.APPLICATION_JSON).setText(json).build())
       val res = httpclient.execute(httpPost)
 
-      html.tag("div") 
+      html.tag("div")
       html.append(EntityUtils.toString(res.getEntity(), "UTF-8"))
       html.tag("/div")
     } catch {
       case e: Exception => {
-        html.tag("div") 
+        html.tag("div")
         html.append(e.getMessage())
         html.tag("/div")
       }

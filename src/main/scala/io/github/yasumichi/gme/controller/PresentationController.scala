@@ -69,10 +69,11 @@ trait PresentationControllerBase extends ControllerBase {
     logger.debug(krokiUrl)
 
     try {
-      val httpclient: CloseableHttpClient= HttpClients.createDefault();
+      val httpclient: CloseableHttpClient = HttpClients.createDefault();
       val httpPost = new HttpPost(krokiUrl)
       httpPost.addHeader("Content-Type", "application/json")
-      val json = org.json4s.jackson.Serialization.write(PluginSettingsService.KrokiParams(diagram_source, diagram_type, output_format))
+      val json = org.json4s.jackson.Serialization
+        .write(PluginSettingsService.KrokiParams(diagram_source, diagram_type, output_format))
 
       logger.debug(json)
 

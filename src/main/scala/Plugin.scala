@@ -58,7 +58,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.9.0"),
     new Version("0.9.1"),
     new Version("0.10.0"),
-    new Version("0.10.1"),
+    new Version("0.10.1")
   )
 
   // Renderer instance
@@ -142,5 +142,6 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     "/admin" -> new PluginSettingsController()
   )
 
-  override val systemSettingMenus: Seq[Context => Option[Link]] = Seq((ctx: Context) => Some(Link("Markdown-Enhanced", "Markdown Enhanced", "admin/markdown-enhanced")))
+  override val systemSettingMenus: Seq[Context => Option[Link]] =
+    Seq((ctx: Context) => Some(Link("Markdown-Enhanced", "Markdown Enhanced", "admin/markdown-enhanced")))
 }
