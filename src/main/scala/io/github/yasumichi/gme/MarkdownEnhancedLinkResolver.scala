@@ -42,6 +42,9 @@ class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
     val baseUrl = MarkdownEnhancedRenderer.BASE_URL.get(context.getOptions())
     var currentPath = MarkdownEnhancedRenderer.CURRENT_PATH.get(context.getOptions())
     var pathElems = currentPath.split("/")
+
+    logger.debug(s"url: ${url}")
+
     if (pathElems.length > 3 && pathElems(3).equals("_preview")) {
       val referer = MarkdownEnhancedRenderer.REFERER.get(context.getOptions())
       currentPath = referer.substring(baseUrl.length())
@@ -68,9 +71,15 @@ class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
       plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
     }
 
+    logger.debug(s"""pathElems: ${pathElems.mkString(",")}""")
+    logger.debug(s"pathElems.length: ${pathElems.length.toString()}")
+    logger.debug(s"""func: ${func}""")
+
     if (url.contains("://") || url.startsWith("/") || url.startsWith("\\") || url.startsWith("#")) {
+      logger.debug(s"${url} is absolute path or internal link.")
       link.withStatus(LinkStatus.VALID).withUrl(url)
     } else if (link.getLinkType() == LinkType.IMAGE || link.getLinkType() == LinkType.IMAGE_REF) {
+      logger.debug(s"${url} is link to image.")
       try {
         if (func == "wiki") {
           val imageUrl = (new URI(s"${baseUrl}/${user}/${repo}/wiki/_blob/")).resolve(s"${url}").toString()
