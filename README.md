@@ -582,6 +582,13 @@ In the above case, the following slide will be displayed:
 - download  gitbucket-markdown-enhanced-{plugin-version}.jar from [Releases](https://github.com/yasumichi/gitbucket-markdown-enhanced/releases)
 - Place the downloaded file in ~/.gitbucket/plugins.
 
+### Compatibility with GitBucket versions
+
+| Plugin version | GitBucket version |
+| -------------- | ----------------- |
+| - 0.10.1       | 4.36.2            |
+| 0.10.2-        | 4.40.0            |
+
 ## Build from source
 
 ```
