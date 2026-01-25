@@ -23,6 +23,13 @@
 	  return input.replace( /([&<>'"])/g, char => HTML_ESCAPE_MAP[char] );
 	}
 
+    /**
+     * Process code blocks
+     *
+     * @param {*} code code inside code block
+     * @param {*} language Language the code is written in
+     * @returns Formatted code block
+     */
     renderer.code = (code, language) => {
         var html = "";
 
@@ -122,6 +129,12 @@
         return html;
     };
 
+    /**
+     * Process inline text
+     * 
+     * @param {*} token inline text
+     * @returns converted iniline text
+     */
     renderer.text = (token) => {
         console.log(token);
 
@@ -133,7 +146,6 @@
                 token = token.replace(match[0], emoji[match[1]]);
             }
         });
-
 
         token = token.replaceAll(/~~([^~]+)~~/g, "<del>$1</del>");
         token = token.replaceAll(/~([^~]+)~/g, "<sub>$1</sub>");
@@ -147,10 +159,18 @@
 
     const tokenizer = new marked.Tokenizer();
 
+    /**
+     * Disable default strikethrough in Marked 
+     */
     tokenizer.del = (src) => {
         return false;
     };
 
+    /**
+     * Process relative paths
+     *
+     * @returns converted relative paths
+     */
     const processRelativePath = function () {
         return new Promise((resolve, reject) => {
             const imgs = document.querySelectorAll('img'); 
@@ -166,6 +186,11 @@
         });
     };
 
+    /**
+     * Convert Mermaid notation in the current slide to diagrams
+     *
+     * @param {*} currentSlide Reference to the current slide
+     */
     const processMermaid = function (currentSlide) {
         let nodes = currentSlide.querySelectorAll('.mermaid');
         if (nodes.length > 0) {
@@ -173,6 +198,12 @@
         }
     };
 
+    /**
+     * Converts PlantUML syntax into diagrams
+     *
+     * @param {*} content PlantUML syntax
+     * @returns Promise
+     */
     const processPlantUML = (content) => {
         return new Promise((resolve, reject) =>{
             let pumlList = document.querySelectorAll('.plantuml');
@@ -200,6 +231,11 @@
         });
     };
 
+    /**
+     * Convert Kroki.io notation to diagrams
+     *
+     * @returns Promise
+     */
     const processKroki = () => {
         return new Promise((resolve, reject) =>{
             let krokiList = document.querySelectorAll('.kroki');
@@ -229,6 +265,11 @@
         });
     };
 
+    /**
+     * Convert vega and vega-lite notation to diagrams
+     *
+     * @returns Promise
+     */
     var renderVega = function() {
         return new Promise((resolve, reject) => {
             let vegaList = document.querySelectorAll('.vega');
@@ -248,14 +289,29 @@
         });
     }
 
+    /**
+     * Process current slide
+     *
+     * @param {*} currentSlide Reference to the current slide
+     */
     const processCurrentSlide = (currentSlide) => {
         processMermaid(currentSlide);
     };
 
+    /**
+     * Event handler for capturing slide transitions
+     * 
+     * @param {*} e slide transitions event
+     */
     const slidechanged = function (e) {
         processCurrentSlide(e.currentSlide);
     };
 
+    /**
+     * Event handler to capture the reveal.js "ready" event
+     *  
+     * @param {*} e the reveal.js "ready" event
+     */
     const revealReady = function (e) {
         processRelativePath();
         processPlantUML();
