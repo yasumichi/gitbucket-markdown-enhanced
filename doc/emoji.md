@@ -1,5 +1,7 @@
 # List of emoji shortcuts
 
+To use emojis, wrap the shortcut in colons, like `:shortcut:`.
+
 | shortcut | emoji |
 | -------- | ----- |
 | 100 | 💯 |
