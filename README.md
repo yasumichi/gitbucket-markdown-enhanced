@@ -512,6 +512,7 @@ Slide separators must be clearly indicated with `---`.
 Currently, the following notations can be converted:
 
 - Inline syntax
+  - Emoji
   - Mark
   - Strikethrough
   - Subscript
