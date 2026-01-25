@@ -169,7 +169,7 @@
     /**
      * Process relative paths
      *
-     * @returns converted relative paths
+     * @returns Promise
      */
     const processRelativePath = function () {
         return new Promise((resolve, reject) => {
