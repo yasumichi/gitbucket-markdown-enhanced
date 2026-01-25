@@ -125,6 +125,16 @@
     renderer.text = (token) => {
         console.log(token);
 
+        emojiPattern = /:([^:]+):/g; 
+
+        var matches = token.matchAll(emojiPattern);
+        matches.forEach((match) => {
+            if (emoji[match[1]]) {
+                token = token.replace(match[0], emoji[match[1]]);
+            }
+        });
+
+
         token = token.replaceAll(/~~([^~]+)~~/g, "<del>$1</del>");
         token = token.replaceAll(/~([^~]+)~/g, "<sub>$1</sub>");
         token = token.replaceAll(/==([^=]+)==/g, "<mark>$1</mark>");
