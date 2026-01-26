@@ -140,7 +140,7 @@
 
         emojiPattern = /:([^:]+):/g; 
 
-        var matches = token.matchAll(emojiPattern);
+        var matches = [...token.matchAll(emojiPattern)];
         matches.forEach((match) => {
             if (emoji[match[1]]) {
                 token = token.replace(match[0], emoji[match[1]]);
