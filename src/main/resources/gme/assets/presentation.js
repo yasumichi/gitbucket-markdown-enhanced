@@ -326,28 +326,39 @@
         Reveal.on('slidechanged', slidechanged)
     };
 
+    var controls = [
+        {
+            icon: '<i class="fa fa-pen-square"></i>',
+            title: 'Toggle chalkboard (B)',
+            action: 'RevealChalkboard.toggleChalkboard();'
+        },
+        {
+            icon: '<i class="fa fa-pen"></i>',
+            title: 'Toggle notes canvas (C)',
+            action: 'RevealChalkboard.toggleNotesCanvas();'
+        },
+        {
+            icon: '<i class="fa-solid fa-print"></i>',
+            title: 'PDF Export',
+            action: 'togglePrintPDF();'
+        }
+    ];
+    if (location.search === "?print-pdf") {
+        controls = [
+            {
+                icon: '<i class="fa-solid fa-person-chalkboard"></i>',
+                title: 'Presentation',
+                action: 'togglePrintPDF();'
+            }
+        ];
+    }
+
     // More info about initialization & config:
     // - https://revealjs.com/initialization/
     // - https://revealjs.com/config/
     Reveal.initialize({
         customcontrols: {
-            controls: [
-                {
-                    icon: '<i class="fa fa-pen-square"></i>',
-                    title: 'Toggle chalkboard (B)',
-                    action: 'RevealChalkboard.toggleChalkboard();'
-                },
-                {
-                    icon: '<i class="fa fa-pen"></i>',
-                    title: 'Toggle notes canvas (C)',
-                    action: 'RevealChalkboard.toggleNotesCanvas();'
-                },
-                {
-                    icon: '</i><i class="fa-solid fa-print"></i>',
-                    title: 'PDF Export',
-                    action: 'togglePrintPDF();'
-                }
-            ]
+            controls: controls
         },
         chalkboard: {
 
