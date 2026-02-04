@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeSet>
+    <createTable tableName="GME_REVEAL">
+        <column name="USER_NAME"        type="varchar(100)" nullable="false"/>
+        <column name="REPOSITORY_NAME"  type="varchar(100)" nullable="false"/>
+        <column name="THEME"  type="varchar(100)" nullable="false"/>
+    </createTable>
+    <addPrimaryKey
+        constraintName="IDX_GME_REVEAL_PK"
+        tableName="GME_REVEAL"
+        columnNames="USER_NAME, REPOSITORY_NAME"/>
+</changeSet>

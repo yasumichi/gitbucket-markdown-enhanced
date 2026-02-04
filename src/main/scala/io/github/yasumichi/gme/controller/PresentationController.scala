@@ -1,9 +1,12 @@
 package io.github.yasumichi.gme.controller
 
 import gitbucket.core.controller.ControllerBase
-import gitbucket.core.util.ReferrerAuthenticator
+import gitbucket.core.model.Session
 import gitbucket.core.service.AccountService
 import gitbucket.core.service.RepositoryService
+import gitbucket.core.servlet.Database
+import gitbucket.core.util.OwnerAuthenticator
+import gitbucket.core.util.ReferrerAuthenticator
 
 import gme.html
 
@@ -23,26 +26,58 @@ import org.apache.http.util.EntityUtils
 import org.apache.http.client.entity.EntityBuilder
 import org.apache.http.entity.ContentType
 import org.slf4j.LoggerFactory
+import io.github.yasumichi.gme.service.PresentationService
+import gitbucket.core.model.CoreProfile
 
 class PresentationController
     extends PresentationControllerBase
     with AccountService
+    with OwnerAuthenticator
     with PluginSettingsService
     with ReferrerAuthenticator
     with RepositoryService
+    with PresentationService
+    with CoreProfile
 
 trait PresentationControllerBase extends ControllerBase {
-  self: AccountService with PluginSettingsService with ReferrerAuthenticator with RepositoryService =>
+  self: AccountService
+    with OwnerAuthenticator
+    with PluginSettingsService
+    with ReferrerAuthenticator
+    with RepositoryService
+    with PresentationService =>
 
   private val logger = LoggerFactory.getLogger(classOf[PresentationController])
 
   get("/:owner/:repository/presentation/*")(referrersOnly { repository =>
+    implicit val session: Session = Database.getSession(context.request)
     val (id, path) = repository.splitPath(multiParams("splat").head)
-    if (path.isEmpty()) {
-      html.presentation(repository, repository.repository.defaultBranch, "README.md")
-    } else {
-      html.presentation(repository, id, path)
+    var theme: String = "white"
+    if (!getTheme(repository.owner, repository.name).isEmpty) {
+      theme = getTheme(repository.owner, repository.name).head.theme
     }
+    if (path.isEmpty()) {
+      html.presentation(repository, repository.repository.defaultBranch, "README.md", theme)
+    } else {
+      html.presentation(repository, id, path, theme)
+    }
+  })
+
+  get("/:owner/:repository/settings/reveal")(ownerOnly { repository =>
+    implicit val session: Session = Database.getSession(context.request)
+    var theme: String = "white"
+    if (!getTheme(repository.owner, repository.name).isEmpty) {
+      theme = getTheme(repository.owner, repository.name).head.theme
+    }
+    html.options(repository, theme, flash.get("info"))
+  })
+
+  post("/:owner/:repository/settings/reveal")(ownerOnly { repository =>
+    implicit val session: Session = Database.getSession(context.request)
+    val theme = params("theme")
+    insertTheme(repository.owner, repository.name, theme)
+    flash.update("info", "Reveal theme saved")
+    redirect(s"/${repository.owner}/${repository.name}/settings/reveal")
   })
 
   ajaxPost("/:owner/:repository/puml")(referrersOnly { repository =>

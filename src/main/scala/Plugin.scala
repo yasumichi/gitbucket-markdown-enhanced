@@ -13,6 +13,9 @@ import scala.util.Try
 import gitbucket.core.controller.ControllerBase
 import io.github.yasumichi.gme.controller.PresentationController
 import io.github.yasumichi.gme.controller.PluginSettingsController
+import gitbucket.core.service.RepositoryService
+import gitbucket.core.service.RepositoryService.RepositoryInfo
+import io.github.gitbucket.solidbase.migration.LiquibaseMigration
 
 /**
   * GitBucket Markdown Enhanced Plugin
@@ -60,7 +63,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.10.0"),
     new Version("0.10.1"),
     new Version("0.10.2"),
-    new Version("0.10.3")
+    new Version("0.10.3"),
+    new Version("0.10.4", new LiquibaseMigration("update/gitbucket-markdown-enhanced-0.10.4.xml"))
   )
 
   // Renderer instance
@@ -146,4 +150,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
 
   override val systemSettingMenus: Seq[Context => Option[Link]] =
     Seq((ctx: Context) => Some(Link("Markdown-Enhanced", "Markdown Enhanced", "admin/markdown-enhanced")))
+
+  override val repositorySettingTabs =
+    Seq((repository: RepositoryInfo, context: Context) => Some(Link("reveal", "Reveal", "settings/reveal")))
 }

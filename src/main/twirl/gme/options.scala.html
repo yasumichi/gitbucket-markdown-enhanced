@@ -1,0 +1,39 @@
+@(repository: gitbucket.core.service.RepositoryService.RepositoryInfo, theme: String, info: Option[Any])(implicit context: gitbucket.core.controller.Context)
+@import gitbucket.core.view.helpers
+@gitbucket.core.html.main("Reveal", Some(repository)){
+    @gitbucket.core.html.menu("settings", repository){
+        @gitbucket.core.settings.html.menu("Reveal", repository){
+            @gitbucket.core.helper.html.information(info)
+            <form id="form" method="post" action="@helpers.url(repository)/settings/reveal">
+                <div class="panel panel-default">
+                    <div class="panel-heading strong">Reveal.js</div>
+                    <div class="panel-body">
+                        <fieldset class="form-group">
+                            <label>Theme</label>
+                            <select name="theme" class="form-control">
+                                <option value="beige" @if(theme == "beige") { selected="selected"}>beige</option>
+                                <option value="black-contrast" @if(theme == "black-contrast") { selected="selected"}>black-contrast</option>
+                                <option value="black" @if(theme == "black") { selected="selected"}>black</option>
+                                <option value="blood" @if(theme == "blood") { selected="selected"}>blood</option>
+                                <option value="dracula" @if(theme == "dracula") { selected="selected"}>dracula</option>
+                                <option value="league" @if(theme == "league") { selected="selected"}>league</option>
+                                <option value="moon" @if(theme == "moon") { selected="selected"}>moon</option>
+                                <option value="night" @if(theme == "night") { selected="selected"}>night</option>
+                                <option value="serif" @if(theme == "serif") { selected="selected"}>serif</option>
+                                <option value="simple" @if(theme == "simple") { selected="selected"}>simple</option>
+                                <option value="sky" @if(theme == "sky") { selected="selected"}>sky</option>
+                                <option value="solarized" @if(theme == "solarized") { selected="selected"}>solarized</option>
+                                <option value="white-contrast" @if(theme == "white-contrast") { selected="selected"}>white-contrast</option>
+                                <option value="white" @if(theme == "white") { selected="selected"}>white</option>
+                                <option value="white_contrast_compact_verbatim_headers" @if(theme == "white_contrast_compact_verbatim_headers") { selected="selected"}>white_contrast_compact_verbatim_headers</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="align-right" style="margin-top: 20px;">
+                    <input type="submit" class="btn btn-success" value="Apply changes"/>
+                </div>
+            </form>
+        }
+    }
+}
