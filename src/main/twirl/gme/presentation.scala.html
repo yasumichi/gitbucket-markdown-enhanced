@@ -28,6 +28,7 @@
 			var katexUrl = "@context.baseUrl/plugin-assets/gme/katex";
 			var relativePathBase = "@context.baseUrl/@repository.owner/@repository.name/raw/@id/@filePath";
 			const printUrl = "@context.baseUrl@context.currentPath?print-pdf";
+			const markdownUrl = "@context.baseUrl/@repository.owner/@repository.name/raw/@id/@filePath";
 
 			const togglePrintPDF = function () {
 				if (location.search == "?print-pdf") {
@@ -42,9 +43,7 @@
 		<div data-test="@id @filePath"></div>
 		<div class="reveal">
 			<div class="slides">
-				<section
-					data-markdown="@context.baseUrl/@repository.owner/@repository.name/raw/@id/@filePath"
-				>
+				<section id="markdown-section" data-markdown>
 				<!--
 						Note that Windows uses `\r\n` instead of `\n` as its linefeed character.
 						For a regex that supports all operating systems, use `\r?\n` instead of `\n`.
@@ -69,6 +68,8 @@
 		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/highlight.js"></script>
 		<script src="@context.baseUrl/plugin-assets/gme/reveal.js-5.2.1/plugin/math/math.js"></script>
 		<script src="@context.baseUrl/plugin-assets/gme/emoji.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/js-yaml/js-yaml.min.js"></script>
+		<script src="@context.baseUrl/plugin-assets/gme/renderer.js"></script>
 		<script src="@context.baseUrl/plugin-assets/gme/presentation.js"></script>
 	</body>
 </html>
