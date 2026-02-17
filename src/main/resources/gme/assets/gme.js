@@ -52,6 +52,7 @@
     }
 
     const renderKatex = function() {
+        if(typeof Reveal !== "undefined") return;
         var mathElems = document.getElementsByClassName("katex");
         var elems = [];
         for (const i in mathElems) {

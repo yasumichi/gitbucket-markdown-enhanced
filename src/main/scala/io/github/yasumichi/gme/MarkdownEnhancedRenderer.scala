@@ -23,11 +23,19 @@ import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import scala.jdk.CollectionConverters._
 import com.vladsch.flexmark.util.data.DataKey
 import com.vladsch.flexmark.ext.wikilink.WikiLinkExtension
+import org.slf4j.LoggerFactory
+
+import io.circe.yaml
+import io.github.yasumichi.gme.service.PresentationService
+import gitbucket.core.model.CoreProfile
+import gitbucket.core.model.Session
+import gitbucket.core.servlet.Database
 
 /**
   * A renderer for Markdown Enhanced syntax using flexmark-java.
   */
-class MarkdownEnhancedRenderer extends Renderer {
+class MarkdownEnhancedRenderer extends Renderer with PresentationService with CoreProfile {
+  private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedRenderer])
 
   /**
     * Utility method to enable checkboxes
@@ -49,7 +57,71 @@ class MarkdownEnhancedRenderer extends Renderer {
     */
   def render(request: RenderRequest): Html = {
     import request._
-    Html(enableCheckbox(toHtml(fileContent)(context), true))
+
+    val (yamlPart, markdown) = MarkdownPreprocessor.devideYaml(fileContent)
+    if (yamlPart.length() > 0) {
+      val json = yaml.v12.parser.parse(yamlPart)
+      logger.info(s"${json}")
+      json match {
+        case Left(value) => Html(enableCheckbox(toHtml(markdown, false)(context), true))
+        case Right(value) => {
+          if (value.hcursor.downField("presentation").succeeded) {
+            implicit val session: Session = Database.getSession(context.request)
+            var theme: String = "white"
+            if (!getTheme(repository.owner, repository.name).isEmpty) {
+              theme = getTheme(repository.owner, repository.name).head.theme
+            }
+            var html = s"""
+            |<link rel="stylesheet" href="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/reset.css">
+            |<link rel="stylesheet" href="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/reveal.css">
+            |<link rel="stylesheet" href="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/theme/${theme}.css">
+            |<link rel="stylesheet" href="${context.baseUrl}/plugin-assets/gme/fontawesome-free-6.7.2/css/all.min.css">
+            |<link rel="stylesheet" href="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/monokai.css">
+            |
+            |<script src="${context.baseUrl}/plugin-assets/gme/fontawesome-free-6.7.2/js/all.min.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/mermaid/mermaid.min.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/wavedrom/default.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/wavedrom/wavedrom.min.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/vega/vega-6.2.0.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/vega/vega-lite-6.4.1.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/vega/vega-embed-7.0.2.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/marked/marked.min.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/reveal.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/plugin/markdown/markdown.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/plugin/highlight/highlight.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/reveal.js-5.2.1/plugin/math/math.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/emoji.js"></script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/renderer.js"></script>
+            """.stripMargin
+            val separator = raw"(?m)^---$$".r
+            val parts = separator.split(markdown).map(_.trim).filter(_.nonEmpty)
+            parts.foreach { p =>
+              html = html + s"""
+              |<div class="reveal">
+              |  <div class="slides">
+              |    <section data-markdown>${p}</section>
+              |  </div>
+              |</div>
+              """.stripMargin
+            }
+            html = html + s"""
+            |<script>
+            |  const pumlUrl = "${context.baseUrl}/${repository.owner}/${repository.name}/puml";
+            |  const krokiUrl = "${context.baseUrl}/${repository.owner}/${repository.name}/kroki";
+            |  const katexUrl = "${context.baseUrl}/plugin-assets/gme/katex";
+            |  const relativePathBase = "${context.baseUrl}/@repository.owner/@repository.name/raw/@id/@filePath";
+            |</script>
+            |<script src="${context.baseUrl}/plugin-assets/gme/slidelist.js"></script>
+            """.stripMargin
+            Html(html)
+          } else {
+            Html(enableCheckbox(toHtml(markdown, false)(context), true))
+          }
+        }
+      }
+    } else {
+      Html(enableCheckbox(toHtml(markdown, false)(context), true))
+    }
   }
 
   def shutdown(): Unit = {}
@@ -61,12 +133,11 @@ class MarkdownEnhancedRenderer extends Renderer {
     * @param context the rendering context containing base URL and current path information
     * @return the converted HTML content as a string
     */
-  def toHtml(content: String)(implicit context: Context): String = {
+  def toHtml(content: String, presentation: Boolean)(implicit context: Context): String = {
     val options = new MutableDataSet();
-    val extension: Seq[Extension] = Seq(
+    var extension: Seq[Extension] = Seq(
       AbbreviationExtension.create(),
       AdmonitionExtension.create(),
-      AnchorLinkExtension.create(),
       EmojiExtension.create(),
       FootnoteExtension.create(),
       GfmIssuesExtension.create(),
@@ -75,10 +146,13 @@ class MarkdownEnhancedRenderer extends Renderer {
       SuperscriptExtension.create(),
       TablesExtension.create(),
       TaskListExtension.create(),
-      TocExtension.create(),
       WikiLinkExtension.create(),
       MarkdownEnhancedExtention.create()
     )
+    if (!presentation) {
+      extension = extension :+ AnchorLinkExtension.create()
+      extension = extension :+ TocExtension.create()
+    }
     options.setFrom(ParserEmulationProfile.GITHUB)
     options.set(
       EmojiExtension.USE_IMAGE_TYPE,

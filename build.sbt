@@ -6,3 +6,4 @@ gitbucketVersion := "4.40.0"
 libraryDependencies += "com.vladsch.flexmark" % "flexmark-all" % "0.64.8"
 // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml-mit
 libraryDependencies += "net.sourceforge.plantuml" % "plantuml-mit" % "1.2025.10"
+libraryDependencies += "io.circe" %% "circe-yaml-v12" % "0.16.0"
