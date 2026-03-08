@@ -1,6 +1,10 @@
 package io.github.yasumichi.gme
 
+import gitbucket.core.plugin.PluginRegistry
+import gitbucket.core.plugin.SuggestionProvider
+
 import com.vladsch.flexmark.ast.FencedCodeBlock
+import com.vladsch.flexmark.ext.emoji.Emoji
 import com.vladsch.flexmark.html.HtmlRendererOptions
 import com.vladsch.flexmark.html.HtmlWriter
 import com.vladsch.flexmark.html.renderer.{NodeRenderer, NodeRendererContext, NodeRendererFactory, NodeRenderingHandler}
@@ -23,6 +27,7 @@ import com.vladsch.flexmark.util.sequence.Escaping
 import io.github.yasumichi.gme.katex.InlineKatex
 import io.github.yasumichi.gme.mark.Mark
 import io.github.yasumichi.gme.uri.InlineUri
+import io.github.yasumichi.gme.MarkdownEnhancedRenderer
 import scala.util.matching.Regex
 
 // for kroki support
@@ -60,6 +65,12 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
       new NodeRenderingHandler[FencedCodeBlock](
         classOf[FencedCodeBlock],
         this.renderFencedCodeBlock
+      )
+    )
+    set.add(
+      new NodeRenderingHandler[Emoji](
+        classOf[Emoji],
+        this.renderEmoji
       )
     )
     set.add(
@@ -357,6 +368,40 @@ class MarkdownEnhancedNodeRenderer extends NodeRenderer with PluginSettingsServi
     html.rawIndentedPre(Escaping.escapeHtml(node.getContentChars(), false))
     html.tag("/pre")
     html.tag("/div")
+  }
+
+  /**
+  * Renders a Emoji.
+  *
+  * @param node Emoji node
+  * @param context NodeRendererContext for emoji.
+  * @param html HtmlWriter to write the output.
+  */
+  private def renderEmoji(
+      node: Emoji,
+      context: NodeRendererContext,
+      html: HtmlWriter
+  ): Unit = {
+    val emojiBase = MarkdownEnhancedRenderer.EMOJI_BASE.get(context.getOptions())
+    val providers = PluginRegistry().getSuggestionProviders.filter(_.id == "emoji")
+
+    if (providers.length == 1) {
+      val emojiList = providers(0).options(null)
+      val emoji = emojiList.find(_._1 == node.getText().toString())
+      if (emoji != None) {
+        html
+          .withAttr()
+          .attr("src", s"${emojiBase}${node.getText()}.png")
+          .attr("alt", s":${node.getText()}:")
+          .attr("class", "emoji")
+          .tag("img")
+        html.tag("/img")
+      } else {
+        context.delegateRender()
+      }
+    } else {
+      context.delegateRender()
+    }
   }
 
   /**

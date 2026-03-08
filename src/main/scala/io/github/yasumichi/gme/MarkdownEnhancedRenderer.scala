@@ -172,6 +172,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
     options.set(Parser.EXTENSIONS, extension.asJava)
     options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
     options.set(MarkdownEnhancedRenderer.BASE_URL, context.baseUrl)
+    options.set(MarkdownEnhancedRenderer.EMOJI_BASE, s"${context.baseUrl}/plugin-assets/emoji/")
     options.set(MarkdownEnhancedRenderer.CURRENT_PATH, context.currentPath)
     options.set(MarkdownEnhancedRenderer.REFERER, context.request.getHeader("Referer"))
 
@@ -189,5 +190,6 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
 object MarkdownEnhancedRenderer {
   val BASE_URL = new DataKey[String]("BASE_URL", "")
   val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
+  val EMOJI_BASE = new DataKey[String]("EMOJI_BASE", "")
   val REFERER = new DataKey[String]("REFERER", "")
 }
