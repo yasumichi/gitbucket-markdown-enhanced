@@ -63,7 +63,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
       val json = yaml.v12.parser.parse(yamlPart)
       logger.info(s"${json}")
       json match {
-        case Left(value) => Html(enableCheckbox(toHtml(markdown, false)(context), true))
+        case Left(value)  => Html(enableCheckbox(toHtml(markdown, false)(context), true))
         case Right(value) => {
           if (value.hcursor.downField("presentation").succeeded) {
             implicit val session: Session = Database.getSession(context.request)
