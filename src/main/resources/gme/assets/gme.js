@@ -17,7 +17,7 @@
             const parent = toc.parentElement;
             const details = document.createElement('details');
             const summary = document.createElement('summary')
-            if (!document.location.toString().includes("/wiki/")) {
+            if (document.querySelector('.box-header') != null) {
                 toc.style.maxHeight = `${document.documentElement.clientHeight * 0.7}px`
                 toc.style.overflowY = "scroll";
             }
@@ -30,7 +30,7 @@
             details.appendChild(toc);
             var parentY = parent.getClientRects()[0].y;
             details.style.position = "fixed";
-            if (document.location.toString().includes("/wiki")) {
+            if (document.querySelector('.box-header') == null) {
                 details.style.right = "270px";
             } else {
                 details.style.right = "20px";
