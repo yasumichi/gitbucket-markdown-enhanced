@@ -2,6 +2,8 @@ package io.github.yasumichi.gme
 
 import gitbucket.core.controller.Context
 import gitbucket.core.plugin.{RenderRequest, Renderer}
+import gitbucket.core.service.AccountService
+import gitbucket.core.service.RepositoryService
 import play.twirl.api.Html
 import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.misc.Extension
@@ -34,7 +36,7 @@ import gitbucket.core.servlet.Database
 /**
   * A renderer for Markdown Enhanced syntax using flexmark-java.
   */
-class MarkdownEnhancedRenderer extends Renderer with PresentationService with CoreProfile {
+class MarkdownEnhancedRenderer extends Renderer with PresentationService with CoreProfile with AccountService with RepositoryService {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedRenderer])
 
   /**
@@ -134,6 +136,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
     * @return the converted HTML content as a string
     */
   def toHtml(content: String, presentation: Boolean)(implicit context: Context): String = {
+    implicit val s: Session = Database.getSession(context.request)
     val options = new MutableDataSet();
     var extension: Seq[Extension] = Seq(
       AbbreviationExtension.create(),
@@ -165,7 +168,12 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
     if (pathElems.length > 2 && pathElems(1) != "admin") {
       var owner = pathElems(1)
       var repos = pathElems(2)
+      var defaultBranch = ""
+      val info = getRepository(owner, repos)
 
+      info.foreach{repo =>
+        options.set(MarkdownEnhancedRenderer.DEFAULT_BRANCH, repo.repository.defaultBranch)
+      }
       options.set(GfmIssuesExtension.GIT_HUB_ISSUES_URL_ROOT, context.baseUrl + "/" + owner + "/" + repos + "/issues")
     }
 
@@ -190,6 +198,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
 object MarkdownEnhancedRenderer {
   val BASE_URL = new DataKey[String]("BASE_URL", "")
   val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
+  val DEFAULT_BRANCH = new DataKey[String]("DEFAULT_BRANCH", "main")
   val EMOJI_BASE = new DataKey[String]("EMOJI_BASE", "")
   val REFERER = new DataKey[String]("REFERER", "")
 }

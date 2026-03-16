@@ -62,7 +62,7 @@ class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
     if (pathElems.length > 3 && pathElems(3) != "edit") {
       func = pathElems(3)
     }
-    var branch = "main"
+    var branch = MarkdownEnhancedRenderer.DEFAULT_BRANCH.get(context.getOptions())
     if (pathElems.length > 4) {
       branch = pathElems(4)
     }
