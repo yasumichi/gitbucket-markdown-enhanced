@@ -65,7 +65,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     new Version("0.10.2"),
     new Version("0.10.3"),
     new Version("0.10.4", new LiquibaseMigration("update/gitbucket-markdown-enhanced-0.10.4.xml")),
-    new Version("0.11.0")
+    new Version("0.11.0"),
+    new Version("0.11.1")
   )
 
   // Renderer instance
