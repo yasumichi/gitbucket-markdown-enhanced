@@ -60,12 +60,13 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
   def render(request: RenderRequest): Html = {
     import request._
 
+    val basename = filePath.last
     val (yamlPart, markdown) = MarkdownPreprocessor.devideYaml(fileContent)
     if (yamlPart.length() > 0) {
       val json = yaml.v12.parser.parse(yamlPart)
       logger.info(s"${json}")
       json match {
-        case Left(value)  => Html(enableCheckbox(toHtml(markdown, false)(context), true))
+        case Left(value)  => Html(enableCheckbox(toHtml(markdown, basename, false)(context), true))
         case Right(value) => {
           if (value.hcursor.downField("presentation").succeeded) {
             implicit val session: Session = Database.getSession(context.request)
@@ -117,12 +118,12 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
             """.stripMargin
             Html(html)
           } else {
-            Html(enableCheckbox(toHtml(markdown, false)(context), true))
+            Html(enableCheckbox(toHtml(markdown, basename, false)(context), true))
           }
         }
       }
     } else {
-      Html(enableCheckbox(toHtml(markdown, false)(context), true))
+      Html(enableCheckbox(toHtml(markdown, basename, false)(context), true))
     }
   }
 
@@ -135,7 +136,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
     * @param context the rendering context containing base URL and current path information
     * @return the converted HTML content as a string
     */
-  def toHtml(content: String, presentation: Boolean)(implicit context: Context): String = {
+  def toHtml(content: String, basename: String, presentation: Boolean)(implicit context: Context): String = {
     implicit val s: Session = Database.getSession(context.request)
     val options = new MutableDataSet();
     var extension: Seq[Extension] = Seq(
@@ -179,6 +180,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
 
     options.set(Parser.EXTENSIONS, extension.asJava)
     options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "title-anchor")
+    options.set(MarkdownEnhancedRenderer.BASENAME, basename)
     options.set(MarkdownEnhancedRenderer.BASE_URL, context.baseUrl)
     options.set(MarkdownEnhancedRenderer.EMOJI_BASE, s"${context.baseUrl}/plugin-assets/emoji/")
     options.set(MarkdownEnhancedRenderer.CURRENT_PATH, context.currentPath)
@@ -196,6 +198,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
   * Data keys for passing context information to the Markdown renderer.
   */
 object MarkdownEnhancedRenderer {
+  val BASENAME = new DataKey[String]("BASENAME", "")
   val BASE_URL = new DataKey[String]("BASE_URL", "")
   val CURRENT_PATH = new DataKey[String]("CURRENT_PATH", "")
   val DEFAULT_BRANCH = new DataKey[String]("DEFAULT_BRANCH", "main")
