@@ -54,7 +54,7 @@ Powered by [flexmark-java](https://github.com/vsch/flexmark-java)
   - [x] [Kroki](https://shd101wyy.github.io/markdown-preview-enhanced/#/diagrams?id=kroki)
 - [x] [Table of Contents](https://shd101wyy.github.io/markdown-preview-enhanced/#/toc)
 - [ ] [File Imports](https://shd101wyy.github.io/markdown-preview-enhanced/#/file-imports)
-- [ ] [Code Chunk](https://shd101wyy.github.io/markdown-preview-enhanced/#/code-chunk)
+- [Code Chunk](https://shd101wyy.github.io/markdown-preview-enhanced/#/code-chunk) is not on our roadmap.
 - [x] [Presentation](https://shd101wyy.github.io/markdown-preview-enhanced/#/presentation)(It is experimental and has limited functionality.)
 - [ ] [Pandoc](https://shd101wyy.github.io/markdown-preview-enhanced/#/pandoc)
 
