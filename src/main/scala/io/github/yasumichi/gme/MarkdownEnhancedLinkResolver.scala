@@ -68,7 +68,6 @@ class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
     }
     var plusPath = "/"
     if (pathElems.length > 5) {
-      logger.info(s"basename check: ${}")
       if (MarkdownEnhancedRenderer.BASENAME.get(context.getOptions()) == pathElems.last) {
         plusPath += pathElems.slice(5, pathElems.length - 1).mkString("/") + "/"
       } else {
