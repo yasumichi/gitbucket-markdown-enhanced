@@ -36,7 +36,12 @@ import gitbucket.core.servlet.Database
 /**
   * A renderer for Markdown Enhanced syntax using flexmark-java.
   */
-class MarkdownEnhancedRenderer extends Renderer with PresentationService with CoreProfile with AccountService with RepositoryService {
+class MarkdownEnhancedRenderer
+    extends Renderer
+    with PresentationService
+    with CoreProfile
+    with AccountService
+    with RepositoryService {
   private val logger = LoggerFactory.getLogger(classOf[MarkdownEnhancedRenderer])
 
   /**
@@ -172,7 +177,7 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
       var defaultBranch = ""
       val info = getRepository(owner, repos)
 
-      info.foreach{repo =>
+      info.foreach { repo =>
         options.set(MarkdownEnhancedRenderer.DEFAULT_BRANCH, repo.repository.defaultBranch)
       }
       options.set(GfmIssuesExtension.GIT_HUB_ISSUES_URL_ROOT, context.baseUrl + "/" + owner + "/" + repos + "/issues")
@@ -189,8 +194,19 @@ class MarkdownEnhancedRenderer extends Renderer with PresentationService with Co
     val parser = Parser.builder(options).build()
     val renderer = HtmlRenderer.builder(options).build()
 
-    val document = parser.parse(content)
-    renderer.render(document)
+    try {
+      val document = parser.parse(content)
+      renderer.render(document)
+    } catch {
+      case e: Throwable => {
+        val message = """
+        |An unexpected error occurred in the parser. Please report the markdown file and gitbucket logs where the error occurred.
+        |
+        |https://github.com/yasumichi/gitbucket-markdown-enhanced/issues
+        """.stripMargin
+        renderer.render(parser.parse(message))
+      }
+    }
   }
 }
 
