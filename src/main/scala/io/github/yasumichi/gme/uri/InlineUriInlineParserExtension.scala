@@ -7,6 +7,7 @@ import com.vladsch.flexmark.parser.{
   InlineParserExtensionFactory,
   LightInlineParser
 }
+import com.vladsch.flexmark.parser.internal.InlineParserImpl
 import com.vladsch.flexmark.util.ast.ContentNode
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
@@ -46,6 +47,15 @@ class InlineUriInlineParserExtension() extends InlineParserExtension {
         inlineParser.appendNode(new Text(matches(0)))
         return true
       }
+
+      // Check if currently parsing inside a link bracket/label
+      inlineParser match {
+        case impl: InlineParserImpl if impl.getLastBracket != null =>
+          inlineParser.appendNode(new Text(matches(0)))
+          return true
+        case _ =>
+      }
+
       inlineParser.flushTextNode()
       val openingMarker = matches(2)
       val text = matches(3)
