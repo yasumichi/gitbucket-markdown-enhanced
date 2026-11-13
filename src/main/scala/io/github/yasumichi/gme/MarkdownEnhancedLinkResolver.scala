@@ -139,7 +139,7 @@ class MarkdownEnhancedLinkResolver extends LinkResolver with WikiService {
     * @param repository Wiki repository
     * @return Branch name
     */
-  private def getWikiBranch(owner: String, repository: String): String = {
+  override def getWikiBranch(owner: String, repository: String): String = {
     Using.resource(Git.open(Directory.getWikiRepositoryDir(owner, repository))) { git =>
       git.getRepository.getBranch
     }

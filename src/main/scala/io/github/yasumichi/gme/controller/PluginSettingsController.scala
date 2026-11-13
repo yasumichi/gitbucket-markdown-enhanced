@@ -30,7 +30,7 @@ trait PluginSettingsControllerBase extends ControllerBase {
   /**
       * click Apply button of system settings form of Markdown Enhanced Plugin, regist to configuration file
       */
-  post("/admin/markdown-enhanced", settingsForm)(adminOnly { form =>
+  post("/admin/markdown-enhanced", settingsForm)(adminOnlyWithForm { form =>
     assert(form.krokiUrl != null)
     saveSettings(form)
     html.settings(form.krokiUrl, Some("Settings Saved"))
